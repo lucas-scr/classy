@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
-import { SupabaseService } from './SupaBaseService';
+import { SupabaseService } from './SupabaseService';
 
 
 @Injectable({ providedIn: 'root' })
