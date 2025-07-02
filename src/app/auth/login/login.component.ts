@@ -5,8 +5,6 @@ import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { ServiceLoading } from '../../services/service-loading.service';
-import { routes } from '../../app.routes';
 import { Route, Router } from '@angular/router';
 
 
@@ -32,11 +30,14 @@ export class LoginComponent implements OnInit {
   user: any = null;
   clientId = environments.googleClientId;
   tokenGoogle: string = '';
+  email: string;
+  password: string;
 
   constructor(
     private auth: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService:  AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -72,6 +73,14 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.authService.normalLoginWithSupabase(this.email, this.password).subscribe({
+        next: (result) => {
+          console.log(result)
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      })
     }
   }
 

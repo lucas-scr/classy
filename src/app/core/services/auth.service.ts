@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
-import { Router } from '@angular/router';
-import { ServiceLoading } from '../../services/service-loading.service';
+import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
+import { SupabaseService } from './SupaBaseService';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -11,7 +11,7 @@ export class AuthService {
     token$ = this._token.asObservable();
 
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private supabaseService: SupabaseService) {
         const token = localStorage.getItem('app_token');
         if (token) {
             this._token.next(token);
@@ -25,12 +25,19 @@ export class AuthService {
         };
         let body = { token: tokenGoogle }
         return this.http.post<{ token: string }>(this.API, body, { headers })
-        .pipe(
-            tap(response => {
-                const token = response.token;
-                this._token.next(token);
-                sessionStorage.setItem('app_token', token);
-            }))
+            .pipe(
+                tap(response => {
+                    const token = response.token;
+                    this._token.next(token);
+                    sessionStorage.setItem('app_token', token);
+                }))
+    }
+
+    normalLoginWithSupabase(email: string, password: string): Observable<any> {
+        const supabase = this.supabaseService.getClient();
+        return from(
+            supabase.auth.signInWithPassword({ email, password })
+        );
     }
 
     get token() {
