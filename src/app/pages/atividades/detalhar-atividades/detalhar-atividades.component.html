@@ -1,0 +1,64 @@
+<p-card header="Detallhes da Atividade">
+    <ng-template #title>
+        Detalhar Atividade
+    </ng-template>
+    <form #formAtividade="ngForm">
+        <div class="cadastro_input">
+            <p-floatlabel variant="on">
+                <input id="username" pInputText readonly [(ngModel)]="codigo" [readOnly]="true" [disabled]="true"   name="nome">
+                <label for="username">Código da Atividade</label>
+            </p-floatlabel>
+        </div>
+
+
+        <div class="cadastro_input" *ngIf="materiaSelecionada">
+
+            <p-floatlabel variant="on">
+                <p-select inputId="materia_select" name="materia" readOnly [disabled]="true" [options]="listaMaterias"
+                    [(ngModel)]="materiaSelecionada" optionLabel="nome" placeholder="Selecione" name="materia" />
+                <label for="materia_select">Materia</label>
+            </p-floatlabel>
+
+        </div>
+
+    <p-fieldset class="fieldset" legend="Arquivo anexado">
+      <div *ngIf="!arquivoBlob">
+<label>{{nomeArquivo}}</label>
+      </div>
+        <div class="conteudo_fieldset" *ngIf="arquivoBlob">
+      <i [class]="capturarTipoArquivo(tipoArquivo)" style="font-size: 1.5rem"></i>
+      <label>{{nomeArquivo}}</label>
+      <p-button icon="pi pi-download" [rounded]="true" [outlined]="true" (onClick)="abrirArquivo()" severity="info" />
+      </div>
+    </p-fieldset>
+
+        <div class="cadastro_input">
+            <p-floatlabel variant="on">
+                <input id="descricao" pInputText [(ngModel)]="descricao" [readOnly]="true" [disabled]="true"  name="descricao">
+                <label for="descricao">Descrição</label>
+            </p-floatlabel>
+        </div>
+
+                <div class="cadastro_input">
+            <p-floatlabel variant="on">
+                <input id="url" pInputText [(ngModel)]="url" [readOnly]="true" [disabled]="true"  name="url">
+                <label for="url">URL</label>
+            </p-floatlabel>
+        </div>
+
+
+
+
+        <div class="cadastro_botoes">
+            <p-button label="Voltar" routerLink="/atividades" severity="secondary" class="w-full" [outlined]="true"
+                styleClass="w-full" />
+        </div>
+
+
+    </form>
+    <ng-template #footer>
+
+    </ng-template>
+</p-card>
+
+<p-toast />

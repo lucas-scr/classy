@@ -1,0 +1,35 @@
+<div class="card_background">
+  <div class="card_login">
+    <div class="logo">
+      <img
+        src="https://images.vexels.com/media/users/3/135200/isolated/preview/6e34bca5f7091d42d242da24333ef273-icone-de-circulo-do-botao-de-ordem-aleatoria.png">
+      <h2>Seja bem-vindo</h2>
+    </div>
+    <div class="login_options">
+      <p>Faça login para continuar</p>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form_login">
+        <div class="input_login">
+          <label>E-mail</label>
+          <input formControlName="email" type="email" placeholder="seuemail@exemplo.com" />
+        </div>
+
+        <div class="input_login">
+          <label class="block text-gray-700 mb-1">Senha</label>
+          <input formControlName="password" type="password" placeholder="••••••" />
+        </div>
+        <button class="bt_login" type="submit">
+          Entrar
+        </button>
+      </form>
+      <div class="login_google">
+        <div id="buttonDiv">
+        </div>
+      </div>
+          <div class="login_rodape">
+      <p> Não tem uma conta? <a href="#">Cadastre-se</a> </p>
+    </div>
+
+    </div>
+
+  </div>
+</div>

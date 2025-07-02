@@ -1,0 +1,35 @@
+.cadastro_input{
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.cadastro_input_modal{
+    margin-top: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+
+input {
+  width: 100%;
+}
+
+small {
+  color: red;
+  font-size: 12px;
+}
+
+
+.form_modal{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.cadastro_input_modal p-select{
+    width: 100%;
+}
+
+.cadastro_input_modal{
+    margin-top: 1rem;
+    margin-bottom: 1.2rem;
+}

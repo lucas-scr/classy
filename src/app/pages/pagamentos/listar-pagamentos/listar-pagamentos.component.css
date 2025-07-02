@@ -1,0 +1,111 @@
+.card * {
+}
+
+::ng-deep .menu_acoes .p-button {
+  color: rgb(114, 113, 113);
+  border-radius: 50%;
+  width: 35px;
+  height: 30px;
+  border: 1px solid;
+  background-color: #ffff;
+}
+
+::ng-deep .menu_acoes .p-button:hover {
+  color: rgb(145, 145, 145);
+  border: 1px solid;
+  background-color: #d6d6d6;
+}
+
+::ng-deep .p-datatable .p-datatable-header {
+  padding: 0px;
+}
+
+::ng-deep .p-datatable .p-datatable-header input {
+  margin-bottom: 1rem;
+  margin-top: 15px;
+  width: 30%;
+}
+
+.list_principle_header {
+  display: flex;
+}
+.list_header_title {
+  flex-grow: 1;
+}
+
+::ng-deep .list_botoes .p-button {
+  width: 100%;
+}
+
+.situacao-ativo {
+  width: 100%;
+  border-radius: 4px;
+  padding: 3px;
+  padding-right: 4px;
+  padding-left: 4px;
+  border: 1px solid;
+  font-size: 14px;
+  background-color: #b2ddb4;
+}
+
+.situacao-inativo {
+  width: 100%;
+  border-radius: 4px;
+  padding: 3px;
+  padding-right: 4px;
+  padding-left: 4px;
+  border: 1px solid;
+  font-size: 14px;
+  background-color: #f69ebc;
+}
+
+.item_list:hover {
+  background-color: #ecfdf5;
+}
+td {
+  vertical-align: middle; /* Alinha o conteúdo verticalmente */
+}
+
+.situacao-pago {
+  width: 100%;
+  border-radius: 4px;
+  padding: 3px;
+  padding-right: 4px;
+  padding-left: 4px;
+  border: 1px solid;
+  font-size: 14px;
+  background-color: #b2ddb4;
+}
+
+.situacao-vencido {
+  width: 100%;
+  border-radius: 4px;
+  padding: 3px;
+  padding-right: 4px;
+  padding-left: 4px;
+  border: 1px solid;
+  font-size: 14px;
+  background-color: #ffa42d;
+}
+
+.situacao-aberto {
+    width: 100%;
+    border-radius: 4px;
+    padding: 3px;
+    padding-right: 4px;
+    padding-left: 4px;
+    border: 1px solid;
+    font-size: 14px;
+    background-color: #ffffff;
+  }
+
+  .situacao-cancelado {
+    width: 100%;
+    border-radius: 4px;
+    padding: 3px;
+    padding-right: 4px;
+    padding-left: 4px;
+    border: 1px solid;
+    font-size: 14px;
+    background-color: #eba7a7;
+  }

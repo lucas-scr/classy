@@ -1,0 +1,80 @@
+<p-card header="Alterar Atividade">
+  <ng-template #title>
+    Alterar Atividade
+  </ng-template>
+  <form #formAtividade="ngForm" (ngSubmit)="onSubmit()">
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="username" pInputText [(ngModel)]="codigo" required name="nome">
+        <label for="username">Código da Atividade</label>
+      </p-floatlabel>
+      <div *ngIf="formAtividade.controls['nome']?.invalid && formAtividade.controls['nome']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+
+    <div class="cadastro_input" *ngIf="materiaSelecionada">
+      <p-floatlabel variant="on">
+        <p-select inputId="materia_select" name="materia" required [options]="listaMaterias"
+          [(ngModel)]="materiaSelecionada" optionLabel="nome" placeholder="Selecione" name="materia" />
+        <label for="materia_select">Materia</label>
+      </p-floatlabel>
+      <div *ngIf="formAtividade.submitted && !materiaSelecionada">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+    <p-fieldset class="fieldset" legend="Arquivo anexado" *ngIf="arquivoBlob">
+      <div class="conteudo_fieldset">
+      <i [class]="capturarTipoArquivo(tipoArquivo)" style="font-size: 1.5rem"></i>
+      <label>{{nomeArquivo}}</label>
+      <p-button icon="pi pi-download" [rounded]="true" [outlined]="true" (onClick)="abrirArquivo()" severity="info" />
+      <p-button icon="pi pi-times" [rounded]="true" (onClick)="limparArquivo()" severity="danger" [outlined]="true" />
+      </div>
+    </p-fieldset>
+
+    <div class="cadastro_input" *ngIf="!arquivoBlob">
+      <label>Arquivo da atividade</label>
+      <p-fileupload *ngIf="!arquivoBlob" #fileUpload class="p-fileupload p-component" [multiple]="false"
+        id="arquivo_select" mode="basic" chooseLabel="Escolha" chooseIcon="pi pi-upload"
+        (onSelect)="onFileSelect($event)" name="demo[]" accept="image/*, .pdf" maxFileSize="500000">
+
+        <ng-template pTemplate="filelabel">
+          {{ nomeArquivo || 'Nenhum arquivo selecionado' }}
+        </ng-template>
+      </p-fileupload>
+      <p-button *ngIf="arquivoBlob" type="button" label="Remover" (onClick)="limparSelecaoArquivo()" class="w-full"
+        [outlined]="true" />
+    </div>
+
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="descricao" pInputText [(ngModel)]="descricao" required name="descricao">
+        <label for="descricao">Descrição</label>
+      </p-floatlabel>
+      <div *ngIf="formAtividade.controls['descricao']?.invalid && formAtividade.controls['descricao']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="url" pInputText [(ngModel)]="url" name="url">
+        <label for="url">URL</label>
+      </p-floatlabel>
+    </div>
+
+
+    <div class="cadastro_botoes">
+      <p-button label="Cancelar" routerLink="/atividades" severity="secondary" class="w-full" [outlined]="true"
+        styleClass="w-full" />
+      <p-button label="Salvar" class="w-full" styleClass="w-full" type="submit" [disabled]="formAtividade.invalid" />
+    </div>
+  </form>
+  <ng-template #footer>
+
+  </ng-template>
+</p-card>
+
+<p-toast />

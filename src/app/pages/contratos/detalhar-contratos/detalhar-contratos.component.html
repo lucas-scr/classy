@@ -1,0 +1,167 @@
+<p-card header="Detalhes do Contrato">
+    <ng-template #title>
+        Detalhes do contrato
+    </ng-template>
+    <form #formContrato="ngForm" *ngIf="contratoCarregado">
+        <p-divider />
+        <h4>Dados do responsável</h4>
+        <div class="dados_responsavel">
+            <div class="cadastro_input cadastro_input_primeiro ">
+                <p-floatlabel variant="on">
+                    <input id="nome_responsavel" disabled pInputText [(ngModel)]="contratoCarregado.nomeResponsavel"
+                        required name="nome_responsavel">
+                    <label for="nome_responsavel">Nome</label>
+                </p-floatlabel>
+                <div
+                    *ngIf="formContrato.controls['nome_responsavel']?.invalid && formContrato.controls['nome_responsavel']?.touched">
+                    <small>Este campo é obrigatório</small>
+                </div>
+            </div>
+
+            <div class="cadastro_input" id="documento_input">
+                <p-floatlabel variant="on">
+                    <input id="documento_responsavel" disabled pInputText
+                        [(ngModel)]="contratoCarregado.documentoResponsavel" required name="documento_responsavel">
+                    <label for="documento_responsavel">Documento (CPF, RG ou CNH)</label>
+                </p-floatlabel>
+                <div
+                    *ngIf="formContrato.controls['documento_responsavel']?.invalid && formContrato.controls['documento_responsavel']?.touched">
+                    <small>Este campo é obrigatório</small>
+                </div>
+            </div>
+
+            <div class="cadastro_input">
+                <p-floatlabel class="label-fixo" variant="on">
+                    <p-inputMask inputId="contato_responsavel" disabled mask="(99) 9999?-9999"
+                        [(ngModel)]="contratoCarregado.telefone" required placeholder="(__) _____-____"
+                        name="contato_responsavel" />
+                    <label for="contato_responsavel">Telefone de contato</label>
+                </p-floatlabel>
+                <div
+                    *ngIf="formContrato.controls['contato_responsavel']?.invalid && formContrato.controls['contato_responsavel']?.touched">
+                    <small>Este campo é obrigatório</small>
+                </div>
+            </div>
+        </div>
+
+        <p-divider />
+        <div class="aluno_section">
+            <h4>Aluno</h4>
+        </div>
+        <div>
+            <div class="col-span-12" class="col-span-12">
+                <div class="list_item">
+                    <div class="list_item_row">
+                        <div class="item_avatar">
+                            <p-avatar [label]=contratoCarregado.aluno.iniciais.toString() styleClass="mr-2"
+                                [ngClass]="{ 'list_sexo_m': contratoCarregado.aluno.sexo === 'M', 'list_sexo_f': contratoCarregado.aluno.sexo === 'F' }"
+                                size="xlarge" shape="circle" />
+                        </div>
+                        <div class="item_labels">
+                            <span class="list_principal_nome">{{ contratoCarregado.aluno.nome }}</span>
+
+                            <div class="item_nascimento">
+                                <i class="pi pi-gift" style="font-size: 1rem"> </i>
+                                <span class="label_item_list" style="margin-left: 5px">
+                                    {{contratoCarregado.aluno.dataNascimento |
+                                    date:'dd/MM/yyyy' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p-divider />
+            </div>
+        </div>
+
+
+        <h4>Dados do contrato</h4>
+        <div class="dados_contrato">
+
+            <div class="cadastro_input"  *ngIf="contratoCarregado.diasAlternados">
+                <p-checkbox [(ngModel)]="contratoCarregado.diasAlternados" readonly [binary]="true" inputId="diasAlternados"
+                    name="diasAlternados" />
+                <label for="diasAlternados" style="margin-left: 0.3rem;">As aulas serão realizadas em dias
+                    alternados</label>
+            </div>
+
+            <div class="dias_semana" *ngIf="!contratoCarregado.diasAlternados">
+                <div class="chips_dias_aulas">
+                    <div class="dias_semana_header">
+                        <label class="dias_semana_header_titulo" for="dias_contrato">Dias da semana:</label>
+                    </div>
+                    <div class="horarioAulas">
+                        <p-chip class="item_list_chip" *ngFor="let aula of contratoCarregado.diasDasAulas, let i = index">
+                            <a>{{descricaoAmigavelDiaSemana[aula.diaSemana]}} às {{aula.horario.slice(0,5)}}</a>
+                        </p-chip>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cadastro_input">
+                <p-floatlabel variant="on">
+                    <p-datepicker id="dataInicio" disabled [(ngModel)]="contratoCarregado.dataInicio" required
+                        name="dataInicio" Time="dd/mm/yy" [iconDisplay]="'input'" [showIcon]="true"
+                        inputId="icondisplay" />
+                    <label class="calendar_label" for="dataInicio">Data de início</label>
+                </p-floatlabel>
+            </div>
+
+            <div class="cadastro_input" *ngIf="contratoCarregado.diasAlternados">
+                <p-floatlabel variant="on">
+                    <p-datepicker required inputId="horarioInicio" disabled [(ngModel)]="contratoCarregado.horarioDiasAlternados" [timeOnly]="true"
+                        name="horarioInicio" />
+                    <label class="calendar_label" for="horarioInicio">Horário das aulas</label>
+                </p-floatlabel>
+                <div
+                    *ngIf="formContrato.controls['horarioInicio']?.invalid && formContrato.controls['horarioInicio']?.touched">
+                    <small>Este campo é obrigatório</small>
+                </div>
+            </div>
+            
+
+            <div class="cadastro_input">
+                <p-floatlabel variant="on">
+                    <p-inputNumber id="dataPagamento" [disabled]="true" maxlength=2 min=1 max=31
+                        [(ngModel)]="contratoCarregado.diaPagamento" name="dataPagamento" required />
+                    <label class="calendar_label" for="dataPagamento">Dia do pagamento</label>
+                </p-floatlabel>
+
+            </div>
+
+
+
+            <div class="cadastro_input">
+                <p-floatlabel variant="on">
+                    <p-inputNumber [(ngModel)]="contratoCarregado.valorPagamento" [disabled]="true"
+                        name="contratoCarregado.valor_contrato" required inputId="currency-us" mode="currency"
+                        currency="BRL" locale="pt-BR" />
+                    <label class="calendar_label" for="dataNascimento">Valor</label>
+                </p-floatlabel>
+                <div
+                    *ngIf="formContrato.controls['valor_contrato']?.invalid && formContrato.controls['valor_contrato']?.touched">
+                    <small>Este campo é obrigatório</small>
+                </div>
+            </div>
+
+            <div class="cadastro_input_checkbox">
+                <p-checkbox [(ngModel)]="contratoCarregado.autorizaUsoDeImagem" readonly [binary]="true"
+                    inputId="autorizaocaoImagem" name="usoImagem" />
+                <label for="autorizaocaoImagem" class="ml-2">Autorizado o uso de imagem e video do(s) aluno(s)</label>
+            </div>
+
+            <div class="cadastro_input_checkbox">
+                <p-checkbox [(ngModel)]="contratoCarregado.ressarcimentoEmFeriados" readonly [binary]="true"
+                    inputId="ressarcimentoEmFeriados" name="ressarcimentoEmFeriados" />
+                <label for="ressarcimentoEmFeriados" class="ml-2">O responsável opta por ressarcimento do valor no lugar
+                    de atividades nos casos <del></del> feriados</label>
+            </div>
+
+        </div>
+
+        <div class="cadastro_botoes">
+            <p-button label="Voltar" routerLink="/contratos" severity="secondary" class="w-full" [outlined]="true"
+                styleClass="w-full" />
+        </div>
+    </form>
+
+</p-card>

@@ -1,0 +1,35 @@
+<p-dialog header="Adicionar dia da semana" [modal]="true" [(visible)]="visible"
+    [style]="{ width: '25rem', height: '25rem' }">
+    <form #formDiaSemana="ngForm" (ngSubmit)="onAdicionar()">
+        <div class="form_modal">
+            <div class="form_inputs">
+                <div class="cadastro_input_modal">
+                    <p-floatlabel variant="on">
+                        <p-select inputId="diaSemana_select" name="dia_semana" required [options]="diasDisponiveis()"
+                            [(ngModel)]="diaSelecionado" optionValue="valor" optionLabel="descricao" />
+                        <label for="diaSemana_select">Dia da semana</label>
+                    </p-floatlabel>
+                    <div
+                    *ngIf="formDiaSemana.controls['diaSemana_select']?.invalid && formDiaSemana.controls['diaSemana_select']?.touched">
+                    <small>Este campo é obrigatório</small>
+                </div>
+                </div>
+                <div class="cadastro_input_modal">
+                    <p-floatlabel variant="on">
+                        <p-datepicker class="cadastro_input_date" required inputId="horarioInicio_aula" [(ngModel)]="horarioInicio_aula"
+                            [timeOnly]="true" name="horarioInicio_aula" />
+                        <label class="calendar_label" for="horarioInicio_aula">Horário das aulas</label>
+                    </p-floatlabel>
+                    <div
+                        *ngIf="formDiaSemana.controls['horarioInicio_aula']?.invalid && formDiaSemana.controls['horarioInicio_aula']?.touched">
+                        <small>Este campo é obrigatório</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template #footer>
+        <p-button label="Cancelar" severity="secondary" (click)="onFechar()" />
+        <p-button label="Adicionar" type="submit" [disabled]="formDiaSemana.invalid" (onClick)="onAdicionar()"  />
+    </ng-template>
+</p-dialog>

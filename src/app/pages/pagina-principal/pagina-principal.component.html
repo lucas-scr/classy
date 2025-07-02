@@ -1,0 +1,14 @@
+<div class="tela_sistema">
+<app-menu-lateral class="menu_lateral" [class.open]="menuLateral" *ngIf="menuLateral"></app-menu-lateral>
+    <div class="container">
+        <div class="menu_bar">
+            <nav  (click)="menuToggle()">
+                <i class="pi pi-bars" style="font-size: 1.5rem"></i>
+            </nav>
+        </div>
+        <div class="container_conteudo">
+            <p-toast></p-toast>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

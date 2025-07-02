@@ -1,0 +1,31 @@
+*{
+    margin: 0px;
+	padding: 0px;
+	border: 0px;
+	font-size: 16px;
+	font: inherit;
+	vertical-align: baseline;
+	font-family: "Roboto", serif;
+}
+
+h1{
+	font-size: 24px;
+}
+
+h2{
+	font-size: 22px;
+}
+
+h3{
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+input{
+	height: 40px;
+	margin-right: 5px;
+}
+
+html{
+	background-color: #F8FAFC;
+}

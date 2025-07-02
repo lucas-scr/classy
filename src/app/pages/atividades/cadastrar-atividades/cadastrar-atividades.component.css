@@ -1,0 +1,45 @@
+.cadastro_input{
+    margin-top: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+input{
+    width: 60%;
+}
+
+small{
+    color: red;
+    font-size: 12px;
+}
+
+.cadastro_botoes{
+    display: flex;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+.cadastro_botoes p-button{
+ margin-left: 1rem;
+ margin-right: 1rem;
+
+}
+
+
+
+.cadastro_input_multiselecao {
+    display: flex;
+    width: 60%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+::ng-deep p-checkbox    {
+margin-right: 1rem;
+}  
+
+::ng-deep p-fileupload{
+    display: flex;
+}

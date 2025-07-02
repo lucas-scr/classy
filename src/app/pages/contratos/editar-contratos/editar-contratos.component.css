@@ -1,0 +1,160 @@
+.cadastro_input{
+    margin-top: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .cadastro_input_modal{
+      margin-top: 1rem;
+      margin-bottom: 1.2rem;
+  }
+  
+  
+  input {
+    width: 100%;
+  }
+  
+  small {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .cadastro_input_radiogroup {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  
+  .radio_button {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .label_radiogroup {
+    margin-top: 0.5rem;
+  }
+  
+  .cadastro_input_checkbox {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .cadastro_botoes {
+    display: flex;
+    margin-top: 1.5rem;
+    justify-content: center;
+  }
+  
+  .cadastro_botoes p-button {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .cadastro_input_checkbox label {
+    margin-left: 0.8rem;
+  }
+  
+  .radio_button label {
+    margin-left: 0.8rem;
+  }
+  
+  .label-fixo label {
+    top: 0px;
+    font-size: 12px;
+    background-color: white;
+  }
+  
+  #documento_input {
+    width: 60%;
+  }
+  
+  .cadastro_input_multiselecao {
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  .checkbox {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 15px;
+  }
+  
+  .div_multiselection {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .lista_acoes {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  h4 {
+    margin-top: 15px;
+  }
+  
+  .formulario_cadastro {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .list_dias_semana {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 30px;
+  }
+  
+  .item_nascimento {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 30px;
+  }
+  
+  .list_principal_nome {
+    font-size: 1.2rem;
+    font-weight: bold;
+    height: 30px;
+  }
+  
+  ::ng-deep .list_acoes .p-button {
+    border-radius: 50%;
+    width: 33px;
+    height: 33px;
+    border: 1px solid;
+    margin: 5px;
+    background-color: #ffff;
+  }
+  
+  ::ng-deep .list_acoes .p-button:hover {
+    border: 1px solid;
+  }
+  
+  .horarioAulas {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 0.7rem;
+  }
+    
+  .item_list_chip {
+    height: 25px;
+    color: rgb(51, 51, 51);
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid rgba(87, 85, 85, 0.8);
+  }
+  
+  .dias_semana_header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dias_semana_header_titulo {
+    flex-grow: 1;
+  }
