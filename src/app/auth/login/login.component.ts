@@ -33,10 +33,10 @@ export class LoginComponent implements AfterViewInit {
   tokenGoogle: string = '';
   email: string;
   password: string;
+  isLoadingGoogle: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private supabase: SupabaseService,
     private router: Router,
     private authService: AuthService
 
@@ -51,12 +51,13 @@ export class LoginComponent implements AfterViewInit {
   ngAfterViewInit() {
     google.accounts.id.initialize({
       client_id: this.clientId,
-      callback: (response: any) => this.handleCredentialResponse(response)
+      callback: (response: any) => {
+        this.handleCredentialResponse(response);
+      }
     });
-
     google.accounts.id.renderButton(
       document.getElementById('google-button')!,
-      { theme: 'outline', size: 'large' }  // estilo oficial
+      { theme: 'outline', size: 'large' }
     );
   }
 
@@ -64,8 +65,8 @@ export class LoginComponent implements AfterViewInit {
   handleCredentialResponse(response: any) {
     this.authService.loginWithGoogleIdToken(response.credential).subscribe({
       next: (user) => {
+        this.isLoadingGoogle = false;
         if (user) {
-          console.log('Usuário logado:', user.email);
           this.router.navigate(['/alunos']);
         } else {
           console.error('Falha no login: usuário indefinido');
@@ -77,4 +78,8 @@ export class LoginComponent implements AfterViewInit {
     });
   }
 
+carregar(){
+  this.isLoadingGoogle = true;
+  console.log("TEste")
+}
 }

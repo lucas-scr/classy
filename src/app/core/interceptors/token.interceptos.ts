@@ -19,7 +19,6 @@ export class TokenInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.loading.show();
         const excludedUrls = [
-            '/api/auth/google',
             '/auth/login',
         ];
         const token = this.auth.token;
