@@ -1,55 +1,106 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
-import { SupabaseService } from './SupabaseService';
+import { BehaviorSubject, from, map, Observable, of, switchMap, tap } from 'rxjs';
+import { SupabaseService } from './SupaBaseService';
+import { User } from '@supabase/supabase-js';
+import { Route, Router } from '@angular/router';
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    readonly API = 'http://localhost:8080/api/auth/google'
-    private _token = new BehaviorSubject<string | null>(null);
-    token$ = this._token.asObservable();
+  private _user$ = new BehaviorSubject<User | null>(null);
+  user$ = this._user$.asObservable();
+
+  private _token$ = new BehaviorSubject<string | null>(null);
+  token$ = this._token$.asObservable();
+
+  constructor(
+    private supabase: SupabaseService,
+    private router: Router
+  ) {
+    this.restoreSession();
+  }
+
+  private restoreSession() {
+    from(this.supabase.getSession()).subscribe(({ data }) => {
+      const session = data?.session;
+      if (session) {
+        this._user$.next(session.user);
+        this._token$.next(session.access_token);
+        //localStorage.setItem('app_token', session.access_token);
+      }
+    });
+  }
 
 
-    constructor(private http: HttpClient, private supabaseService: SupabaseService) {
-        const token = localStorage.getItem('app_token');
-        if (token) {
-            this._token.next(token);
+  loginWithEmail(email: string, password: string): Observable<User | null> {
+    return from(this.supabase.signInWithEmailPassword(email, password)).pipe(
+      tap(({ data, error }) => {
+        if (error) throw error;
+        if (data?.session) {
+          this._user$.next(data.session.user);
+          this._token$.next(data.session.access_token);
+          //localStorage.setItem('app_token', data.session.access_token);
         }
-    }
+      }),
+      switchMap(({ data }) => of(data?.session?.user ?? null))
+    );
+  }
 
 
-    loginWithGoogle(tokenGoogle: string) {
-        const headers = {
-            'Content-Type': 'application/json'
-        };
-        let body = { token: tokenGoogle }
-        return this.http.post<{ token: string }>(this.API, body, { headers })
-            .pipe(
-                tap(response => {
-                    const token = response.token;
-                    this._token.next(token);
-                    sessionStorage.setItem('app_token', token);
-                }))
-    }
 
-    normalLoginWithSupabase(email: string, password: string): Observable<any> {
-        const supabase = this.supabaseService.getClient();
-        return from(
-            supabase.auth.signInWithPassword({ email, password })
-        );
-    }
 
-    get token() {
-        return this._token.value || sessionStorage.getItem('app_token')
-    }
 
-    logout() {
-        this._token.next(null);
-        sessionStorage.removeItem('app_token');
-    }
+  loginWithGoogleIdToken(idToken: string): Observable<User | null> {
+    return from(this.supabase.signInWithGoogleIdToken(idToken)).pipe(
+      tap(({ data, error }) => {
+        if (error) throw error;
+        if (data?.session) {
+          this._user$.next(data.session.user);
+          this._token$.next(data.session.access_token);
+          //localStorage.setItem('app_token', data.session.access_token);
+        }
+      }),
+      switchMap(({ data }) => of(data?.session?.user ?? null))
+    );
+  }
 
-    isLoggedIn(): boolean {
-        return !!this.token
-    }
+
+  loadCurrentUser(): Observable<User | null> {
+    return from(this.supabase.getUser()).pipe(
+      tap(({ data, error }) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        this._user$.next(data?.user ?? null);
+      }),
+      switchMap(({ data }) => of(data?.user ?? null))
+    );
+  }
+
+  logout(): Observable<void> {
+    return from(this.supabase.signOut()).pipe(
+      tap(() => {
+        this._user$.next(null);
+        this._token$.next(null);
+        localStorage.removeItem('sb-cknedrdeyzjseckxspqx-auth-token');
+        this.router.navigate(['auth/login']);
+      }),
+      switchMap(() => of(void 0))
+    );
+  }
+
+  get user(): User | null {
+    return this._user$.value;
+  }
+
+  get token(): string | null {
+    return this._token$.value ?? localStorage.getItem('sb-cknedrdeyzjseckxspqx-auth-token');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.user;
+  }
+
 }

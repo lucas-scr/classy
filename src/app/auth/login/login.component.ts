@@ -1,11 +1,12 @@
 declare var google: any;
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { environments } from '../../environments/environments';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { Route, Router } from '@angular/router';
+import { Route, Router, RouterLinkActive } from '@angular/router';
+import { SupabaseService } from '../../core/services/SupaBaseService';
 
 
 
@@ -24,7 +25,7 @@ import { Route, Router } from '@angular/router';
     ])
   ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements AfterViewInit {
 
   loginForm: FormGroup;
   user: any = null;
@@ -34,10 +35,11 @@ export class LoginComponent implements OnInit {
   password: string;
 
   constructor(
-    private auth: AuthService,
     private fb: FormBuilder,
+    private supabase: SupabaseService,
     private router: Router,
-    private authService:  AuthService
+    private authService: AuthService
+
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,43 +47,34 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+
+  ngAfterViewInit() {
     google.accounts.id.initialize({
       client_id: this.clientId,
-      callback: this.handleCredentialResponse.bind(this),
-      use_fedcm_for_button: false
+      callback: (response: any) => this.handleCredentialResponse(response)
     });
 
     google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "filled-blue", size: "large", width: "100%" }
+      document.getElementById('google-button')!,
+      { theme: 'outline', size: 'large' }  // estilo oficial
     );
   }
 
+
   handleCredentialResponse(response: any) {
-    this.tokenGoogle = response.credential;
-    console.log(this.tokenGoogle);
-    this.auth.loginWithGoogle(this.tokenGoogle).subscribe({
-      next: (res) => {
-        this.router.navigate(['']);
+    this.authService.loginWithGoogleIdToken(response.credential).subscribe({
+      next: (user) => {
+        if (user) {
+          console.log('Usuário logado:', user.email);
+          this.router.navigate(['/alunos']);
+        } else {
+          console.error('Falha no login: usuário indefinido');
+        }
       },
       error: (err) => {
-        console.error('Erro ao logar:', err)
+        console.error('Erro ao logar no Supabase:', err.message || err);
       }
-    })
-  }
-
-  onSubmit() {
-    if (this.loginForm.valid) {
-      this.authService.normalLoginWithSupabase(this.email, this.password).subscribe({
-        next: (result) => {
-          console.log(result)
-        },
-        error: (err) => {
-          console.log(err)
-        }
-      })
-    }
+    });
   }
 
 }

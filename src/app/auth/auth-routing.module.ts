@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PaginaProtegidaComponent } from '../pages/pagina-protegida/pagina-protegida.component';
+
 
 const routes: Routes = [
   {path: '', 

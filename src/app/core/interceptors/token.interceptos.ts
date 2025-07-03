@@ -28,6 +28,8 @@ export class TokenInterceptor implements HttpInterceptor {
             return next.handle(req).pipe(
                 finalize(() => {
                     this.loading.hide();
+                    console.log("Token inválido ou expirado, redirecionando para login.");
+
                 }));
         }
 
@@ -38,6 +40,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 setHeaders: {
                     Authorization: `Bearer ${token}`
                 }
+
             });
         }
         return next.handle(clone).pipe(
