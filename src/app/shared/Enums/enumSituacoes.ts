@@ -4,3 +4,9 @@ export enum Situacoes{
     PENDENTE_PAGAMENTO = "Pendente de pag.",
     PENDENTE = "Pendente de ass."
 }
+
+
+export const SituacoesTurmaPorId: Record<number, string> = {
+  0: "Inativa",
+  1: "Ativa"
+};

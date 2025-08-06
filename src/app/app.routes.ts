@@ -17,6 +17,8 @@ import { DetalharPagamentosComponent } from './pages/pagamentos/detalhar-pagamen
 import { CadastrarPagamentosComponent } from './pages/pagamentos/cadastrar-pagamentos/cadastrar-pagamentos.component';
 import { PaginaProtegidaComponent } from './pages/pagina-protegida/pagina-protegida.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { ListaTurmasComponent } from './pages/turma/lista-turmas/lista-turmas/lista-turmas.component';
+import { CadastroTurmasComponent } from './pages/turma/cadastro-turmas/cadastro-turmas.component';
 
 
 export const routes: Routes = [
@@ -26,6 +28,8 @@ export const routes: Routes = [
             { path: 'detalhar-aluno/:id', component: DetalharAlunosComponent, canActivate: [AuthGuard] },
             { path: 'contratos', component: ListaContratosComponent, canActivate: [AuthGuard] },
             { path: 'cadastrar-contratos', component: CadastroContratosComponent, canActivate: [AuthGuard] },
+            { path: 'turmas', component: ListaTurmasComponent, canActivate: [AuthGuard] },
+            { path: 'cadastrar-turmas', component: CadastroTurmasComponent, canActivate: [AuthGuard] },
             { path: 'editar-contrato/:id', component: EditarContratosComponent, canActivate: [AuthGuard] },
             { path: 'detalhar-contrato/:id', component: DetalharContratosComponent, canActivate: [AuthGuard] },
             { path: 'atividades', component: ListarAtividadesComponent, canActivate: [AuthGuard] },

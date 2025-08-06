@@ -38,6 +38,5 @@ export class SupabaseService {
   }
   getUser() {
     return this.supabase.auth.getUser();
-
   }
 }

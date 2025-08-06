@@ -1,0 +1,28 @@
+<p-card header="Cadastrar Atividade">
+  <ng-template #title>
+    Cadastrar Turma
+  </ng-template>
+  <form #formAtividade="ngForm" (ngSubmit)="onSubmit()">
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="username" pInputText [(ngModel)]="nome" required name="nome">
+        <label for="username">Nome da Turma</label>
+      </p-floatlabel>
+      <div *ngIf="formAtividade.controls['nome']?.invalid && formAtividade.controls['nome']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+
+    <div class="cadastro_botoes">
+      <p-button label="Cancelar" routerLink="/atividades" severity="secondary" class="w-full" [outlined]="true"
+        styleClass="w-full" />
+      <p-button label="Salvar" class="w-full" styleClass="w-full" type="submit" [disabled]="formAtividade.invalid" />
+    </div>
+  </form>
+  <ng-template #footer>
+
+  </ng-template>
+</p-card>
+
+<p-toast />
