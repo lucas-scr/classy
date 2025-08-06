@@ -61,7 +61,7 @@ export class EditarAtividadesComponent implements OnInit, OnDestroy {
     } else {
       let atividadeAtualizada: Atividade = {
         codigo: this.codigo,
-        materia: this.materiaSelecionada,
+        materia: this.materiaSelecionada.id,
         arquivo: this.arquivoBlob,
         descricao: this.descricao,
         url: this.url,
@@ -114,11 +114,11 @@ export class EditarAtividadesComponent implements OnInit, OnDestroy {
       next: (atividade) => {
         this.idAtividade = atividade.id;
         this.codigo = atividade.codigo;
-        this.materiaSelecionada = atividade.materia;
+    //    this.materiaSelecionada = atividade.materia;
         this.descricao = atividade.descricao;
         this.url = atividade.url;
         if (atividade.arquivo) {
-          this.carregarArquivoBlob(this.idAtividade)
+       //   this.carregarArquivoBlob(this.idAtividade)
           this.nomeArquivo = atividade.codigo + atividade.extensao;
           this.tipoArquivo = atividade.extensao;
         }
@@ -194,22 +194,22 @@ export class EditarAtividadesComponent implements OnInit, OnDestroy {
     this.limparArquivo();
   }
 
-  carregarArquivoBlob(id: number) {
-    this.serviceAtividade.findArquivoByAtividade(id).subscribe({
-      next: (blob) => {
-        this.arquivoBlob = blob;
-        this.arquivoUrl = URL.createObjectURL(blob);
-      },
-      error: (err) => {
-        console.log(err);
-        this.serviceMensagemGlobal.showMessage(
-          'error',
-          'Erro',
-          'Não conseguimos identificar o arquivo'
-        );
-      },
-    });
-  }
+//  carregarArquivoBlob(id: number) {
+//    this.serviceAtividade.findArquivoByAtividade(id).subscribe({
+//      next: (blob) => {
+//        this.arquivoBlob = blob;
+//        this.arquivoUrl = URL.createObjectURL(blob);
+//      },
+//      error: (err) => {
+//        console.log(err);
+ //       this.serviceMensagemGlobal.showMessage(
+//          'error',
+//          'Erro',
+//          'Não conseguimos identificar o arquivo'
+//        );
+//      },
+//    });
+//  }
   abrirArquivo() {
     if (this.arquivoUrl) {
       window.open(this.arquivoUrl, '_blank');

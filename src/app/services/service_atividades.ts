@@ -1,39 +1,52 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { Atividade } from '../interfaces/atividades';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { SupabaseService } from '../core/services/SupaBaseService';
+import { adaptarAtividadeParaRequest, adaptarAtividadeParaResponse } from '../shared/adapters/ativdade.adapter';
+import { adaptarTurmaParaRequest } from '../shared/adapters/turma.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class ServiceAtividades {
-  private URL = 'http://localhost:8080/api/atividades';
+  private tabela = 'atividade';
 
-  constructor(private http: HttpClient) {
+  constructor(private supabase: SupabaseService) {
 
   }
 
   getAtividades(): Observable<Atividade[]> {
-    return this.http.get<Atividade[]>(this.URL);
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select('*')
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data || []).map(adaptarAtividadeParaResponse);
+      })
+    )
   }
 
-  cadastrarAtividade(atividade: Atividade): Observable<string> {
-    const formData = new FormData();
-    const dados = {
-      codigo: atividade.codigo,
-      materia: atividade.materia,
-      descricao: atividade.descricao,
-      url: atividade.url === "" ? null : atividade.url
-    }
+  cadastrarAtividade(atividade: Atividade): Observable<Atividade> {
+    atividade.user_id = this.supabase.getUserId();
 
-    formData.append('dados', new Blob([JSON.stringify(dados)], { type: 'application/json' }));
-    if (atividade.arquivo) {
-      formData.append('arquivo', atividade.arquivo);
-    }
-
-    return this.http.post<string>(this.URL, formData)
+    const payload = adaptarAtividadeParaRequest(atividade);
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .insert(payload)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarAtividadeParaResponse(data);
+      })
+    );
   }
 
   async adicionarTextoRodapePDF(pdfBytes: Uint8Array): Promise<Uint8Array> {
@@ -57,34 +70,55 @@ export class ServiceAtividades {
   }
 
   atualizarAtividade(id: Number, atividade: Atividade): Observable<Atividade> {
-    const formData = new FormData();
-    const dados = {
-      id: atividade.id,
-      codigo: atividade.codigo,
-      materia: atividade.materia,
-      descricao: atividade.descricao,
-      url: atividade.url
-    }
-
-
-    formData.append('dados', new Blob([JSON.stringify(dados)], { type: 'application/json' }));
-    if (atividade.arquivo) {
-      formData.append('arquivo', atividade.arquivo);
-    }
-    return this.http.put<Atividade>(`${this.URL}/${id}`, formData)
+    const payload = adaptarAtividadeParaRequest(atividade);
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .update(payload)
+        .eq('id', id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarAtividadeParaResponse(data);
+      })
+    );
   }
 
   findById(id: Number): Observable<Atividade> {
-    return this.http.get<Atividade>(`${this.URL}/${id}`)
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select('*')
+        .eq('id', id)
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return data;
+      })
+    );
   }
 
-  findArquivoByAtividade(id: number): Observable<Blob> {
-    return this.http.get(`${this.URL}/${id}/arquivo`, { responseType: 'blob' })
+  //  findArquivoByAtividade(id: number): Observable<Blob> {
+  //    return this.http.get(`${this.URL}/${id}/arquivo`, { responseType: 'blob' })
+  //  }
 
+  removerAtividadeById(id: number): Observable<Atividade> {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .delete()
+        .eq('id', id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarAtividadeParaResponse(data);
+      })
+    );
   }
-  removerAtividadeById(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.URL}/${id}`)
-  }
-
-  
 }
+

@@ -39,4 +39,12 @@ export class SupabaseService {
   getUser() {
     return this.supabase.auth.getUser();
   }
+
+  getUserId(): string {
+    const id: string = undefined;
+    this.supabase.auth.getUser().then((data) => {
+      return data.data.user.id
+    });
+    return id;
+  }
 }

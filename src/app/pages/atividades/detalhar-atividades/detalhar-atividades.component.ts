@@ -50,13 +50,13 @@ export class DetalharAtividadesComponent implements OnInit {
     this.serviceAtividade.findById(id).subscribe({
       next: (atividade) => {
         this.codigo = atividade.codigo;
-        this.materiaSelecionada = atividade.materia;
-        this.dataCriacao = new Date(atividade.dataCriacao);
+      ///  this.materiaSelecionada = atividade.materia;
+       // this.dataCriacao = new Date(atividade.dataCriacao);
         this.descricao = atividade.descricao;
         this.url = atividade.url;
         if (atividade.arquivo) {
           this.nomeArquivo = atividade.codigo + atividade.extensao;
-          this.carregarArquivoBlob(this.idAtividade);
+       //   this.carregarArquivoBlob(this.idAtividade);
           this.tipoArquivo = atividade.extensao;
         }
       },
@@ -90,22 +90,22 @@ export class DetalharAtividadesComponent implements OnInit {
     });
   }
 
-  carregarArquivoBlob(id: number) {
-    this.serviceAtividade.findArquivoByAtividade(id).subscribe({
-      next: (blob) => {
-        this.arquivoBlob = blob;
-        this.arquivoUrl = URL.createObjectURL(blob);
-      },
-      error: (err) => {
-        console.log(err);
-        this.serviceMensagemGlobal.showMessage(
-          'error',
-          'Erro',
-          'Não conseguimos identificar o arquivo'
-        );
-      },
-    });
-  }
+ // carregarArquivoBlob(id: number) {
+ //   this.serviceAtividade.findArquivoByAtividade(id).subscribe({
+ //     next: (blob) => {
+ //       this.arquivoBlob = blob;
+ //       this.arquivoUrl = URL.createObjectURL(blob);
+ //     },
+ //     error: (err) => {
+ //       console.log(err);
+ //       this.serviceMensagemGlobal.showMessage(
+ //         'error',
+ //         'Erro',
+ //         'Não conseguimos identificar o arquivo'
+ //       );
+ //     },
+ //   });
+ // }
   abrirArquivo() {
     if (this.arquivoUrl) {
       window.open(this.arquivoUrl, '_blank');

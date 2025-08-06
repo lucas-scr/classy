@@ -21,7 +21,8 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
   materiaSelecaoPadrao: Materia = { nome: 'Selecione', id: null };
   codigo: string;
   descricao: string;
-  url: string | null = null;;
+  url: string | null = null;
+  user_id: string;
 
   listaMaterias: Materia[] | undefined;
   materiaSelecionada: Materia | undefined;
@@ -43,7 +44,6 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
     this.serviceMaterias.getMaterias().subscribe({
       next: (materias) => {
         this.listaMaterias = materias;
-        console.log(materias)
       },
       error: (erro) => console.log(erro),
     });
@@ -59,13 +59,14 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
     } else {
       let atividadeCadastrada: Atividade = {
         codigo: this.codigo,
-        materia: this.materiaSelecionada,
+        materia: this.materiaSelecionada.id,
         descricao: this.descricao,
-        url: this.url
+        url: this.url,
       };
       if(this.arquivoBlob != null || undefined) {
         atividadeCadastrada.arquivo = this.arquivoBlob
       }
+      console.log(atividadeCadastrada)
       this.cadastrarAtividade(atividadeCadastrada);
     }
   }
@@ -111,10 +112,11 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
         this.router.navigate(['/atividades']);
       },
       error: (erro) => {
+        console.log(erro)
         this.serviceMensagemGlobal.showMessage(
           'error',
           'Erro',
-          `Não foi possível realizar o cadastro. ${erro.error.erro}`
+          `Não foi possível realizar o cadastro. ${erro}`
         );
       },
     });
