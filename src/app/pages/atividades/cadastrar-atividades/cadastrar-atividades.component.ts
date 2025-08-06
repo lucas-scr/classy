@@ -43,6 +43,7 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
     this.serviceMaterias.getMaterias().subscribe({
       next: (materias) => {
         this.listaMaterias = materias;
+        console.log(materias)
       },
       error: (erro) => console.log(erro),
     });

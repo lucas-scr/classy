@@ -22,7 +22,7 @@ export class ListaContratosComponent implements OnInit {
   status: any[];
   searchValue: String;
   loading: boolean = true;
-  itemId: Number;
+  itemId: number;
   @ViewChild('menu') menu!: Menu;
 
   constructor(
@@ -88,7 +88,7 @@ export class ListaContratosComponent implements OnInit {
     this.menu.toggle(event); // Exibe o menu no local correto
   }
 
-  removerContratoLista(id: Number) {
+  removerContratoLista(id: number) {
     this.contratosService.removerContrato(id).subscribe({
       next: () =>  {this.messageService.showMessage('success', 'Removido!', 'Contrato removido com sucesso.'),
         this.carregarContratos();

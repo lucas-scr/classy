@@ -18,7 +18,7 @@ import { PrimengImports } from '../../../shared/primengImports.module';
   styleUrl: './detalhar-alunos.component.css',
 })
 export class DetalharAlunosComponent {
-  alunoId: Number;
+  alunoId: number;
 
   aluno: Aluno = {} as Aluno;
 

@@ -9,10 +9,7 @@ export function adaptarContratoParaResponse(d: any): Contrato {
     nomeResponsavel: d.nomeResponsavel,
     documentoResponsavel: d.documentoResponsavel,
     telefone: d.telefone,
-    aluno: {
-        ...d.aluno,
-        iniciais: gerarIniciais(d.aluno?.nome || '')
-    },
+    aluno: d.alunoId,
     dataCriacao: d.dataCriacao,
     dataInicio: d.dataInicio,
     dataFim: d.dataFim,

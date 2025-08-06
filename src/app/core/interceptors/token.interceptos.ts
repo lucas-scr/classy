@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { error } from 'pdf-lib';
 import { Router } from '@angular/router';
 import { ServiceLoading } from '../../services/service-loading.service';
 
@@ -18,6 +17,15 @@ export class TokenInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.loading.show();
+
+        const isApiRequest = req.url.startsWith('http://localhost:8080/api');
+        const isLoginRequest = req.url.includes('/auth/login');
+
+        if (!isApiRequest || isLoginRequest) {
+            return next.handle(req).pipe(
+                finalize(() => this.loading.hide())
+            );
+        }
         const excludedUrls = [
             '/auth/login',
         ];
@@ -36,9 +44,7 @@ export class TokenInterceptor implements HttpInterceptor {
         if (token) {
             console.log("interceptor adicionando Authorization");
             clone = req.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${token}`
-                }
+      
 
             });
         }

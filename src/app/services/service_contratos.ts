@@ -1,42 +1,93 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Contrato } from '../interfaces/contrato';
 import { adaptarContratoParaResponse, adapterContratoParaRequest } from '../shared/adapters/contrato.adapter';
+import { SupabaseService } from '../core/services/SupaBaseService';
 
 @Injectable({
   providedIn: 'root', // Torna o serviço disponível globalmente
 })
 export class ServiceContratos {
 
-  private URL = 'http://localhost:8080/api/contratos';
+  private tabela = 'contrato';
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private supabase: SupabaseService) {}
 
   findById(id: number): Observable<Contrato> {
-    return this.http.get<Contrato>(`${this.URL}/${id}`).pipe(
-       map(adaptarContratoParaResponse)
-    );
-  }
-
-  listarContratos(): Observable<Contrato[]> {
-    return this.http.get<Contrato[]>(this.URL).pipe(
-      map(dados => dados.map(adaptarContratoParaResponse))
+    return from (
+      this.supabase.getClient()
+      .from(this.tabela)
+      .select("*")
+      .eq('id', id)
+      .single()
+    ).pipe(
+      map(({data, error}) =>{
+        if (error) throw error;
+        return adaptarContratoParaResponse(data);
+      } )
     )
   }
 
+  listarContratos(): Observable<Contrato[]> {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select('*')
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data || []).map(adaptarContratoParaResponse);
+      })
+    );
+  }
+
   cadastrarContrato(contrato: Contrato): Observable<Contrato> {
-    return this.http.post<Contrato>(this.URL, adapterContratoParaRequest(contrato));
+    const payload = adapterContratoParaRequest(contrato);
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .insert(payload)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarContratoParaResponse(data);
+      })
+    );
+  }
+
+   atualizarContrato(id: number, contrato: Contrato): Observable<Contrato> {
+    const payload = adapterContratoParaRequest(contrato);
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .update(payload)
+        .eq('id', id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarContratoParaResponse(data);
+      })
+    );
   }
   
-  atualizarContrato(id: number, contrato: Contrato): Observable<Contrato> {
-    console.log(adapterContratoParaRequest(contrato));
-    return this.http.put<Contrato>(`${this.URL}/${id}`, adapterContratoParaRequest(contrato));
-  }
-  
-  removerContrato(id: Number): Observable<Contrato> {
-    return this.http.delete<Contrato>(`${this.URL}/${id}`);
-  }
+  removerContrato(id: number): Observable<Contrato> {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .delete()
+        .eq('id', id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarContratoParaResponse(data);
+      })
+    );
+    }
 }
