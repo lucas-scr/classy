@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FileUploadEvent } from 'primeng/fileupload';
 import { Atividade } from '../../../interfaces/atividades';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { ServiceAtividades } from '../../../services/service_atividades';

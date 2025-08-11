@@ -1,4 +1,4 @@
-import { Component, OnInit, viewChild, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Pagamento } from '../../../interfaces/pagamentos';
 import { ServicePagamentos } from '../../../services/service_pagamentos';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';

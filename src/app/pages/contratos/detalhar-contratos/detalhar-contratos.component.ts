@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { ServiceContratos } from '../../../services/service_contratos';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PrimengImports } from '../../../shared/primengImports.module';
 import { Contrato } from '../../../interfaces/contrato';
 import { DiasDaSemanaDescricao } from '../../../shared/Enums/enumDiasDaSemana';

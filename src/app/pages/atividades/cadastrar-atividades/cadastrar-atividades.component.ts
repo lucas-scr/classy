@@ -5,7 +5,6 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Materia } from '../../../interfaces/materias';
 import { ServiceMateria } from '../../../services/service_materias';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
-import { FileUploadEvent } from 'primeng/fileupload';
 import { ServiceAtividades } from '../../../services/service_atividades';
 
 @Component({

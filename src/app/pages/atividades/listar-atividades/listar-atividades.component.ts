@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PrimengImports } from '../../../shared/primengImports.module';
 import { Atividade } from '../../../interfaces/atividades';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Menu } from 'primeng/menu';
 import { ServiceAtividades } from '../../../services/service_atividades';

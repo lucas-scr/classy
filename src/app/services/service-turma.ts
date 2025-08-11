@@ -3,7 +3,6 @@ import { from, map, Observable } from 'rxjs';
 import { SupabaseService } from '../core/services/serviceSupabase';
 import { Turma } from '../interfaces/turma';
 import { adaptarTurmaParaRequest, adaptarTurmaParaResponse } from '../shared/adapters/turma.adapter'
-import { adaptarContratoParaResponse } from '../shared/adapters/contrato.adapter';
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PrimengImports } from '../../../shared/primengImports.module';
 import { ServicePagamentos } from '../../../services/service_pagamentos';
 import { Pagamento } from '../../../interfaces/pagamentos';

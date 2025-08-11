@@ -4,7 +4,7 @@ import { PrimengImports } from '../../../shared/primengImports.module';
 import { ServiceContratos } from '../../../services/service_contratos';
 import { TelefonePipe, MoedaPipe } from '../../../shared/mascaras.pipe';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Menu } from 'primeng/menu';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { Contrato } from '../../../interfaces/contrato';

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
 import { Materia } from '../interfaces/materias';
