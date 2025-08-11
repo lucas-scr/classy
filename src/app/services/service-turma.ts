@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
-import { SupabaseService } from '../core/services/SupaBaseService';
+import { SupabaseService } from '../core/services/supabaseService';
 import { Turma } from '../interfaces/turma';
 import { adaptarTurmaParaRequest, adaptarTurmaParaResponse } from '../shared/adapters/turma.adapter'
 import { adaptarContratoParaResponse } from '../shared/adapters/contrato.adapter';

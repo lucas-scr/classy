@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
 import { Atividade } from '../interfaces/atividades';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { SupabaseService } from '../core/services/SupaBaseService';
+import { SupabaseService } from '../core/services/supabaseService';
 import { adaptarAtividadeParaRequest, adaptarAtividadeParaResponse } from '../shared/adapters/atividade.adapter';
 import { adaptarTurmaParaRequest } from '../shared/adapters/turma.adapter';
 

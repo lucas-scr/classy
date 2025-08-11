@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { Route, Router, RouterLinkActive } from '@angular/router';
-import { SupabaseService } from '../../core/services/SupaBaseService';
+import { SupabaseService } from '../../core/services/supabaseService';
 
 
 

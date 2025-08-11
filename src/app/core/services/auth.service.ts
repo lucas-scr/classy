@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, from, map, Observable, of, switchMap, tap } from 'rxjs';
-import { SupabaseService } from './SupaBaseService';
+import { SupabaseService } from './supabaseService';
 import { User } from '@supabase/supabase-js';
 import { Route, Router } from '@angular/router';
 

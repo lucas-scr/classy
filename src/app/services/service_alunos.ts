@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Aluno } from '../model/Alunos';
 import { HttpClient } from '@angular/common/http';
 import { from, map, Observable } from 'rxjs';
-import { SupabaseService } from '../core/services/SupaBaseService';
+import { SupabaseService } from '../core/services/supabaseService';
 
 
 

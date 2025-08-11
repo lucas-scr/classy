@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
 import { Materia } from '../interfaces/materias';
-import { SupabaseService } from '../core/services/SupaBaseService';
+import { SupabaseService } from '../core/services/supabaseService';
+
 
 @Injectable({
   providedIn: 'root',
