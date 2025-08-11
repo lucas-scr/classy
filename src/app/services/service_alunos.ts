@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Aluno } from '../model/Alunos';
 import { from, map, Observable } from 'rxjs';
-import { SupabaseService } from '../core/services/supabaseService';
+import { SupabaseService } from '../core/services/serviceSupabase';
 
 @Injectable({
   providedIn: 'root' // Torna o serviço disponível globalmente

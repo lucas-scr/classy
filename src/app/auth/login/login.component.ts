@@ -1,12 +1,12 @@
 declare var google: any;
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { environments } from '../../environments/environments';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../core/services/serviceAuth';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { Route, Router, RouterLinkActive } from '@angular/router';
-import { SupabaseService } from '../../core/services/supabaseService';
+import { SupabaseService } from '../../core/services/serviceSupabase';
 
 
 

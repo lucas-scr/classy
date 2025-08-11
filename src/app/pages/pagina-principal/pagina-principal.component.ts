@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuLateralComponent } from '../menu-lateral/menu-lateral.component';
 import { PrimengImports } from '../../shared/primengImports.module';
-import { SupabaseService } from '../../core/services/supabaseService';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../core/services/serviceAuth';
 
 
 

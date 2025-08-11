@@ -9,7 +9,7 @@ import { ServiceMensagemGlobal } from './services/mensagens_global';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { LoadingComponent } from './components/loading/loading.component';
-import { SupabaseService } from './core/services/supabaseService';
+import { SupabaseService } from './core/services/serviceSupabase';
 
 
 

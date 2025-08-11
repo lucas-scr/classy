@@ -3,7 +3,7 @@ import { from, map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Contrato } from '../interfaces/contrato';
 import { adaptarContratoParaResponse, adapterContratoParaRequest } from '../shared/adapters/contrato.adapter';
-import { SupabaseService } from '../core/services/supabaseService';
+import { SupabaseService } from '../core/services/serviceSupabase';
 
 @Injectable({
   providedIn: 'root', // Torna o serviço disponível globalmente
