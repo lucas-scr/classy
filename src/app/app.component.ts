@@ -7,9 +7,9 @@ import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { ServiceMensagemGlobal } from './services/mensagens_global';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { ServiceAlunos } from './services/service_alunos';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { LoadingComponent } from './components/loading/loading.component';
+import { SupabaseService } from './core/services/supabaseService';
 
 
 
@@ -33,10 +33,9 @@ import { LoadingComponent } from './components/loading/loading.component';
   styleUrl: './app.component.css',
   providers:[
     ServiceMensagemGlobal,
-    ServiceAlunos
+    SupabaseService
   ]
 })
 export class AppComponent {
   title = 'projeto_escolinha';
-
 }

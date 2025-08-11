@@ -1,21 +1,15 @@
 
 import { Injectable } from '@angular/core';
 import { Aluno } from '../model/Alunos';
-import { HttpClient } from '@angular/common/http';
 import { from, map, Observable } from 'rxjs';
 import { SupabaseService } from '../core/services/supabaseService';
-
-
 
 @Injectable({
   providedIn: 'root' // Torna o serviço disponível globalmente
 })
 
-
 export class ServiceAlunos {
-
     private tabela = 'aluno';
-
 
     constructor (private supabaseService: SupabaseService){
         
