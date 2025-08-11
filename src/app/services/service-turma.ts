@@ -19,8 +19,6 @@ export class ServiceTurma {
   cadastrarTurma(turma: Turma): Observable<Turma> {
      
     this.supabase.getUser().then((data) => {
-      console.log(data.data.user);
-      data.data.user;
       turma.user_id = data.data.user?.id;
     });
 

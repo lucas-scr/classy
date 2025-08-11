@@ -59,12 +59,14 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
     } else {
       let atividadeCadastrada: Atividade = {
         codigo: this.codigo,
-        materia: this.materiaSelecionada.id,
+        materia_id: this.materiaSelecionada.id,
+        nome_materia: this.materiaSelecionada.nome,
         descricao: this.descricao,
         url: this.url,
       };
       if(this.arquivoBlob != null || undefined) {
         atividadeCadastrada.arquivo = this.arquivoBlob
+        atividadeCadastrada.arquivo_anexado = true;
       }
       console.log(atividadeCadastrada)
       this.cadastrarAtividade(atividadeCadastrada);
@@ -72,14 +74,10 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
   }
 
   onFileSelect(event: any) {
-
     if (event.files && event.files.length > 0) {
       const file = event.files[0];
-
       this.isImage = file.type.startsWith('image/');
       this.nomeArquivo = file.name
-
-
       if (file.type === 'application/pdf') {
         this.tipoArquivo = 'application/pdf';
         const reader = new FileReader();

@@ -61,7 +61,8 @@ export class EditarAtividadesComponent implements OnInit, OnDestroy {
     } else {
       let atividadeAtualizada: Atividade = {
         codigo: this.codigo,
-        materia: this.materiaSelecionada.id,
+        materia_id: this.materiaSelecionada.id,
+        nome_materia: this.materiaSelecionada.nome,
         arquivo: this.arquivoBlob,
         descricao: this.descricao,
         url: this.url,

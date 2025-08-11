@@ -118,7 +118,7 @@ export class ListarAtividadesComponent implements OnInit {
       },
       error: (err) =>{
         this.serviceMensagemGlobal.showMessage('error','Erro', 'Desculpe! Ocorreu um erro e não conseguimos remover o registro.')
-
+        console.log(err, id)
       }
     });
   }

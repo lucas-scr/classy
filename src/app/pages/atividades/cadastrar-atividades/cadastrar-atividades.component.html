@@ -38,8 +38,6 @@
   
       </p-fileupload>
 
-      
-
     </div>
 
     <div class="cadastro_input">
@@ -52,7 +50,7 @@
       </div>
     </div>
 
-    <div class="cadastro_input">
+    <div class="cadastro_input" *ngIf='nomeArquivo == null'>
       <p-floatlabel variant="on">
         <input id="url" pInputText [(ngModel)]="url" name="url">
         <label for="url">URL</label>
