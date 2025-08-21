@@ -104,7 +104,6 @@ export class ListarAtividadesComponent implements OnInit {
       .getAtividades()
       .subscribe({
         next: (atividades) => {this.listaAtividades = atividades;
-           console.log(this.listaAtividades)
         },
         error: (erro) => console.log(erro),
       });

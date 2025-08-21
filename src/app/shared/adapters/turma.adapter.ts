@@ -5,7 +5,6 @@ export function adaptarTurmaParaResponse(data: any): Turma {
         id: data.id,
         nome: data.nome,
         situacao: data.situacao,
-        user_id: data.user_id
     };
 }
 
@@ -14,7 +13,6 @@ export function adaptarTurmaParaRequest(data: Turma): any {
         id: data.id,
         nome: data.nome,
         situacao: data.situacao,
-        user_id: data.user_id
     }
     return request
 }

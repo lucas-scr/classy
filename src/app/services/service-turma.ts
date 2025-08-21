@@ -12,14 +12,10 @@ export class ServiceTurma {
   private tabela = 'turma'
 
 
-  constructor(private supabase: SupabaseService) { 
+  constructor(private supabase: SupabaseService) {
   }
 
   cadastrarTurma(turma: Turma): Observable<Turma> {
-     
-    this.supabase.getUser().then((data) => {
-      turma.user_id = data.data.user?.id;
-    });
 
     const payload = adaptarTurmaParaRequest(turma);
     return from(
@@ -42,6 +38,22 @@ export class ServiceTurma {
       this.supabase.getClient()
         .from(this.tabela)
         .select('*')
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data || []).map(
+          (item: any) => adaptarTurmaParaResponse(item)
+        );
+      })
+    );
+  }
+
+  listarTurmasAtivas(): Observable<Turma[]> {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select('*')
+        .eq('situacao', '1')
     ).pipe(
       map(({ data, error }) => {
         if (error) throw error;

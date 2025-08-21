@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Menu } from 'primeng/menu';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { Contrato } from '../../../interfaces/contrato';
+import { adaptarContratoParaResponse } from '../../../shared/adapters/contrato.adapter';
 
 @Component({
   selector: 'app-lista-contratos',
@@ -78,6 +79,8 @@ export class ListaContratosComponent implements OnInit {
     this.contratosService.listarContratos().subscribe({
       next: (dados) => {
         this.listaContratos = dados;
+        console.log(dados)
+        console.log(this.listaContratos)
       },
       error: (erro) => console.log(erro)
     })

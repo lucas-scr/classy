@@ -9,6 +9,8 @@ import { Aula } from '../../../interfaces/aula';
 import { DiasDaSemana, DiasDaSemanaDescricao } from '../../../shared/Enums/enumDiasDaSemana';
 import { ModalAdicionarDiaComponent } from "../../../shared/modal-adicionar-dia/modal-adicionar-dia.component";
 import { Contrato } from '../../../interfaces/contrato';
+import { Turma } from '../../../interfaces/turma';
+import { ServiceTurma } from '../../../services/service-turma';
 
 
 @Component({
@@ -21,12 +23,17 @@ import { Contrato } from '../../../interfaces/contrato';
 export class CadastroContratosComponent implements OnInit {
 
   modalAdicionarDia: boolean = false;
-  descricaoAmigavelDiasSemana =  DiasDaSemanaDescricao;
+  descricaoAmigavelDiasSemana = DiasDaSemanaDescricao;
+
+  listaTurmas: Turma[] | undefined;
+  turmaSelecionada: Turma;
+  turmaSelecionadaPadrao: Turma = { nome: 'Selecione', id: null };
+  
 
   nomeResponsavel: string;
   documentoResponsavel: string;
-  telefone: string ;
-  nomeAluno: string;
+  telefone: string;
+  nomeAluno: string;te
   dataNascimento: Date;
   sexo: string;
   isDiasAlternados: boolean = false;
@@ -49,14 +56,16 @@ export class CadastroContratosComponent implements OnInit {
   ];
 
 
-
   constructor(
     private messageService: ServiceMensagemGlobal,
     private contratoService: ServiceContratos,
-    private router: Router
+    private router: Router,
+    private turmaService: ServiceTurma
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.carregarTurmas()
+  }
 
   onSubmit() {
     this.cadastrarContrato(this.atribuirDadosAoContrato());
@@ -76,20 +85,20 @@ export class CadastroContratosComponent implements OnInit {
 
   cadastrarContrato(novoContrato: Contrato) {
     this.contratoService.cadastrarContrato(novoContrato)
-    .subscribe({
-      next: () =>
-        this.messageService.showMessage(
-          'success',
-          'Cadastrado!',
-          'Cadastro realizado com sucesso.'
-        ),
-      error: () =>
-        this.messageService.showMessage(
-          'error',
-          'Algo deu errado!',
-          'Não foi possível realizar o cadastro.'
-        )
-    });
+      .subscribe({
+        next: () =>
+          this.messageService.showMessage(
+            'success',
+            'Cadastrado!',
+            'Cadastro realizado com sucesso.'
+          ),
+        error: () =>
+          this.messageService.showMessage(
+            'error',
+            'Algo deu errado!',
+            'Não foi possível realizar o cadastro.'
+          )
+      });
     this.router.navigate(['/contratos']);
   }
 
@@ -133,18 +142,32 @@ export class CadastroContratosComponent implements OnInit {
       valorPagamento: this.valorContratado,
       autorizaUsoDeImagem: this.autorizacaoDeImagem,
       ressarcimentoEmFeriados: this.ressarcimentoEmFeriados,
+      turma_id: this.turmaSelecionada.id,
       diasDasAulas: this.aulas,
       aluno: {
         nome: this.nomeAluno,
         dataNascimento: this.dataNascimento,
         sexo: this.sexo
-      }
+      },
+      turma: this.turmaSelecionada
     }
 
-    if(this.isDiasAlternados){
-       contrato.horarioDiasAlternados = this.horarioAulasAlternadas.toString()      
+    if (this.isDiasAlternados) {
+      contrato.horarioDiasAlternados = this.horarioAulasAlternadas.toString()
     }
 
     return contrato
+  }
+
+
+  carregarTurmas(){
+    this.turmaService.listarTurmasAtivas().subscribe({
+      next: (data) => {
+       this.listaTurmas = data;
+      },
+    
+      error: (err) => console.log(err)
+    })
+  
   }
 }

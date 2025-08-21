@@ -1,8 +1,8 @@
 export interface Aluno{
     dataNascimento: Date;
-    id?: Number;
-    nome: String;
-    idade?: Number;
-    iniciais?: String;
-    sexo?: String;
+    id?: number;
+    nome: string;
+    idade?: number;
+    iniciais?: string;
+    sexo?: string;
 }

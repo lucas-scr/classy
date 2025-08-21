@@ -1,7 +1,6 @@
 import { Atividade } from "../../interfaces/atividades";
 
 export function adaptarAtividadeParaResponse(data: any): Atividade {
-         console.log(data)
     return {
         id: data.id,
         codigo: data.codigo,

@@ -1,12 +1,14 @@
 import { Aluno } from "./aluno";
 import { Aula } from "./aula";
+import { Turma } from "./turma";
 
 export interface Contrato{
       id?: Number;  
       nomeResponsavel: string;
       documentoResponsavel: string;
       telefone: string;
-      aluno: Aluno;
+      aluno_id?: number;
+      aluno: Aluno
       dataCriacao?: Date;
       dataInicio: Date;
       dataFim?: Date;
@@ -17,7 +19,8 @@ export interface Contrato{
       diasAlternados: boolean;
       ressarcimentoEmFeriados: Boolean;
       autorizaUsoDeImagem: Boolean;
-
       horarioDiasAlternados?: string;
+      turma_id: number;
+      turma: Turma;
 }
 
