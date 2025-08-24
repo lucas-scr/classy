@@ -43,22 +43,22 @@ export function adaptarContratoParaResponse(d: any): Contrato {
 
 export function adapterContratoParaRequest(d: Contrato): any {
   const request: any = {
-    documentoResponsavel: d.documentoResponsavel,
-    aluno_id: d.aluno.id,
-    dataInicio: d.dataInicio.toISOString().split('T')[0],
-    diaPagamento: d.diaPagamento,
-    valorPagamento: d.valorPagamento,
-    autorizaUsoDeImagem: d.autorizaUsoDeImagem,
-    nomeResponsavel: d.nomeResponsavel,
-    ressarcimentoEmFeriados: d.ressarcimentoEmFeriados,
-    diasAlternados: d.diasAlternados,
+    documento_responsavel: d.documentoResponsavel,
+    data_inicio: d.dataInicio.toISOString().split('T')[0],
+    dia_pagamento: d.diaPagamento,
+    valor_pagamento: d.valorPagamento,
+    uso_imagem: d.autorizaUsoDeImagem,
+    nome_responsavel: d.nomeResponsavel,
+    ressarcimento_feriado: d.ressarcimentoEmFeriados,
+    dias_alternados: d.diasAlternados,
     telefone: d.telefone,
-    turma_id: d.turma_id,
+    turma: d.turma_id,
   }
   if (d.diasAlternados) {
-    request.horarioDiasAlternados = d.horarioDiasAlternados.toString().slice(16, 21)
-    console.log(request.horarioDiasAlternados)
+    request.horario = d.horarioDiasAlternados.toString().slice(16, 21)
   }
+
+  console.log(request)
 
   return request
 }

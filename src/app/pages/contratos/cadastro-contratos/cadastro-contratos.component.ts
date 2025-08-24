@@ -165,7 +165,6 @@ export class CadastroContratosComponent implements OnInit {
       next: (data) => {
        this.listaTurmas = data;
       },
-    
       error: (err) => console.log(err)
     })
   

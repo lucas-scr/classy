@@ -13,7 +13,7 @@ export class ServiceContratos {
 
   private tabela = 'contrato';
   private tabelaAluno = 'aluno';
-  private tabelaDiasAula = 'diasAula'
+  private tabelaDiasAula = 'dias_aulas'
 
   constructor(private supabase: SupabaseService) { }
 
@@ -40,7 +40,6 @@ export class ServiceContratos {
     ).pipe(
       map(({ data, error }) => {
         if (error) throw error;
-        console.log(data)
         return (data || []).map(
           (item: any) => adaptarContratoParaResponse(item)
         );
@@ -52,25 +51,11 @@ export class ServiceContratos {
 
     return from(
       (async () => {
-        let alunoId: number | undefined
 
-        if (contrato.aluno) {
-          const { error: alunoError, data: alunoData } = await this.supabase.getClient()
-            .from(this.tabelaAluno)
-            .insert(contrato.aluno)
-            .select()
-            .single()
-
-          if (alunoError) throw alunoError;
-          alunoId = alunoData.id;
-        }
-
-        const payloadContrato = adapterContratoParaRequest({
-          ...contrato,
-          aluno_id: alunoId ?? contrato.aluno.id
-        });
-
-        const { error: contratoError, data: contratoData } = await this.supabase.getClient()
+        const client = this.supabase.getClient();
+        const payloadContrato = adapterContratoParaRequest(contrato);
+        
+        const { data: contratoData, error: contratoError } = await client
           .from(this.tabela)
           .insert(payloadContrato)
           .select()
@@ -80,23 +65,45 @@ export class ServiceContratos {
 
         const contratoId = contratoData.id;
 
-        console.log(payloadContrato);
+        try{
+          let alunoId: number | undefined;
+          if(contrato.aluno){
+            const {data: alunoData, error: alunoError} = await client
+            .from(this.tabelaAluno)
+            .insert({
+              nome: contrato.aluno.nome,
+              data_nascimento: contrato.aluno.dataNascimento.toISOString().split('T')[0],
+              sexo: contrato.aluno.sexo,
+              contrato: contratoId
+              })
+            .select()
+            .single();
+            if(alunoError) throw alunoError;
+            alunoId = alunoData.id
+            contratoData.aluno = alunoData;
+          }
+           if(!contrato.diasAlternados && contrato.diasDasAulas.length > 0){
+            const diasPayload = contrato.diasDasAulas.map((dia: any) => ({
+              contrato: contratoId,
+              horario: dia.horario,
+              dia_semana: dia.diaSemana
+            }));
 
-        if (contrato.diasAlternados == false && contrato.diasDasAulas.length > 0) {
-          const diasPayload = contrato.diasDasAulas.map((dia: any) => ({
-            contrato_id: contratoId,
-            horario: dia.horario,
-            DiasDaSemana: dia.dia_semana
-          }));
-
-          const { error: diasError } = await this.supabase.getClient()
+            const {error: diasError} = await client
             .from(this.tabelaDiasAula)
-            .insert(diasPayload)
-
-          if (diasError) throw diasError
+            .insert(diasPayload);
+            if(diasError) {
+              throw diasError;
+            };
+            
+           }
+          return adaptarContratoParaResponse(contratoData);
+        } catch (err) {
+        await client.from(this.tabela).delete().eq("id", contratoId);
+        await client.from(this.tabelaAluno).delete().eq("contrato_id", contratoId);
+        await client.from(this.tabelaDiasAula).delete().eq("contrato_id", contratoId);
+        throw err;
         }
-
-      return adaptarContratoParaResponse(contratoData);
       })()
   ); 
 }
