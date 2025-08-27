@@ -79,8 +79,6 @@ export class ListaContratosComponent implements OnInit {
     this.contratosService.listarContratos().subscribe({
       next: (dados) => {
         this.listaContratos = dados;
-        console.log(dados)
-        console.log(this.listaContratos)
       },
       error: (erro) => console.log(erro)
     })
