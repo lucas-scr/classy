@@ -3,7 +3,7 @@ import { Aula } from "./aula";
 import { Turma } from "./turma";
 
 export interface Contrato{
-      id?: Number;  
+      id?: number;  
       nomeResponsavel: string;
       documentoResponsavel: string;
       telefone: string;
@@ -13,14 +13,14 @@ export interface Contrato{
       dataInicio: Date;
       dataFim?: Date;
       diasDasAulas?: Aula[];
-      valorPagamento: Number;
-      diaPagamento: Number;
+      valorPagamento: number;
+      diaPagamento: number;
       situacao?: string;
       diasAlternados: boolean;
       ressarcimentoEmFeriados: Boolean;
       autorizaUsoDeImagem: Boolean;
       horarioDiasAlternados?: string;
-      turma_id: number;
+      turma_id?: number;
       turma: Turma;
 }
 

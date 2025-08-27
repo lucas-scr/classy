@@ -6,15 +6,14 @@ import { Situacoes, SituacoesTurmaPorId } from "../Enums/enumSituacoes";
 export function adaptarContratoParaResponse(d: any): Contrato {
   return {
     id: d.id,
+    nomeResponsavel: d.nome_responsavel,
+    documentoResponsavel: d.documento_responsavel,
+    telefone: d.telefone,
     dataCriacao: d.created_at ? new Date(d.created_at) : undefined,
     dataInicio: d.data_inicio ? new Date(d.data_inicio) : undefined,
     diaPagamento: d.dia_pagamento,
     diasAlternados: d.dias_alternados,
-    turma_id: d.turma.id,
-    nomeResponsavel: d.nome_responsavel,
-    documentoResponsavel: d.documento_responsavel,
     horarioDiasAlternados: d.horario,
-    telefone: d.telefone,
     ressarcimentoEmFeriados: d.ressarcimento_feriado,
     aluno: {
       id: d.aluno.id,
@@ -25,13 +24,14 @@ export function adaptarContratoParaResponse(d: any): Contrato {
       iniciais: gerarIniciais(d.aluno.nome)
     },
       turma: {
+      id: d.turma.id,
       nome: d.turma.nome,
       situacao: d.turma.situacao
     },
       dataFim: d.dataFim,
-      diasDasAulas: d.diasDasAulas?.map((aula: any) => ({
+      diasDasAulas: d.dias_aulas?.map((aula: any) => ({
         id: aula.id,
-        diaSemana: DiasDaSemana[aula.diaSemana],
+        diaSemana: DiasDaSemana[aula.dia_semana],
         horario: aula.horario
       })),
       valorPagamento: d.valor_pagamento,
@@ -57,8 +57,6 @@ export function adapterContratoParaRequest(d: Contrato): any {
   if (d.diasAlternados) {
     request.horario = d.horarioDiasAlternados.toString().slice(16, 21)
   }
-
-  console.log(request)
 
   return request
 }

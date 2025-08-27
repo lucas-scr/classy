@@ -19,7 +19,8 @@ export class DetalharContratosComponent {
 
     dataLimite: Date = new Date();
     contratoId: number;
-    contratoCarregado: Contrato
+    contratoCarregado: Contrato;
+    horarioDiasAlternados: Date = new Date;
       
     diasSelecionados: string[] = [];
   
@@ -37,13 +38,15 @@ export class DetalharContratosComponent {
      this.capturarId();
     }
 
-  
+
 
     carregarDadosContrato(id: number) {
       this.contratoService.findById(id).subscribe({
         next: (contrato) => {
           this.contratoCarregado = contrato;
-          this.contratoCarregado.dataInicio = new Date (contrato.dataInicio);
+           console.log(this.contratoCarregado)
+          console.log("contrato")
+          console.log(contrato)
         },
         error: (erro) => {
           this.messageService.showMessage(

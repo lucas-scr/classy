@@ -127,7 +127,7 @@ export class EditarContratosComponent implements OnInit {
 
   alterarContrato(contratoAtualizado: Contrato) {
     this.contratoService
-      .atualizarContrato(this.contratoId, contratoAtualizado)
+      .atualizarContrato(contratoAtualizado)
       .subscribe({
         next: () =>
           this.messageService.showMessage(

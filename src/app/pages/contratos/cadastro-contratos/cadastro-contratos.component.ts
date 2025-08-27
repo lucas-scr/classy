@@ -40,8 +40,8 @@ export class CadastroContratosComponent implements OnInit {
   horarioAulasAlternadas: Date = new Date();
   dataInicio: Date = new Date();
   dataLimite: Date = new Date();
-  diaPagamento: Number;
-  valorContratado: Number;
+  diaPagamento: number;
+  valorContratado: number;
   autorizacaoDeImagem: boolean = false;
   ressarcimentoEmFeriados: boolean = false;
 

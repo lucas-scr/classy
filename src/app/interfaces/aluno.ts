@@ -4,5 +4,5 @@ export interface Aluno{
     nome: string;
     idade?: number;
     iniciais?: string;
-    sexo?: string;
+    sexo: string;
 }

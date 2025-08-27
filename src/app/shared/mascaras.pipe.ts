@@ -41,3 +41,28 @@ export class MoedaPipe implements PipeTransform {
     return parseFloat(value.replace(/\D/g, '')) / 100; 
   }
 }
+
+
+@Pipe({
+  name: 'horaMinuto'
+})
+export class HoraMinutoPipe implements PipeTransform {
+  transform(value: Date | string | null | undefined): string {
+    if (!value) return '';
+
+    let date: Date;
+
+    if (typeof value === 'string') {
+      // Se vier string do backend (ex: "13:45:00")
+      const [hours, minutes] = value.split(':').map(Number);
+      date = new Date();
+      date.setHours(hours, minutes, 0, 0);
+    } else {
+      date = value;
+    }
+
+    const hh = String(date.getHours()).padStart(2, '0');
+    const mm = String(date.getMinutes()).padStart(2, '0');
+    return `${hh}:${mm}`;
+  }
+}
