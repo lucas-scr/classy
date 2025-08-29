@@ -29,6 +29,7 @@
     "angular-oauth2-oidc": "^19.0.0",
     "angular-oauth2-oidc-jwks": "^17.0.2",
     "bootstrap": "^5.3.3",
+    "pako": "^2.1.0",
     "pdf-lib": "^1.17.1",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",

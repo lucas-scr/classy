@@ -44,9 +44,6 @@ export class DetalharContratosComponent {
       this.contratoService.findById(id).subscribe({
         next: (contrato) => {
           this.contratoCarregado = contrato;
-           console.log(this.contratoCarregado)
-          console.log("contrato")
-          console.log(contrato)
         },
         error: (erro) => {
           this.messageService.showMessage(

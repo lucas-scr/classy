@@ -7,7 +7,6 @@ export interface Contrato{
       nomeResponsavel: string;
       documentoResponsavel: string;
       telefone: string;
-      aluno_id?: number;
       aluno: Aluno
       dataCriacao?: Date;
       dataInicio: Date;
@@ -19,8 +18,7 @@ export interface Contrato{
       diasAlternados: boolean;
       ressarcimentoEmFeriados: Boolean;
       autorizaUsoDeImagem: Boolean;
-      horarioDiasAlternados?: string;
-      turma_id?: number;
+      horarioDiasAlternados?: string | Date;
       turma: Turma;
 }
 

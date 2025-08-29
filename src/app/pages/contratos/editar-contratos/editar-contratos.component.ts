@@ -62,7 +62,6 @@ export class EditarContratosComponent implements OnInit {
         this.contratoCarregado = contrato;
         this.contratoCarregado.dataInicio = new Date(contrato.dataInicio);
         this.contratoCarregado.aluno.dataNascimento = new Date(contrato.aluno.dataNascimento);
-        this.contratoCarregado.dataInicio = new Date(contrato.dataInicio.getTime());
         console.log(contrato)
         this.atualizarListaDiasAdicionados()
       },

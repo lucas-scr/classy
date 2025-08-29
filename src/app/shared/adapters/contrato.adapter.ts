@@ -2,8 +2,11 @@ import { Contrato } from "../../interfaces/contrato";
 import { Aluno } from "../../model/Alunos";
 import { DiasDaSemana } from "../Enums/enumDiasDaSemana";
 import { Situacoes, SituacoesTurmaPorId } from "../Enums/enumSituacoes";
+import { adaptarAlunoParaResponse } from "./aluno.adapter";
+import { adaptarTurmaParaResponse } from "./turma.adapter";
 
 export function adaptarContratoParaResponse(d: any): Contrato {
+
   return {
     id: d.id,
     nomeResponsavel: d.nome_responsavel,
@@ -13,31 +16,20 @@ export function adaptarContratoParaResponse(d: any): Contrato {
     dataInicio: d.data_inicio ? new Date(d.data_inicio) : undefined,
     diaPagamento: d.dia_pagamento,
     diasAlternados: d.dias_alternados,
-    horarioDiasAlternados: d.horario,
+    horarioDiasAlternados: d.horario ? stringToDate(d.horario) : undefined,
     ressarcimentoEmFeriados: d.ressarcimento_feriado,
-    aluno: {
-      id: d.aluno.id,
-      nome: d.aluno.nome,
-      dataNascimento: d.aluno.data_nascimento,
-      sexo: d.aluno.sexo,
-      idade: gerarIdade(d.aluno.data_nascimento),
-      iniciais: gerarIniciais(d.aluno.nome)
-    },
-      turma: {
-      id: d.turma.id,
-      nome: d.turma.nome,
-      situacao: d.turma.situacao
-    },
-      dataFim: d.dataFim,
-      diasDasAulas: d.dias_aulas?.map((aula: any) => ({
-        id: aula.id,
-        diaSemana: DiasDaSemana[aula.dia_semana],
-        horario: aula.horario
-      })),
-      valorPagamento: d.valor_pagamento,
-      autorizaUsoDeImagem: d.uso_imagem,
-      situacao: SituacoesTurmaPorId[d.situacao]
-};
+    aluno: adaptarAlunoParaResponse(d.aluno),
+    turma: adaptarTurmaParaResponse(d.turma),
+    dataFim: d.dataFim,
+    diasDasAulas: d.dias_aulas?.map((aula: any) => ({
+      id: aula.id,
+      diaSemana: DiasDaSemana[aula.dia_semana],
+      horario: aula.horario
+    })),
+    valorPagamento: d.valor_pagamento,
+    autorizaUsoDeImagem: d.uso_imagem,
+    situacao: SituacoesTurmaPorId[d.situacao]
+  };
 }
 
 
@@ -52,7 +44,8 @@ export function adapterContratoParaRequest(d: Contrato): any {
     ressarcimento_feriado: d.ressarcimentoEmFeriados,
     dias_alternados: d.diasAlternados,
     telefone: d.telefone,
-    turma: d.turma_id,
+    turma: d.turma.id,
+    aluno: d.aluno.id
   }
   if (d.diasAlternados) {
     request.horario = d.horarioDiasAlternados.toString().slice(16, 21)
@@ -61,25 +54,11 @@ export function adapterContratoParaRequest(d: Contrato): any {
   return request
 }
 
-function gerarIniciais(nome: string): string {
-  if (!nome) return '';
-  let partes = nome.trim().split(/\s+/);
-  if (partes.length < 2) {
-    let inicialApenasUmNome = partes[0][0].toUpperCase();
-    return inicialApenasUmNome;
-  }
-  let inicialPrimeiroNome = partes[0][0].toUpperCase();
-  let inicialUltimoNome = partes[partes.length - 1][0].toUpperCase();
-  return inicialPrimeiroNome + inicialUltimoNome;
-}
 
 
-function gerarIdade(dataNascimento?: Date): number | undefined{
-
-  if (!dataNascimento) return undefined
-
-      return Math.floor(
-        (Date.now() - new Date(dataNascimento).getTime()) / 
-        (1000 * 60 * 60 * 24 * 365)
-      );
+function stringToDate(timeString: string): Date {
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  const date = new Date();
+  date.setHours(hours, minutes, seconds || 0, 0);
+  return date;
 }

@@ -106,13 +106,15 @@
       </div>
 
 
-
-      <div class="cadastro_input cadastro_input_primeiro" *ngIf="contratoCarregado.diasAlternados">
+      <div class="cadastro_input" *ngIf="contratoCarregado.diasAlternados">
         <p-floatlabel variant="on">
-          <input id="horarioInicio" disabled pInputText [(ngModel)]="contratoCarregado.horarioDiasAlternados" required
-            name="horarioInicio">
-          <label for="horarioInicio">Horário das aulas</label>
+          <p-datepicker inputId="horarioInicio" [(ngModel)]="contratoCarregado.horarioDiasAlternados" required disabled
+            readonlyInput [timeOnly]="true" Time="hh:mm" name="horarioInicio" />
+          <label class="calendar_label" for="horarioInicio">Horário das aulas</label>
         </p-floatlabel>
+        <div *ngIf="formContrato.controls['horarioInicio']?.invalid && formContrato.controls['horarioInicio']?.touched">
+          <small>Este campo é obrigatório</small>
+        </div>
       </div>
 
 
@@ -122,17 +124,14 @@
             [(ngModel)]="contratoCarregado.diaPagamento" name="dataPagamento" required />
           <label class="calendar_label" for="dataPagamento">Dia do pagamento</label>
         </p-floatlabel>
-
       </div>
-
 
 
       <div class="cadastro_input">
         <p-floatlabel variant="on">
-          <p-inputNumber [(ngModel)]="contratoCarregado.valorPagamento" [disabled]="true"
-            name="contratoCarregado.valor_contrato" required inputId="currency-us" mode="currency" currency="BRL"
-            locale="pt-BR" />
-          <label class="calendar_label" for="dataNascimento">Valor</label>
+          <p-inputNumber [(ngModel)]="contratoCarregado.valorPagamento" [disabled]="true" name="valor" required
+            inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" />
+          <label class="calendar_label" for="valor">Valor</label>
         </p-floatlabel>
 
       </div>

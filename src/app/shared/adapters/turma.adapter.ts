@@ -10,9 +10,9 @@ export function adaptarTurmaParaResponse(data: any): Turma {
 
 export function adaptarTurmaParaRequest(data: Turma): any {
     const request: any = {
-        id: data.id,
         nome: data.nome,
-        situacao: data.situacao,
+        situacao: data.situacao
     }
+
     return request
 }

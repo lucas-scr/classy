@@ -142,14 +142,13 @@ export class CadastroContratosComponent implements OnInit {
       valorPagamento: this.valorContratado,
       autorizaUsoDeImagem: this.autorizacaoDeImagem,
       ressarcimentoEmFeriados: this.ressarcimentoEmFeriados,
-      turma_id: this.turmaSelecionada.id,
+      turma: this.turmaSelecionada,
       diasDasAulas: this.aulas,
       aluno: {
         nome: this.nomeAluno,
         dataNascimento: this.dataNascimento,
         sexo: this.sexo
       },
-      turma: this.turmaSelecionada
     }
 
     if (this.isDiasAlternados) {
