@@ -38,6 +38,22 @@ export class ServiceContratos {
     )
   }
 
+  
+  findByAluno(idAluno: number): Observable<Contrato> {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select("*, turma(*), dias_aulas(*)")
+        .eq('aluno', idAluno)
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarContratoParaResponse(data);
+      })
+    )
+  }
+
   listarContratos(): Observable<Contrato[]> {
     return from(
       this.supabase.getClient()
@@ -58,7 +74,7 @@ export class ServiceContratos {
     return from(
       (async () => {
 
-        
+
         try {
           if (contrato.aluno) {
             const { data: alunoData, error: alunoError } = await this.client
@@ -86,7 +102,7 @@ export class ServiceContratos {
           if (contratoError) throw contratoError;
 
           contrato.id = contratoData.id;
-         
+
           if (!contrato.diasAlternados && contrato.diasDasAulas.length > 0) {
             const diasPayload = contrato.diasDasAulas.map((dia: any) => ({
               contrato: contrato.id,
@@ -117,63 +133,66 @@ export class ServiceContratos {
   atualizarContrato(contrato: Contrato): Observable<Contrato> {
     return from(
       (async () => {
-        if (!contrato.id) {
-          throw new Error("Contrato sem ID não pode ser atualizado.")
-        }
-        const payloadContrato = adapterContratoParaRequest(contrato);
-
-        const { data: contratoData, error: contratoError } = await this.client
-          .from(this.tabela)
-          .update(payloadContrato)
-          .eq("id", contrato.id)
-          .select()
-          .single();
-
-        if (contratoError) throw contratoError;
-
         try {
+          if (!contrato.id) {
+            throw new Error("Contrato sem ID não pode ser atualizado.")
+          }
+          const payloadContrato = adapterContratoParaRequest(contrato);
+
+          const { data: contratoData, error: contratoError } = await this.client
+            .from(this.tabela)
+            .update('nome_resposavel', 'documento_respnosavel', 'data_inicio', 'dia_pagamento', 'valo_pagamento'
+              , 'ressarcimento_feriado', 'horario', 'telefone'
+            )
+            .eq("id", contrato.id)
+            .select()
+            .single();
+
+          if (contratoError) throw contratoError;
+
+
           let alunoId: number | undefined;
 
-          if (contrato.aluno) {
-            if (contrato.aluno.id) {
-              const { data: alunoData, error: alunoError } = await this.client
-                .from(this.tabelaAluno)
-                .update({
-                  nome: contrato.aluno.nome,
-                  data_nascimento: contrato.aluno.dataNascimento,
-                  sexo: contrato.aluno.sexo
-                })
-                .eq("id", contrato.aluno.id)
-                .select()
-                .single()
+          // if (contrato.aluno) {
+          //   if (contrato.aluno.id) {
+          //     const { data: alunoData, error: alunoError } = await this.client
+          //       .from(this.tabelaAluno)
+          //       .update({
+          //         nome: contrato.aluno.nome,
+          //         data_nascimento: contrato.aluno.dataNascimento,
+          //         sexo: contrato.aluno.sexo
+          //       })
+          //       .eq("id", contrato.aluno.id)
+          //       .select()
+          //       .single()
 
-              if (alunoError) throw alunoError;
-              alunoId = alunoData.id;
-              contratoData.aluno = alunoData;
-            }
-          }
+          //     if (alunoError) throw alunoError;
+          //     alunoId = alunoData.id;
+          //     contratoData.aluno = alunoData;
+          //   }
+          // }
 
-          if (!contrato.diasAlternados) {
-            await this.client
-              .from(this.tabelaDiasAula)
-              .delete()
-              .eq("contrato", contrato.id)
+          // if (!contrato.diasAlternados) {
+          //   await this.client
+          //     .from(this.tabelaDiasAula)
+          //     .delete()
+          //     .eq("contrato", contrato.id)
 
-            if (contrato.diasDasAulas.length > 0) {
-              const diasPayload = contrato.diasDasAulas.map((dia: any) => ({
-                contrato: contrato.id,
-                horario: dia.horario,
-                dia_semana: dia.semana,
-              }));
+          //   if (contrato.diasDasAulas.length > 0) {
+          //     const diasPayload = contrato.diasDasAulas.map((dia: any) => ({
+          //       contrato: contrato.id,
+          //       horario: dia.horario,
+          //       dia_semana: dia.semana,
+          //     }));
 
-              const { error: diasError } = await this.client
-                .from(this.tabelaDiasAula)
-                .insert(diasPayload);
+          //     const { error: diasError } = await this.client
+          //       .from(this.tabelaDiasAula)
+          //       .insert(diasPayload);
 
-              if (diasError) throw diasError;
+          //     if (diasError) throw diasError;
 
-            }
-          }
+          //   }
+          // }
           return adaptarContratoParaResponse(contratoData)
         } catch (err) {
           throw err;

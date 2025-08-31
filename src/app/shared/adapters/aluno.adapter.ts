@@ -1,13 +1,24 @@
 import { Aluno } from "../../interfaces/aluno";
+import { adaptarContratoParaResponse } from "./contrato.adapter";
 
 export function adaptarAlunoParaResponse(data: any): Aluno {
+    const contrato = (data.contrato && data.contrato.length > 0) 
+    ? data.contrato[0] 
+    : null;
+
     return {
         id: data.id,
         nome: data.nome,
         dataNascimento: data.data_nascimento,
         idade: gerarIdade(data.data_nascimento),
         iniciais: gerarIniciais(data.nome),
-        sexo: data.sexo
+        sexo: data.sexo,
+        contrato: contrato ? {
+            situacao: contrato.situacao,
+            nomeResponsavel: contrato.nome_responsavel,
+            diasDasAulas: contrato.dias_aulas,
+            diasAlternados: contrato.dias_alternados
+        } : null
     }
 }
 
@@ -36,7 +47,7 @@ function gerarIniciais(nome: string): string {
 }
 
 
-function gerarIdade(dataNascimento?: Date): number | undefined {
+function gerarIdade(dataNascimento: Date): number | undefined {
 
     if (!dataNascimento) return undefined
 

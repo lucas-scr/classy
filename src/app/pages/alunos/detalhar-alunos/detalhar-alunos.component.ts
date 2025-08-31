@@ -3,10 +3,11 @@ import { ServiceAlunos } from '../../../services/service_alunos';
 
 import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 
-import { Aluno } from '../../../model/Alunos';
-
 import { DiasDaSemana } from '../../../shared/Enums/enumDiasDaSemana';
 import { PrimengImports } from '../../../shared/primengImports.module';
+import { Aluno } from '../../../interfaces/aluno';
+import { Contrato } from '../../../interfaces/contrato';
+import { ServiceContratos } from '../../../services/service_contratos';
 
 @Component({
   selector: 'app-detalhar-alunos',
@@ -20,7 +21,8 @@ import { PrimengImports } from '../../../shared/primengImports.module';
 export class DetalharAlunosComponent {
   alunoId: number;
 
-  aluno: Aluno = {} as Aluno;
+  aluno: Aluno;
+  contrato: Contrato;
 
     dias: string [] = [
       DiasDaSemana.SEGUNDA,
@@ -34,6 +36,7 @@ export class DetalharAlunosComponent {
 
   constructor(
     private serviceAluno: ServiceAlunos,
+    private serviceContrato: ServiceContratos,
     private route: ActivatedRoute
   ) {
     this.capturarId();
@@ -55,5 +58,12 @@ export class DetalharAlunosComponent {
       this.aluno = res;
       this.aluno.dataNascimento = new Date(this.aluno.dataNascimento);
     });
+  }
+
+  carregarDadosContratoAluno(){
+    this.serviceContrato.findByAluno(this.alunoId).subscribe((res)=> [
+      this.contrato = res,
+      console.log(this.contrato)
+    ])
   }
 }

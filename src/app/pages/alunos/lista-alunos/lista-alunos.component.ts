@@ -4,7 +4,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { PrimengImports } from '../../../shared/primengImports.module';
-import { Aluno } from '../../../model/Alunos';
 import { ServiceAlunos } from '../../../services/service_alunos';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Menu } from 'primeng/menu';
@@ -13,6 +12,8 @@ import { HttpClient } from '@angular/common/http'; // Importando o módulo
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { ServiceContratos } from '../../../services/service_contratos';
 import { Contrato } from '../../../interfaces/contrato';
+import { Aluno } from '../../../interfaces/aluno';
+import { DiasDaSemanaDescricao } from '../../../shared/Enums/enumDiasDaSemana';
 
 
 @Component({
@@ -23,8 +24,10 @@ import { Contrato } from '../../../interfaces/contrato';
   providers: [MessageService, ConfirmationService],
 })
 export class ListaAlunosComponent implements OnInit {
-  listaAlunos: Contrato[];
+  listaAlunos: Aluno[];
   filtroNome: String;
+  descricaoAmigavelDias = DiasDaSemanaDescricao;
+  
 
   @ViewChild('menu') menu!: Menu;
 
@@ -32,11 +35,8 @@ export class ListaAlunosComponent implements OnInit {
 
   opcoesDeAcoes: MenuItem[] | undefined;
 
-    
-  API_BACKEND: string = 'http://localhost:8080/api/auth/google'
-
   constructor(
-    private serviceContratos: ServiceContratos,
+    private serviceAlunos: ServiceAlunos,
     private router: Router,
   ) {}
 
@@ -54,14 +54,24 @@ export class ListaAlunosComponent implements OnInit {
             command: () =>
               this.router.navigate(['/detalhar-aluno', this.alunoId]),
           },
+                    {
+            label: 'Editar',
+            icon: 'pi pi-pencil',
+            command: () => this.router.navigate(['/editar-aluno', this.alunoId]),
+
+          },
         ],
       },
     ];
   }
 
   carregarDadosNaLista(){
-    this.serviceContratos.listarContratos().subscribe({
-      next: (dados) => this.listaAlunos = dados,
+    this.serviceAlunos.obterAlunos().subscribe({
+      next: (dados) => {
+
+        this.listaAlunos = dados
+        console.log(this.listaAlunos)
+      },
       error: (erro) => console.log('Erro:', erro)
     });
   }
@@ -74,10 +84,10 @@ export class ListaAlunosComponent implements OnInit {
 
 
   filtrarLista(event: any) {
-    this.serviceContratos.listarContratos().subscribe((contratos) => {
+    this.serviceAlunos.obterAlunos().subscribe((contratos) => {
       if (this.filtroNome.length > 0) {
         this.listaAlunos = contratos.filter((aluno) =>
-          aluno.aluno.nome.toLowerCase().startsWith(this.filtroNome.toLowerCase())
+          aluno.nome.toLowerCase().startsWith(this.filtroNome.toLowerCase())
         );
       }else{
         this.listaAlunos = contratos

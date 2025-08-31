@@ -1,103 +1,104 @@
 <p-card header="">
 
-          <div>
-        <div id="g_id_onload" data-client_id=":-)" data-context="signin" data-ux_mode="redirect"
-          data-login_uri="https://localhost:7133/ExternalLogin/googleLogin" data-auto_select="true"
-          data-itp_support="true">
-        </div>
+  <div>
+    <div id="g_id_onload" data-client_id=":-)" data-context="signin" data-ux_mode="redirect"
+      data-login_uri="https://localhost:7133/ExternalLogin/googleLogin" data-auto_select="true" data-itp_support="true">
+    </div>
 
-        <div className="g_id_signin" data-type="icon" data-shape="square" data-theme="outline" data-text="signin_with"
-          data-size="large">
-        </div>
-      </div>
+    <div className="g_id_signin" data-type="icon" data-shape="square" data-theme="outline" data-text="signin_with"
+      data-size="large">
+    </div>
+  </div>
 
-<div class="list_principle_header">
-    <diV  class="list_header_title">
-        <h2>Alunos</h2>
-        <span style="font-size: 14px">Lista de alunos</span>
-        
+  <div class="list_principle_header">
+    <diV class="list_header_title">
+      <h2>Alunos</h2>
+      <span style="font-size: 14px">Lista de alunos</span>
+
     </diV>
     <div class="list_botoes">
-        <p-button label="Novo Aluno" routerLink="/cadastrar-alunos" icon="pi pi-plus" iconPos="left" />
+      <p-button label="Novo Aluno" routerLink="/cadastrar-alunos" icon="pi pi-plus" iconPos="left" />
     </div>
-</div>
-<p-floatlabel variant="on">
+  </div>
+  <p-floatlabel variant="on">
     <p-iconfield>
-        <p-inputicon class="pi pi-search" />
-        <input pInputText id="filtro" [(ngModel)]="filtroNome" (input)="filtrarLista($event)" autocomplete="off" />
+      <p-inputicon class="pi pi-search" />
+      <input pInputText id="filtro" [(ngModel)]="filtroNome" (input)="filtrarLista($event)" autocomplete="off" />
     </p-iconfield>
     <label for="filtro">Pesquisar</label>
-</p-floatlabel>
-<p-divider />
+  </p-floatlabel>
+  <p-divider />
 
-<p-dataview [value]="listaAlunos" [rows]="5" [paginator]="true" >
+  <p-dataview [value]="listaAlunos" [rows]="5" [paginator]="true">
     <ng-template #list let-items>
-        <div>
-            <div class="col-span-12" *ngFor="let item of items; let first = first" class="col-span-12" >
-                <div class="list_item" >
-                    <div class="list_item_row">
-                        <div class="item_avatar">
-                            <p-avatar [label]=item.iniciaisNome 
-                            styleClass="mr-2" 
-                            [ngClass]="{ 'list_sexo_m': item.sexo === 'M', 'list_sexo_f': item.sexo === 'F' }"
-                            size="xlarge"
-                            shape="circle" />
-                        </div>
-                        <div class="item_labels">
-                            <span class="list_principal_nome">{{ item.nome }}</span>
-                            
-                            <div class="item_nascimento">
-                                <i class="pi pi-gift" style="font-size: 1rem"> </i>
-                                <span class="label_item_list" style="margin-left: 5px">  {{item.dataNascimento | date:'dd/MM/yyyy' }}</span>
-                                <span class="label_item_list" style="margin-left: 5px">  ( {{ item.idade }} anos) </span>
-                            </div>
-                            <div class="item_nascimento">
-                                <i class="pi pi-user" style="font-size: 1rem"> </i>
-                                <span class="label_item_list" style="margin-left: 5px;"> Fulano da Silva Souza </span>
-                            </div>
-                            <div class="list_dias_semana">
-                                <i class="pi pi-calendar" style="font-size: 1rem"> </i>
-                                <div class="list_dias" *ngIf="!item.isDiasAlternados" >
-                                    <p-chip class="item_list_chip"  *ngFor="let chip of item.dias" [label]="chip.dia" />
-                                </div>
-                                <div  *ngIf="item.isDiasAlternados">
-                                    <p  style="margin-left: 5px">Dias alternados</p>
-                                </div>
-                            </div>
-                        </div>   
-                        <div class="list_acoes">
-                            <div class="menu_acoes"  > 
-                                <p-menu  #menu [model]="opcoesDeAcoes"   [popup]="true" >
-                                    <ng-template #item let-opcao >
-                                        <ng-container *ngIf="opcao.route; else elseBlock" >
-                                            <a   class="p-menu-item-link" [routerLink]='[opcao.route, item.id]'>
-                                                <span [class]="opcao.icon"></span>
-                                                <span class="ml-2">{{ opcao.label }}</span>
-                                            </a>
-                                        </ng-container>
-                                        <ng-template #elseBlock>
-                                            <a [href]="opcao.url" class="p-menu-item-link">
-                                                <span [class]="opcao.icon"></span>
-                                                <span class="ml-2">{{ opcao.label }}</span>
-                                            </a>
-                                        </ng-template>
-                                    </ng-template>
-                                </p-menu>
-                                <p-button (click)="abrirMenu($event, item.id)" icon="pi pi-ellipsis-v"></p-button>
-                            </div>
-                        </div>  
-                    </div>
+      <div>
+        <div class="col-span-12" *ngFor="let item of items; let first = first" class="col-span-12">
+          <div class="list_item">
+            <div class="list_item_row">
+              <div class="item_avatar">
+                <p-avatar [label]=item.iniciais styleClass="mr-2"
+                  [ngClass]="{ 'list_sexo_m': item.sexo === 'M', 'list_sexo_f': item.sexo === 'F' }" size="xlarge"
+                  shape="circle" />
+              </div>
+              <div class="item_labels">
+                <span class="list_principal_nome">{{ item.nome }}</span>
+
+                <div class="item_nascimento">
+                  <i class="pi pi-gift" style="font-size: 1rem"> </i>
+                  <span class="label_item_list" style="margin-left: 5px">
+                    {{item.dataNascimento | date:'dd/MM/yyyy' }}</span>
+                  <span class="label_item_list" style="margin-left: 5px"> ( {{ item.idade }} anos) </span>
                 </div>
-                <p-divider />
+                <div class="item_nascimento">
+                  <i class="pi pi-user" style="font-size: 1rem"> </i>
+                  <span class="label_item_list" style="margin-left: 5px;"> {{item.contrato.nomeResponsavel}} </span>
+                </div>
+                <div class="list_dias_semana">
+                  <i class="pi pi-calendar" style="font-size: 1rem"> </i>
+                  <div class="list_dias" *ngIf="!item.contrato.diasAlternados">
+                    <p-chip class="item_list_chip" *ngFor="let chip of item.contrato.diasDasAulas">
+                      <a>{{descricaoAmigavelDias[chip.dia_semana].toString()}} às {{chip.horario.slice(0,5).toString()}}</a>
+
+                    </p-chip>
+                  </div>
+                  <div *ngIf="item.contrato.diasAlternados">
+                    <p style="margin-left: 5px">Dias alternados</p>
+                  </div>
+                </div>
+              </div>
+              <div class="list_acoes">
+                <div class="menu_acoes">
+                  <p-menu #menu [model]="opcoesDeAcoes" [popup]="true">
+                    <ng-template #item let-opcao>
+                      <ng-container *ngIf="opcao.route; else elseBlock">
+                        <a class="p-menu-item-link" [routerLink]='[opcao.route, item.id]'>
+                          <span [class]="opcao.icon"></span>
+                          <span class="ml-2">{{ opcao.label }}</span>
+                        </a>
+                      </ng-container>
+                      <ng-template #elseBlock>
+                        <a [href]="opcao.url" class="p-menu-item-link">
+                          <span [class]="opcao.icon"></span>
+                          <span class="ml-2">{{ opcao.label }}</span>
+                        </a>
+                      </ng-template>
+                    </ng-template>
+                  </p-menu>
+                  <p-button (click)="abrirMenu($event, item.id)" icon="pi pi-ellipsis-v"></p-button>
+                </div>
+              </div>
             </div>
+          </div>
+          <p-divider />
         </div>
+      </div>
     </ng-template>
     <ng-template class="mensagemVazia" #emptymessage>
-        <tr>
-            <td colspan="5">Nenhum resultado encontrado</td>
-        </tr>
+      <tr>
+        <td colspan="5">Nenhum resultado encontrado</td>
+      </tr>
     </ng-template>
-</p-dataview>
+  </p-dataview>
 
 </p-card>
 

@@ -5,7 +5,7 @@
     <form #formAluno="ngForm">
         <div class="cadastro_input">
             <p-floatlabel variant="on">
-                <input id="username" pInputText [(ngModel)]="aluno.nome" readonly required name="nome">
+                <input id="username" pInputText [(ngModel)]="aluno.nome" readonly disabled name="nome">
                 <label for="username">Nome do aluno</label>
             </p-floatlabel>
 
@@ -13,7 +13,7 @@
 
         <div class="cadastro_input">
             <p-floatlabel variant="on">
-                <p-datepicker id="dataNascimento" [(ngModel)]="aluno.dataNascimento " disabled required
+                <p-datepicker id="dataNascimento" [(ngModel)]="aluno.dataNascimento " disabled required readonlyInput
                     name="dataNascimento" dateFormat="dd/mm/yy" [iconDisplay]="'input'" [showIcon]="true"
                     inputId="icondisplay" />
                 <label class="calendar_label" for="dataNascimento">Data de nascimento</label>
@@ -38,28 +38,28 @@
             </div>
         </div>
 
-        <div class="cadastro_input" *ngIf="!aluno.isDiasAlternados">
+        <div class="cadastro_input" *ngIf="!contrato.diasAlternados">
             <label class="label_multiselect"  for="dias_aluno">Dias da semana:</label>
             <div class="cadastro_input_multiselecao">
                 <div class="checkbox"  *ngFor="let dia of dias" name="dias_aluno">
-                    <p-checkbox readonly [inputId]="dia"  name="dias_aluno" [value]="dia" [(ngModel)]="aluno.dias" />
+                    <p-checkbox readonly [inputId]="dia"  name="dias_aluno" [value]="dia" [(ngModel)]="contrato.diasDasAulas" />
                     <label class="label_checkbox" [for]="dia"> {{ dia }} </label>
                 </div>
             </div>
         </div>
         <p-divider />
 
-        <div class="cadastro_input" *ngIf="aluno.isDiasAlternados">
-            <p-checkbox [(ngModel)]="aluno.isDiasAlternados" readonly [binary]="true" inputId="diasAlternados"
+        <!-- <div class="cadastro_input" *ngIf="contrato.diasAlternados">
+            <p-checkbox [(ngModel)]="contrato.diasAlternados" readonly [binary]="true" inputId="diasAlternados"
                 name="diasAlternados" />
                 <label for="diasAlternados" class="ml-2">As aulas serão realizadas em dias alternados</label>
             </div>
         
         <div class="cadastro_input">
-            <p-checkbox [(ngModel)]="aluno.autorizacaoDeImagem" readonly [binary]="true" inputId="autorizaocaoImagem"
+            <p-checkbox [(ngModel)]="contrato.diasAlternados" readonly [binary]="true" inputId="autorizaocaoImagem"
                 name="usoImagem" />
             <label for="autorizaocaoImagem" class="ml-2">Autorizado o uso de imagem e video do aluno</label>
-        </div>
+        </div> -->
 
         
 
