@@ -3,7 +3,7 @@ import { ServiceAlunos } from '../../../services/service_alunos';
 
 import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 
-import { DiasDaSemana } from '../../../shared/Enums/enumDiasDaSemana';
+import { DiasDaSemana, DiasDaSemanaDescricao } from '../../../shared/Enums/enumDiasDaSemana';
 import { PrimengImports } from '../../../shared/primengImports.module';
 import { Aluno } from '../../../interfaces/aluno';
 import { Contrato } from '../../../interfaces/contrato';
@@ -32,7 +32,7 @@ export class DetalharAlunosComponent {
       DiasDaSemana.SEXTA,
     ];
   
-    diasSelecionados: [] = [];
+    diasSelecionados: string [] = [];
 
   constructor(
     private serviceAluno: ServiceAlunos,
@@ -47,6 +47,8 @@ export class DetalharAlunosComponent {
       if (params != undefined) {
         this.alunoId = params['id'];
         this.carregarDadosAluno();
+        this.carregarDadosContratoAluno()
+
       } else {
         throw console.error('Aluno não identificado');
       }
@@ -61,9 +63,10 @@ export class DetalharAlunosComponent {
   }
 
   carregarDadosContratoAluno(){
-    this.serviceContrato.findByAluno(this.alunoId).subscribe((res)=> [
-      this.contrato = res,
+    this.serviceContrato.findByAluno(this.alunoId).subscribe(res => {
+      this.contrato = res;
+      this.diasSelecionados = (this.contrato.diasDasAulas || []).map(d => d.diaSemana ),
       console.log(this.contrato)
-    ])
+  });
   }
 }

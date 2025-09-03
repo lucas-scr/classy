@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 
 import { from, map, Observable } from 'rxjs';
 import { SupabaseService } from '../core/services/serviceSupabase';
-import { adaptarAlunoParaResponse } from '../shared/adapters/aluno.adapter';
+import { adaptarAlunoParaRequest, adaptarAlunoParaResponse } from '../shared/adapters/aluno.adapter';
 import { Aluno } from '../interfaces/aluno';
-import { ServiceContratos } from './service_contratos';
+
 
 @Injectable({
   providedIn: 'root' // Torna o serviço disponível globalmente
@@ -13,11 +13,9 @@ import { ServiceContratos } from './service_contratos';
 
 export class ServiceAlunos {
   private tabela = 'aluno';
-  private tabelaContrato = 'contrat'
 
   constructor(
     private supabaseService: SupabaseService,
-    private contratoService: ServiceContratos
   ) {
 
   }
@@ -28,8 +26,8 @@ export class ServiceAlunos {
         .from(this.tabela)
         .select(`*, contrato:contrato(*, dias_aulas(horario, dia_semana))`)
         .eq('contrato.situacao', 1)
-        .order('created_at', { foreignTable: 'contrato', ascending: false }) 
-        .limit(1, { foreignTable: 'contrato' }) 
+        .order('created_at', { foreignTable: 'contrato', ascending: false })
+        .limit(1, { foreignTable: 'contrato' })
 
     ).pipe(
       map(({ data, error }) => {
@@ -59,7 +57,7 @@ export class ServiceAlunos {
     );
   }
 
-  adicionarAlunoNaLista(aluno: Aluno): Observable<Aluno> {
+  cadastrarAluno(aluno: Aluno): Observable<Aluno> {
     return from(
       this.supabaseService.getClient()
         .from(this.tabela)
@@ -74,18 +72,22 @@ export class ServiceAlunos {
     );
   }
 
-  atualizarAlunoNalista(id: number, aluno: Aluno): Observable<Aluno> {
+
+
+
+  atualizarAluno(aluno: Aluno): Observable<Aluno> {
+    if (!aluno.id) throw new Error('ID do aluno é obrigatório para atualização');
     return from(
       this.supabaseService.getClient()
         .from(this.tabela)
-        .update(aluno)
-        .eq('id', id)
+        .update(adaptarAlunoParaRequest(aluno))
+        .eq('id', aluno.id)
         .select()
         .single()
-    ).pipe(
+      ).pipe(
       map(({ data, error }) => {
         if (error) throw error;
-        return data;
+        return adaptarAlunoParaResponse(data);
       })
     );
   }

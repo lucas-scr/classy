@@ -1,1 +1,54 @@
-<p>editar-alunos works!</p>
+<p-card header="Alterar dado do aluno">
+  <ng-template #title>
+    Alterar dados do Aluno
+  </ng-template>
+  <form #formAluno="ngForm" (ngSubmit)="onSubmit(formAluno)">
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="username" pInputText [(ngModel)]="aluno.nome" required="" #nome="ngModel" name="nome">
+        <label for="username">Nome do aluno</label>
+      </p-floatlabel>
+      <div *ngIf="nome.invalid && nome.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <p-datepicker id="dataNascimento" [maxDate]="dataNascimentoLimite" [(ngModel)]="aluno.dataNascimento " required #dataNascimento="ngModel"
+          name="dataNascimento" dateFormat="dd/mm/yy" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
+        <label class="calendar_label" for="dataNascimento">Data de nascimento</label>
+      </p-floatlabel>
+      <div *ngIf="dataNascimento.invalid && dataNascimento.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+    <div class="cadastro_input">
+      <label class="label_radiogroup" for="sexoAluno">Sexo</label>
+      <div id="sexoAluno" class="radio_button">
+        <div class="flex items-center">
+          <p-radiobutton  value="M" [(ngModel)]="aluno.sexo" inputId="sexo1" required #sexo="ngModel" name="sexo" />
+          <label for="sexo1" class="ml-2">Masculino</label>
+        </div>
+
+        <div class="radio_button">
+          <p-radiobutton  value="F" [(ngModel)]="aluno.sexo" inputId="sexo2" required #sexo="ngModel" name="sexo" />
+          <label for="sexo2" class="ml-2">Feminino</label>
+        </div>
+      </div>
+  <div *ngIf="sexo.invalid && sexo.touched">
+    <small>Este campo é obrigatório</small>
+  </div>
+    </div>
+
+    <div class="cadastro_botoes">
+      <p-button label="Cancelar" routerLink="/alunos" severity="secondary" class="w-full" [outlined]="true"
+        styleClass="w-full" />
+      <p-button label="Salvar" class="w-full" styleClass="w-full" type="submit" [disabled]="formAluno.invalid" />
+    </div>
+  </form>
+  <ng-template #footer>
+
+  </ng-template>
+</p-card>

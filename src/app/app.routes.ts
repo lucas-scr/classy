@@ -19,6 +19,7 @@ import { PaginaProtegidaComponent } from './pages/pagina-protegida/pagina-proteg
 import { AuthGuard } from './core/guards/auth.guard';
 import { ListaTurmasComponent } from './pages/turma/lista-turmas/lista-turmas/lista-turmas.component';
 import { CadastroTurmasComponent } from './pages/turma/cadastro-turmas/cadastro-turmas.component';
+import { EditarAlunosComponent } from './pages/alunos/editar-alunos/editar-alunos.component';
 
 
 export const routes: Routes = [
@@ -26,6 +27,7 @@ export const routes: Routes = [
         path: '', component: PaginaPrincipalComponent, canActivate: [AuthGuard], children: [
             { path: 'alunos', component: ListaAlunosComponent, canActivate: [AuthGuard] },
             { path: 'detalhar-aluno/:id', component: DetalharAlunosComponent, canActivate: [AuthGuard] },
+            { path: 'editar-aluno/:id', component: EditarAlunosComponent, canActivate: [AuthGuard] },
             { path: 'contratos', component: ListaContratosComponent, canActivate: [AuthGuard] },
             { path: 'cadastrar-contratos', component: CadastroContratosComponent, canActivate: [AuthGuard] },
             { path: 'turmas', component: ListaTurmasComponent, canActivate: [AuthGuard] },

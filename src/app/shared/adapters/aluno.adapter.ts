@@ -1,5 +1,4 @@
 import { Aluno } from "../../interfaces/aluno";
-import { adaptarContratoParaResponse } from "./contrato.adapter";
 
 export function adaptarAlunoParaResponse(data: any): Aluno {
     const contrato = (data.contrato && data.contrato.length > 0) 

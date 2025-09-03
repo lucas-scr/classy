@@ -1,0 +1,69 @@
+.cadastro_input{
+    margin-top: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+input{
+    width: 100%;
+}
+
+small{
+    color: red;
+    font-size: 12px;
+}
+
+.cadastro_input_radiogroup{
+    display: flex;
+    justify-content: space-between;  
+    flex-direction: column;
+}
+
+.radio_button{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.label_radiogroup{
+    margin-top: 0.5rem;
+}
+
+
+.cadastro_input_checkbox{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.cadastro_botoes{
+    display: flex;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+.cadastro_botoes p-button{
+ margin-left: 1rem;
+ margin-right: 1rem;
+
+}
+
+.cadastro_input_checkbox label{
+    margin-left: 0.8rem;
+}
+
+.radio_button label{
+    margin-left: 0.8rem;
+}
+
+
+.cadastro_input_multiselecao {
+    display: flex;
+    width: 60%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+::ng-deep p-checkbox    {
+margin-right: 1rem;
+}  
