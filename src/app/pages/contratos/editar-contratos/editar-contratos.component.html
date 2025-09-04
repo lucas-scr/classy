@@ -97,13 +97,13 @@
             name="turma" 
             required 
             [options]="listaTurmas"
-            [(ngModel)]="turmaSelecionada" 
+            [(ngModel)]="contratoCarregado.turma" 
             optionLabel="nome" 
             placeholder="Selecione" 
             />
             <label for="turma_select">Turma</label>
           </p-floatlabel>
-          <div *ngIf="formContrato.submitted && (!turmaSelecionada || turmaSelecionada.id === null)">
+          <div *ngIf="formContrato.submitted && (!contratoCarregado.turma || contratoCarregado.turma.id === null)">
             <small>Este campo é obrigatório</small>
           </div>
         </div>

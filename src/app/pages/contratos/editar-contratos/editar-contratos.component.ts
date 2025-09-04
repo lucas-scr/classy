@@ -24,10 +24,9 @@ export class EditarContratosComponent implements OnInit {
   contratoCarregado: Contrato;
   dataLimite: Date = new Date();
   listaTurmas: Turma[];
-  turmaSelecionada: Turma;
 
   diaSelecionado: string;
-  horarioInicio_aula: Date = new Date();
+  horarioInicio_aula: Date;
 
 
   dias: string[] = [
@@ -58,6 +57,9 @@ export class EditarContratosComponent implements OnInit {
     if (this.contratoCarregado.diasAlternados) {
       this.limparDiasSelecionados()
     }
+    if(!this.contratoCarregado.diasAlternados){
+      this.contratoCarregado.horarioDiasAlternados = null;
+    }
     this.alterarContrato(this.contratoCarregado);
 
   }
@@ -68,7 +70,7 @@ export class EditarContratosComponent implements OnInit {
         this.contratoCarregado = contrato;
         this.contratoCarregado.dataInicio = new Date(contrato.dataInicio);
         this.contratoCarregado.aluno.dataNascimento = new Date(contrato.aluno.dataNascimento);
-        this.turmaSelecionada = contrato.turma
+        this.horarioInicio_aula = new Date(this.contratoCarregado.horarioDiasAlternados)
         this.atualizarListaDiasAdicionados()
       },
       error: (erro) => {

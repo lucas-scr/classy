@@ -148,8 +148,8 @@ export class ServiceContratos {
           uso_imagem: contrato.autorizaUsoDeImagem,
           dias_alternados: contrato.diasAlternados,
           ressarcimento_feriado: contrato.ressarcimentoEmFeriados,
-          horario: contrato.horarioDiasAlternados,
-          //turma: contrato.turma.id
+          horario: contrato.horarioDiasAlternados.toString().slice(16, 21) || null,
+          turma: contrato.turma.id
         })
         .eq('id', contrato.id)
         .select()
