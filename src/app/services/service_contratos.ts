@@ -134,35 +134,50 @@ export class ServiceContratos {
     if (!contrato.id) {
       throw new Error("Contrato sem ID não pode ser atualizado.")
     }
-    console.log(contrato)
     return from(
-      this.client
+      (async () => {
+              const { data: contratoData, error: contratoError} = await  this.client
         .from(this.tabela)
-        .update({
-          nome_responsavel: contrato.nomeResponsavel,
-          documento_responsavel: contrato.documentoResponsavel,
-          dia_pagamento: contrato.diaPagamento,
-          telefone: contrato.telefone,
-          data_inicio: contrato.dataInicio,
-          valor_pagamento: contrato.valorPagamento,
-          uso_imagem: contrato.autorizaUsoDeImagem,
-          dias_alternados: contrato.diasAlternados,
-          ressarcimento_feriado: contrato.ressarcimentoEmFeriados,
-          horario: contrato.horarioDiasAlternados.toString().slice(16, 21) || null,
-          turma: contrato.turma.id
-        })
+        .update(adapterContratoParaRequest(contrato))
         .eq('id', contrato.id)
         .select()
         .single()
-    ).pipe(
-      map(({data, error}: any)=> {
-        if(error) throw error
-        console.log(data)
-        return adaptarContratoParaResponse(data)
-      })
-    );
 
-    
+        if(contratoError) throw contratoError
+
+        const { error: deleteError} = await this.client
+        .from('dias_aulas')
+        .delete()
+        .eq('contrato', contrato.id);
+
+        if(deleteError) throw deleteError
+
+        if(contrato.diasDasAulas && contrato.diasDasAulas.length > 0){
+          const payloadDias = contrato.diasDasAulas.map((dia) => ({
+          contrato: contrato.id,
+          dia_semana: dia.diaSemana,
+          horario: dia.horario
+        }));
+
+        const { error: insertError} = await this.client
+        .from('dias_aulas')
+        .insert(payloadDias)
+
+        if(insertError) throw insertError
+        }
+
+        const {data: contratoFinal, error: selectError} = await this.client
+        .from(this.tabela)
+        .select('*, dias_aulas(*)')
+        .eq('id', contrato.id)
+        .single()
+
+        if(selectError) throw selectError
+
+        return adaptarContratoParaResponse(contratoFinal)
+
+      })()
+    );
   }
 
   removerContrato(id: number): Observable<Contrato> {

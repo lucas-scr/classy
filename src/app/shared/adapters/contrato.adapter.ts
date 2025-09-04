@@ -55,6 +55,9 @@ export function adapterContratoParaRequest(d: Contrato): any {
 }
 
 
+ 
+
+
 
 function stringToDate(timeString: string): Date {
   const [hours, minutes, seconds] = timeString.split(':').map(Number);
