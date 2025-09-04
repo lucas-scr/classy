@@ -26,9 +26,8 @@ export class CadastroContratosComponent implements OnInit {
   descricaoAmigavelDiasSemana = DiasDaSemanaDescricao;
 
   listaTurmas: Turma[] | undefined;
-  turmaSelecionada: Turma;
-  turmaSelecionadaPadrao: Turma = { nome: 'Selecione', id: null };
-  
+  turmaSelecionada: Turma = { nome: 'Selecione', id: null };
+
 
   nomeResponsavel: string;
   documentoResponsavel: string;

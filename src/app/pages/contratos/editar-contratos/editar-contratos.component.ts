@@ -7,6 +7,8 @@ import { PrimengImports } from '../../../shared/primengImports.module';
 import { Aula } from '../../../interfaces/aula';
 import { ModalAdicionarDiaComponent } from '../../../shared/modal-adicionar-dia/modal-adicionar-dia.component';
 import { Contrato } from '../../../interfaces/contrato';
+import { Turma } from '../../../interfaces/turma';
+import { ServiceTurma } from '../../../services/service-turma';
 
 @Component({
   selector: 'app-editar-contratos',
@@ -21,6 +23,8 @@ export class EditarContratosComponent implements OnInit {
   contratoId: number;
   contratoCarregado: Contrato;
   dataLimite: Date = new Date();
+  listaTurmas: Turma[];
+  turmaSelecionada: Turma;
 
   diaSelecionado: string;
   horarioInicio_aula: Date = new Date();
@@ -41,11 +45,13 @@ export class EditarContratosComponent implements OnInit {
     private messageService: ServiceMensagemGlobal,
     private contratoService: ServiceContratos,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private serviceTurmas: ServiceTurma
   ) { }
 
   ngOnInit() {
     this.capturarId();
+    this.carregarTurmas()
   }
 
   onSubmit() {
@@ -62,7 +68,7 @@ export class EditarContratosComponent implements OnInit {
         this.contratoCarregado = contrato;
         this.contratoCarregado.dataInicio = new Date(contrato.dataInicio);
         this.contratoCarregado.aluno.dataNascimento = new Date(contrato.aluno.dataNascimento);
-        console.log(contrato)
+        this.turmaSelecionada = contrato.turma
         this.atualizarListaDiasAdicionados()
       },
       error: (erro) => {
@@ -148,6 +154,16 @@ export class EditarContratosComponent implements OnInit {
     if (this.contratoCarregado.diasAlternados) {
       this.contratoCarregado.diasDasAulas = [];
     }
+  }
+
+  carregarTurmas(){
+    this.serviceTurmas.listarTurmasAtivas().subscribe({
+      next: (data) => this.listaTurmas = data,
+      error: (err) => {
+        this.messageService.showMessage('error', 'Algo deu errado', 'Não foi possível carregar as turmas.'),
+        console.log(err)
+      }
+    })
   }
 
 }

@@ -38,7 +38,7 @@ export class MoedaPipe implements PipeTransform {
   }
 
   parse(value: string): number {
-    return parseFloat(value.replace(/\D/g, '')) / 100; 
+    return parseFloat(value.replace(/\D/g, '')); 
   }
 }
 

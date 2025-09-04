@@ -17,7 +17,7 @@
     <div class="cadastro_input">
       <p-floatlabel variant="on">
         <p-select inputId="materia_select" name="materia" required [options]="listaMaterias"
-          [(ngModel)]="materiaSelecionada" optionLabel="nome" placeholder="Selecione" name="materia" />
+          [(ngModel)]="materiaSelecionada" optionLabel="nome" placeholder="Selecione" />
         <label for="materia_select">Materia</label>
       </p-floatlabel>
       <div *ngIf="formAtividade.submitted && !materiaSelecionada.id">

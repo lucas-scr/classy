@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { ServiceAlunos } from '../../../services/service_alunos';
 import { Aluno } from '../../../interfaces/aluno';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router  } from '@angular/router';
 import { PrimengImports } from '../../../shared/primengImports.module';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { error } from 'pdf-lib';
+import { NgForm } from '@angular/forms';
+import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 
 
 @Component({
@@ -22,7 +22,9 @@ export class EditarAlunosComponent implements OnInit {
 
   constructor(
    private serviceAluno: ServiceAlunos,
-   private route: ActivatedRoute
+   private route: ActivatedRoute,
+   private serviceMensagens: ServiceMensagemGlobal,
+   private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,14 +52,20 @@ export class EditarAlunosComponent implements OnInit {
 
   onSubmit(form: NgForm){
     this.serviceAluno.atualizarAluno(this.aluno).subscribe({
-      next: (data) => {
-        console.log("Sucesso");
-        console.log(this.aluno);
-        console.log(data);
-      },
-      error: (err) => {
-        console.log(err)
-      }
+          next: () => {
+          this.serviceMensagens.showMessage(
+            'success',
+            'Atualizado!',
+            'Aluno atualizado com sucesso.',
+          );
+          this.router.navigate(['/contratos']);
+        },
+        error: () =>
+          this.serviceMensagens.showMessage(
+            'error',
+            'Algo deu errado!',
+            'Não foi possível realizar a atualização.'
+          ),
     })
   }
 }
