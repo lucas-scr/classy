@@ -7,11 +7,7 @@ import { PrimengImports } from '../../../shared/primengImports.module';
 import { ServiceAlunos } from '../../../services/service_alunos';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Menu } from 'primeng/menu';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'; // Importando o módulo
-import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
-import { ServiceContratos } from '../../../services/service_contratos';
-import { Contrato } from '../../../interfaces/contrato';
+import { Router } from '@angular/router';
 import { Aluno } from '../../../interfaces/aluno';
 import { DiasDaSemanaDescricao } from '../../../shared/Enums/enumDiasDaSemana';
 
@@ -67,11 +63,7 @@ export class ListaAlunosComponent implements OnInit {
 
   carregarDadosNaLista(){
     this.serviceAlunos.obterAlunos().subscribe({
-      next: (dados) => {
-
-        this.listaAlunos = dados
-        console.log(this.listaAlunos)
-      },
+      next: (dados) => this.listaAlunos = dados,
       error: (erro) => console.log('Erro:', erro)
     });
   }

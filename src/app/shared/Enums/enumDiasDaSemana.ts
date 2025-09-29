@@ -11,10 +11,10 @@ export enum DiasDaSemana {
 // Mapeamento dos nomes amigáveis
 export const DiasDaSemanaDescricao: Record<DiasDaSemana, string> = {
   [DiasDaSemana.DOMINGO]: 'Domingo',
-  [DiasDaSemana.SEGUNDA]: 'Segunda-feira',
-  [DiasDaSemana.TERCA]: 'Terça-feira',
-  [DiasDaSemana.QUARTA]: 'Quarta-feira',
-  [DiasDaSemana.QUINTA]: 'Quinta-feira',
-  [DiasDaSemana.SEXTA]: 'Sexta-feira',
+  [DiasDaSemana.SEGUNDA]: 'Segunda',
+  [DiasDaSemana.TERCA]: 'Terça',
+  [DiasDaSemana.QUARTA]: 'Quarta',
+  [DiasDaSemana.QUINTA]: 'Quinta',
+  [DiasDaSemana.SEXTA]: 'Sexta',
   [DiasDaSemana.SABADO]: 'Sábado'
 };

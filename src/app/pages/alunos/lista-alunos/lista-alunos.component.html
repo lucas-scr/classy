@@ -40,9 +40,9 @@
                   [ngClass]="{ 'list_sexo_m': item.sexo === 'M', 'list_sexo_f': item.sexo === 'F' }" size="xlarge"
                   shape="circle" />
               </div>
+
               <div class="item_labels">
                 <span class="list_principal_nome">{{ item.nome }}</span>
-
                 <div class="item_nascimento">
                   <i class="pi pi-gift" style="font-size: 1rem"> </i>
                   <span class="label_item_list" style="margin-left: 5px">
@@ -58,7 +58,6 @@
                   <div class="list_dias" *ngIf="!item.contrato.diasAlternados">
                     <p-chip class="item_list_chip" *ngFor="let chip of item.contrato.diasDasAulas">
                       <a>{{descricaoAmigavelDias[chip.dia_semana].toString()}} às {{chip.horario.slice(0,5).toString()}}</a>
-
                     </p-chip>
                   </div>
                   <div *ngIf="item.contrato.diasAlternados">

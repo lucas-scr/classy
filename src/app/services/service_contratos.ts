@@ -74,7 +74,6 @@ export class ServiceContratos {
     return from(
       (async () => {
 
-
         try {
           if (contrato.aluno) {
             const { data: alunoData, error: alunoError } = await this.client
@@ -102,7 +101,7 @@ export class ServiceContratos {
           if (contratoError) throw contratoError;
 
           contrato.id = contratoData.id;
-
+      
           if (!contrato.diasAlternados && contrato.diasDasAulas.length > 0) {
             const diasPayload = contrato.diasDasAulas.map((dia: any) => ({
               contrato: contrato.id,
@@ -110,19 +109,22 @@ export class ServiceContratos {
               dia_semana: dia.diaSemana
             }));
 
-            const { error: diasError } = await this.client
+            const {data: diasAulasData, error: diasError } = await this.client
               .from(this.tabelaDiasAula)
               .insert(diasPayload);
+
             if (diasError) {
+              console.log("erro dias da semana", diasError)
               throw diasError;
             };
 
           }
+       
           return adaptarContratoParaResponse(contratoData);
         } catch (err) {
           await this.client.from(this.tabela).delete().eq("id", contrato.id);
           await this.client.from(this.tabelaAluno).delete().eq("id", contrato.aluno.id);
-          await this.client.from(this.tabelaDiasAula).delete().eq("contrato_id", contrato.id);
+          await this.client.from(this.tabelaDiasAula).delete().eq("contrato", contrato.id);
           throw err;
         }
       })()

@@ -1,5 +1,4 @@
 import { Contrato } from "../../interfaces/contrato";
-import { Aluno } from "../../model/Alunos";
 import { DiasDaSemana } from "../Enums/enumDiasDaSemana";
 import { Situacoes, SituacoesTurmaPorId } from "../Enums/enumSituacoes";
 import { adaptarAlunoParaResponse } from "./aluno.adapter";
@@ -55,7 +54,6 @@ export function adapterContratoParaRequest(d: Contrato): any {
 }
 
 
- 
 
 
 

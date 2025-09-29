@@ -1,5 +1,5 @@
 import { Aluno } from "./aluno";
-import { Aula } from "./aula";
+import { ConfigAula } from "./configAula";
 import { Turma } from "./turma";
 
 export interface Contrato{
@@ -11,7 +11,7 @@ export interface Contrato{
       dataCriacao?: Date;
       dataInicio: Date;
       dataFim?: Date;
-      diasDasAulas?: Aula[];
+      diasDasAulas?: ConfigAula[];
       valorPagamento: number;
       diaPagamento: number;
       situacao?: string;

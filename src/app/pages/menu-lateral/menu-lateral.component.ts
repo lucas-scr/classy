@@ -25,7 +25,7 @@ export class MenuLateralComponent implements OnInit {
           {
             label: 'Início',
             icon: 'pi pi-home',
-            route: '',
+            route: '/home',
           },
         ],
       },

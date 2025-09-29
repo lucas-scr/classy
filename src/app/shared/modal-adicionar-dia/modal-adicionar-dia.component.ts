@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DiasDaSemana, DiasDaSemanaDescricao } from '../Enums/enumDiasDaSemana';
-import { Aula } from '../../interfaces/aula';
+import { ConfigAula } from '../../interfaces/configAula';
 import { PrimengImports } from '../primengImports.module';
 
 
@@ -14,7 +14,7 @@ import { PrimengImports } from '../primengImports.module';
 export class ModalAdicionarDiaComponent {
 
   @Input() visible: boolean = false;
-  @Input() aulasAdicionadas: Aula[] = [];
+  @Input() aulasAdicionadas: ConfigAula[] = [];
 
   @Output() fechar = new EventEmitter<void>();
   @Output() adicionar = new EventEmitter<{ dia: DiasDaSemana, horario: string }>();

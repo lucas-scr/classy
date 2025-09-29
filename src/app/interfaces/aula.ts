@@ -1,8 +1,16 @@
-import { DiasDaSemana } from "../shared/Enums/enumDiasDaSemana";
+import { Aluno } from '../interfaces/aluno'
 
 export interface Aula{
     id?: number;
-    diaSemana: DiasDaSemana;
-    horario: string;
-    contrato_id?: number;
+    aluno?: Aluno | undefined;
+    data: Date;
+    situacao: number;
+    contrato_id?: number | undefined;
+}
+
+
+
+export interface AulasPorIntervalo{
+    data: Date;
+    aulas: Aula[];
 }

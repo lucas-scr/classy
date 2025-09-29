@@ -20,6 +20,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { ListaTurmasComponent } from './pages/turma/lista-turmas/lista-turmas/lista-turmas.component';
 import { CadastroTurmasComponent } from './pages/turma/cadastro-turmas/cadastro-turmas.component';
 import { EditarAlunosComponent } from './pages/alunos/editar-alunos/editar-alunos.component';
+import { HomeComponent } from './pages/home/home/home.component';
 
 
 export const routes: Routes = [
@@ -42,7 +43,9 @@ export const routes: Routes = [
             { path: 'editar-pagamento/:id', component: EditarPagamentosComponent, canActivate: [AuthGuard] },
             { path: 'detalhar-pagamento/:id', component: DetalharPagamentosComponent, canActivate: [AuthGuard] },
             { path: 'cadastrar-pagamento', component: CadastrarPagamentosComponent, canActivate: [AuthGuard] },
-            { path: 'forbidden', component: PaginaProtegidaComponent }
+            { path: 'forbidden', component: PaginaProtegidaComponent },
+             { path: 'home', component: HomeComponent }
+
 
         ]
     },

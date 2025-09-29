@@ -5,12 +5,12 @@ import { PrimengImports } from '../../../shared/primengImports.module';
 import { MessageService } from 'primeng/api';
 import { ServiceContratos } from '../../../services/service_contratos';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
-import { Aula } from '../../../interfaces/aula';
 import { DiasDaSemana, DiasDaSemanaDescricao } from '../../../shared/Enums/enumDiasDaSemana';
 import { ModalAdicionarDiaComponent } from "../../../shared/modal-adicionar-dia/modal-adicionar-dia.component";
 import { Contrato } from '../../../interfaces/contrato';
 import { Turma } from '../../../interfaces/turma';
 import { ServiceTurma } from '../../../services/service-turma';
+import { ConfigAula } from '../../../interfaces/configAula';
 
 
 @Component({
@@ -44,7 +44,7 @@ export class CadastroContratosComponent implements OnInit {
   autorizacaoDeImagem: boolean = false;
   ressarcimentoEmFeriados: boolean = false;
 
-  aulas: Aula[] = [];
+  aulas: ConfigAula[] = [];
 
   dias: string[] = [
     DiasDaSemana.SEGUNDA,
@@ -98,11 +98,11 @@ export class CadastroContratosComponent implements OnInit {
             'Não foi possível realizar o cadastro.'
           )
       });
-    this.router.navigate(['/contratos']);
+    //this.router.navigate(['/contratos']);
   }
 
   adicionarDiaDaSemana(event: { dia: DiasDaSemana, horario: string }) {
-    const novaAula: Aula = {
+    const novaAula: ConfigAula = {
       diaSemana: event.dia,
       horario: event.horario
     }

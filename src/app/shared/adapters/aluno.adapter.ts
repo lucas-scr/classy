@@ -33,7 +33,7 @@ export function adaptarAlunoParaRequest(aluno: Aluno): any {
 
 
 
-function gerarIniciais(nome: string): string {
+export function gerarIniciais(nome: string): string {
     if (!nome) return '';
     let partes = nome.trim().split(/\s+/);
     if (partes.length < 2) {

@@ -1,0 +1,25 @@
+<p-card header="Aulas do dia">
+  <div>
+    <ul>
+      <li>
+        <div *ngFor="let intervalo of listaAulasPorIntervalo">
+          {{intervalo.data.toString().slice(16, 21)}}
+            <div class='lista_alunos'>
+              <div class="aula_aluno" *ngFor="let aula of intervalo.aulas">
+                <div class="item_avatar">
+                  <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2"
+                    [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo }" size="xlarge"
+                    shape="circle" />
+                </div>
+
+                <div class="item_labels">
+                  <span class="list_principal_nome">{{ aula.aluno }}</span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+  <p-card>

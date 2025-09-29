@@ -4,11 +4,11 @@ import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { ServiceContratos } from '../../../services/service_contratos';
 import { DiasDaSemana, DiasDaSemanaDescricao } from '../../../shared/Enums/enumDiasDaSemana';
 import { PrimengImports } from '../../../shared/primengImports.module';
-import { Aula } from '../../../interfaces/aula';
 import { ModalAdicionarDiaComponent } from '../../../shared/modal-adicionar-dia/modal-adicionar-dia.component';
 import { Contrato } from '../../../interfaces/contrato';
 import { Turma } from '../../../interfaces/turma';
 import { ServiceTurma } from '../../../services/service-turma';
+import { ConfigAula } from '../../../interfaces/configAula';
 
 @Component({
   selector: 'app-editar-contratos',
@@ -120,7 +120,7 @@ export class EditarContratosComponent implements OnInit {
   }
 
   adicionarDiaDaSemana(event: { dia: DiasDaSemana, horario: string }) {
-    const novaAula: Aula = {
+    const novaAula: ConfigAula = {
       diaSemana: event.dia,
       horario: event.horario
     }
