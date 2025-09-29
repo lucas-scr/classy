@@ -3,30 +3,23 @@ import { PrimengImports } from '../../../shared/primengImports.module';
 import { ServiceHome } from '../../../services/service-home.service';
 import { Aula, AulasPorIntervalo } from '../../../interfaces/aula';
 import { error } from 'pdf-lib';
+import { CarouselModule } from 'primeng/carousel';
+
 
 @Component({
   selector: 'app-lista-alunos-home',
-  imports: [PrimengImports],
+  imports: [PrimengImports, CarouselModule],
   templateUrl: './lista-alunos-home.component.html',
   styleUrl: './lista-alunos-home.component.css'
 })
 export class ListaAlunosHomeComponent implements OnInit {
 
   dataAtual: Date = new Date();
+  responsiveOptions: any[] | undefined;
+
   listaAulasDoDia: Aula[] = [];
-  listaAulasPorIntervalo: AulasPorIntervalo[] = []
+  listaAulasPorIntervalo: AulasPorIntervalo[];
 
-  listaAlunos: [
-    { nome: 'Aluno 1', status: 'Normal' },
-    { nome: 'Aluno 2', status: 'Normal' },
-    { nome: 'Aluno 3', status: 'Normal' },
-    { nome: 'Aluno 4', status: 'Reposição' },
-    { nome: 'Aluno 5', status: 'Normal' },
-  ]
-
-  listaHorarios: [
-    {horario: Date}
-  ]
 
   constructor(private serviceHome: ServiceHome){
   }
@@ -36,13 +29,35 @@ export class ListaAlunosHomeComponent implements OnInit {
        this.serviceHome.getAulasDoDia(this.dataAtual).subscribe({
         next: (data) => {
           this.listaAulasDoDia = data;
+          this.listaAulasPorIntervalo = this.serviceHome.atribuirAulasDoDiaAoIntervalo(this.dataAtual)
+          console.log('listinha',this.listaAulasPorIntervalo)
         },
         error: (err) => console.log(err) 
        });
 
+      this.responsiveOptions = [
+            {
+                breakpoint: '1400px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '1199px',
+                numVisible: 3,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '767px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '575px',
+                numVisible: 1,
+                numScroll: 1,
+            },
+        ];
 
-      this.listaAulasPorIntervalo = this.serviceHome.atribuirAulasDoDiaAoIntervalo(this.dataAtual)
-      console.log('listinha',this.listaAulasPorIntervalo)
   }
 
 

@@ -1,25 +1,24 @@
 <p-card header="Aulas do dia">
   <div>
-    <ul>
-      <li>
-        <div *ngFor="let intervalo of listaAulasPorIntervalo">
-          {{intervalo.data.toString().slice(16, 21)}}
-            <div class='lista_alunos'>
-              <div class="aula_aluno" *ngFor="let aula of intervalo.aulas">
-                <div class="item_avatar">
-                  <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2"
-                    [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo }" size="xlarge"
-                    shape="circle" />
-                </div>
-
-                <div class="item_labels">
-                  <span class="list_principal_nome">{{ aula.aluno }}</span>
-                </div>
+    <p-carousel *ngIf="listaAulasPorIntervalo?.length > 0" [value]="listaAulasPorIntervalo" [numVisible]="3"
+      [numScroll]="1" [responsiveOptions]="responsiveOptions">
+      <ng-template let-item pTemplate="item">
+        <div class="div1">
+          <div class="div2">
+            <i class="pi pi-clock" style="font-size: 1rem"></i>
+            <span class="time_label">
+{{item.data.toString().slice(16, 21) }}
+            </span> 
+          </div>
+          <div class="div_aluno" *ngFor="let aula of item.aulas">
+            <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2" [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo === 'F' }"
+              shape="circle" />
+              <div class="div_name">
+                            <span class="list_principal_nome">{{ aula.aluno.nome }}</span>
               </div>
-            </div>
+          </div>
         </div>
-      </li>
-    </ul>
-
+      </ng-template>
+    </p-carousel>
   </div>
   <p-card>

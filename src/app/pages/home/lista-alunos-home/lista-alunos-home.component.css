@@ -1,0 +1,46 @@
+.intervalos_lista {
+    display: flex;
+    flex-direction: row;
+}
+
+.div1 {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    border-left: 1px solid #8d8d8d;
+    padding: 10px 7px 7px 7px;
+    background-color: #eb7fe5;
+
+}
+
+
+.div2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    background-color: #4ba2e9;
+
+}
+
+.list_sexo_m{
+    background-color: #a2d9f059;
+    font-size: 0.6rem;
+    border: 1px solid #64afec; 
+    color: #4ba2e9;
+}
+
+.list_sexo_f{
+    background-color: #f0a2ec4d;
+    color: #eb7fe5;
+    font-size: 0.6rem;
+    border-color: #eb7fe5;
+    border: 1px solid
+}
+
+.list_principal_nome{
+    font-weight: bold;
+    margin-left: 7px;
+}
