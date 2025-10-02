@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { SupabaseService } from './serviceSupabase';
 import { User } from '@supabase/supabase-js';
@@ -8,6 +7,9 @@ import { Route, Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
+  TOKEN_KEY = 'sb-cknedrdeyzjseckxspqx-auth-token';
+
   private _user$ = new BehaviorSubject<User | null>(null);
   user$ = this._user$.asObservable();
 
@@ -18,6 +20,16 @@ export class AuthService {
     private supabase: SupabaseService,
     private router: Router
   ) {
+
+    this.supabase.getClient().auth.onAuthStateChange((event, session) => {
+      if (session) {
+        this._user$.next(session.user);
+        this._token$.next(session.access_token);
+      } else {
+        this._user$.next(null);
+        this._token$.next(null);
+      }
+    });
     this.restoreSession();
   }
 
@@ -27,7 +39,6 @@ export class AuthService {
       if (session) {
         this._user$.next(session.user);
         this._token$.next(session.access_token);
-        //localStorage.setItem('app_token', session.access_token);
       }
     });
   }
@@ -40,7 +51,6 @@ export class AuthService {
         if (data?.session) {
           this._user$.next(data.session.user);
           this._token$.next(data.session.access_token);
-          //localStorage.setItem('app_token', data.session.access_token);
         }
       }),
       switchMap(({ data }) => of(data?.session?.user ?? null))
@@ -58,7 +68,6 @@ export class AuthService {
         if (data?.session) {
           this._user$.next(data.session.user);
           this._token$.next(data.session.access_token);
-          //localStorage.setItem('app_token', data.session.access_token);
         }
       }),
       switchMap(({ data }) => of(data?.session?.user ?? null))
@@ -84,7 +93,6 @@ export class AuthService {
       tap(() => {
         this._user$.next(null);
         this._token$.next(null);
-        localStorage.removeItem('sb-cknedrdeyzjseckxspqx-auth-token');
         this.router.navigate(['auth/login']);
       }),
       switchMap(() => of(void 0))

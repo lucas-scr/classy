@@ -12,41 +12,31 @@ export class TokenInterceptor implements HttpInterceptor {
         private auth: AuthService,
         private router: Router,
         private loading: ServiceLoading) {
-
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.loading.show();
+        console.log("carregando");
 
         const isApiRequest = req.url.startsWith('http://localhost:8080/api');
         const isLoginRequest = req.url.includes('/auth/login');
-
-        if (!isApiRequest || isLoginRequest) {
-            return next.handle(req).pipe(
-                finalize(() => this.loading.hide())
-            );
-        }
-        const excludedUrls = [
-            '/auth/login',
-        ];
         const token = this.auth.token;
 
-        if (excludedUrls.some(url => req.url.includes(url))) {
-            return next.handle(req).pipe(
-                finalize(() => {
-                    this.loading.hide();
-                    console.log("Token inválido ou expirado, redirecionando para login.");
-
-                }));
+        // Se não for requisição para API ou se for login, não adiciona token
+        if (!isApiRequest || req.url.includes('/auth/login')) {
+            console.log("requisição para API ou se for login");
+            return next.handle(req).pipe(finalize(() => this.loading.hide()));
         }
 
         let clone = req;
         if (token) {
-            console.log("interceptor adicionando Authorization");
             clone = req.clone({
-      
-
+                setHeaders: {
+                    Authorization: `Bearer ${token}`
+                }
             });
+        console.log("interceptor adicionando Authorization");
+
         }
         return next.handle(clone).pipe(
             catchError((error: HttpErrorResponse) => {

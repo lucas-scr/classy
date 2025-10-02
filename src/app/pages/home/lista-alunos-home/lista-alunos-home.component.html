@@ -1,24 +1,30 @@
-<p-card header="Aulas do dia">
-  <div>
-    <p-carousel *ngIf="listaAulasPorIntervalo?.length > 0" [value]="listaAulasPorIntervalo" [numVisible]="3"
-      [numScroll]="1" [responsiveOptions]="responsiveOptions">
-      <ng-template let-item pTemplate="item">
-        <div class="div1">
-          <div class="div2">
-            <i class="pi pi-clock" style="font-size: 1rem"></i>
-            <span class="time_label">
-{{item.data.toString().slice(16, 21) }}
-            </span> 
-          </div>
-          <div class="div_aluno" *ngFor="let aula of item.aulas">
-            <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2" [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo === 'F' }"
-              shape="circle" />
-              <div class="div_name">
-                            <span class="list_principal_nome">{{ aula.aluno.nome }}</span>
-              </div>
+<p-card >
+  <div class="title_card">
+    <h3>Aulas do dia {{dataLocal}}</h3>
+  </div>
+ <div class="content">
+  <p-carousel *ngIf="listaAulasPorIntervalo?.length > 0" [page]="paginaInicial" [value]="listaAulasPorIntervalo"
+    [numVisible]="qtdCardsVisiveis" [numScroll]="qtdCardsArrastados" [responsiveOptions]="responsiveOptions">
+    <ng-template let-item #item>
+      <div class="div2">
+        <i class="pi pi-clock" style="font-size: 1rem"></i>
+        <span class="time_label">
+          {{item.data.toString().slice(16, 21) }}
+        </span>
+      </div>
+      <div class="div1">
+        <div class="div_aluno" *ngFor="let aula of item.aulas">
+          <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2"
+            [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo === 'F' }"
+            shape="circle" />
+          <div class="div_name">
+            <span class="list_principal_nome">{{ aula.aluno.nome }}</span>
+            <span class="list_principal_situacao" *ngIf="aula.situacao == 1">Reposição</span>
           </div>
         </div>
-      </ng-template>
-    </p-carousel>
-  </div>
-  <p-card>
+        <span class="lista_vazia" *ngIf="item.aulas.length <= 0">Sem alunos iniciando nesse horario.</span>
+      </div>
+    </ng-template>
+  </p-carousel>
+ </div>
+</p-card>

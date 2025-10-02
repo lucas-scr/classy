@@ -1,6 +1,5 @@
 import {
   ApplicationConfig,
-  importProvidersFrom,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -8,7 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
 import Aura from '@primeng/themes/aura';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+
 
 import { routes } from './app.routes';
 import {

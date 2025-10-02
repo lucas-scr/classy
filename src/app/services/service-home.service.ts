@@ -55,7 +55,7 @@ export class ServiceHome {
     if (data.getMinutes() < 30) {
       data.setMinutes(0, 0, 0)
       return data
-    } 
+    }
     data.setMinutes(30, 0, 0)
     return data
   }
@@ -65,30 +65,34 @@ export class ServiceHome {
     let intervaloEmMinutos: number = 30
     let qtdIntervalos: number = (24 * 60) / intervaloEmMinutos;
 
-    data.setHours(8, 0, 0, 0)
+    data.setHours(9, 0, 0, 0)
 
-    for (let i = 0; i < qtdIntervalos - 20; i++) {
+    for (let i = 0; i < qtdIntervalos - 25; i++) {
       data.setMinutes(data.getMinutes() + intervaloEmMinutos);
       listaIntervalos.push(new Date(data));
     }
-  
+
     return listaIntervalos;
   }
 
 
-  atribuirAulasDoDiaAoIntervalo(dataAtual: Date): AulasPorIntervalo[] {
-    let listaIntervalosComAulas: AulasPorIntervalo[] = []
-    let listaIntervalos: Date [] = this.gerarIntervalosDeAulasParaODia(new Date(dataAtual));
-    this.getAulasDoDia(dataAtual).subscribe({
-      next: (aulasDoDia: Aula []) => {
-        listaIntervalos.forEach((intervalo) => {
-          let aulasDoIntervalo: Aula[] = [];
-          for (let aula of aulasDoDia){
-       
-            const horaIgual = this.ajustarMinutosParaIntervalo(aula.data).getHours() === intervalo.getHours() &&
-            this.ajustarMinutosParaIntervalo(aula.data).getMinutes() === intervalo.getMinutes();
+  atribuirAulasDoDiaAoIntervalo(dataAtual: Date): Observable<AulasPorIntervalo[]> {
 
-            if(horaIgual) {
+    let listaIntervalos: Date[] = this.gerarIntervalosDeAulasParaODia(new Date(dataAtual));
+
+    return this.getAulasDoDia(dataAtual).pipe(
+      map((aulasDoDia: Aula[]) => {
+        let listaIntervalosComAulas: AulasPorIntervalo[] = [];
+
+        listaIntervalos.forEach((intervalo) => {
+          let aulasDoIntervalo: Aula[] = []
+
+          for (let aula of aulasDoDia) {
+            const horaIgual =
+              this.ajustarMinutosParaIntervalo(aula.data).getHours() === intervalo.getHours() &&
+              this.ajustarMinutosParaIntervalo(aula.data).getMinutes() === intervalo.getMinutes();
+
+            if (horaIgual) {
               aulasDoIntervalo.push(aula)
             }
           }
@@ -97,9 +101,9 @@ export class ServiceHome {
             aulas: aulasDoIntervalo
           });
         });
-      },
-      error: (err) => console.log(err)
-    });
-    return listaIntervalosComAulas;
+        
+        return listaIntervalosComAulas
+      })
+    )
   }
 }

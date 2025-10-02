@@ -8,7 +8,7 @@ export enum Situacoes{
 
 export const SituacoesTurmaPorId: Record<number, string> = {
   0: "Cancelado",
-  1: "Em andamento",
+  1: "Ativo",
   2: "Pendente de pag.",
   3: "Pendente de ass."
 };
