@@ -67,7 +67,7 @@ export class LoginComponent implements AfterViewInit {
       next: (user) => {
         this.isLoadingGoogle = false;
         if (user) {
-          this.router.navigate(['/alunos']);
+          this.router.navigate(['/home']);
         } else {
           console.error('Falha no login: usuário indefinido');
         }
@@ -80,6 +80,5 @@ export class LoginComponent implements AfterViewInit {
 
 carregar(){
   this.isLoadingGoogle = true;
-  console.log("TEste")
 }
 }

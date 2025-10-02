@@ -106,4 +106,7 @@ export class ServiceHome {
       })
     )
   }
+     tratarErro(error: any){
+    this.supabase.handleError(error)
+  }
 }

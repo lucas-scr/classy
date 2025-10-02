@@ -33,7 +33,6 @@ export class ServiceAtividades {
   }
 
   cadastrarAtividade(atividade: Atividade): Observable<Atividade> {
-    atividade.user_id = this.supabase.getUserId();
 
     const bucket = 'atividades'
     return from(
@@ -162,6 +161,10 @@ export class ServiceAtividades {
         return adaptarAtividadeParaResponse(data)
       })()
     );
+  }
+
+  tratarErro(error: any){
+    this.supabase.handleError(error)
   }
 }
 

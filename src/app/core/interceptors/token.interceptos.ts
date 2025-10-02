@@ -15,17 +15,17 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.loading.show();
         console.log("carregando");
+        this.loading.show();
 
-        const isApiRequest = req.url.startsWith('http://localhost:8080/api');
-        const isLoginRequest = req.url.includes('/auth/login');
         const token = this.auth.token;
 
         // Se não for requisição para API ou se for login, não adiciona token
-        if (!isApiRequest || req.url.includes('/auth/login')) {
+        if (req.url.includes('/auth/login')) {
             console.log("requisição para API ou se for login");
-            return next.handle(req).pipe(finalize(() => this.loading.hide()));
+            return next.handle(req).pipe(finalize(() => {
+                setTimeout(() => this.loading.hide(), 1500)
+            }));
         }
 
         let clone = req;
@@ -35,12 +35,18 @@ export class TokenInterceptor implements HttpInterceptor {
                     Authorization: `Bearer ${token}`
                 }
             });
-        console.log("interceptor adicionando Authorization");
+            console.log("interceptor adicionando Authorization");
 
         }
         return next.handle(clone).pipe(
             catchError((error: HttpErrorResponse) => {
-                if (error.status === 401 || error.status === 403) {
+
+                console.log(clone)
+
+                const supabaseExpired =
+                    typeof error.error === 'object' &&
+                    error.error?.message === 'JWT expired';
+                if (error.status === 401 || error.status === 403 || supabaseExpired) {
                     console.log("Token inválido ou expirado, redirecionando para login.");
                     this.auth.logout();
                     this.loading.hide();

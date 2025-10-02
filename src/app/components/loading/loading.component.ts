@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { ServiceLoading } from '../../services/service-loading.service';
 
 @Component({
   selector: 'app-loading',
   imports: [CommonModule],
   templateUrl: './loading.component.html',
-  styleUrl: './loading.component.css'
+  styleUrls: ['./loading.component.css']
 })
 export class LoadingComponent {
 

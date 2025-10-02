@@ -197,4 +197,9 @@ export class ServiceContratos {
       })
     );
   }
+
+    tratarErro(error: any){
+    this.supabase.handleError(error)
+  }
+  
 }

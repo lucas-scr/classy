@@ -126,7 +126,7 @@ export class ListaContratosComponent implements OnInit {
 
   getSituacaoClass(situacao: string): string {
     switch (situacao) {
-      case 'Em andamento':
+      case 'Ativo':
         return 'situacao-ativo';
       case 'Cancelado':
         return 'situacao-inativo';

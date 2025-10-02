@@ -39,6 +39,7 @@ export class ServicePagamentos {
         console.log(motivo)
         return this.http.post<Pagamento>(`${this.url}/${id}`,pagamento)
     }
+
    
 
 }

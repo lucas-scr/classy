@@ -40,4 +40,8 @@ export class ServiceMateria {
       })
     );
   }
+
+    tratarErro(error: any){
+    this.supabaseService.handleError(error)
+  }
 }
