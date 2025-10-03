@@ -30,7 +30,8 @@ export class ServiceHome {
         .select(` 
           id,      
           data,      
-          situacao,      
+          situacao,     
+          reposicao, 
       contrato ( id,
       aluno(id, nome, data_nascimento, sexo))`)
         .gte('data', inicio.toISOString())
@@ -42,6 +43,7 @@ export class ServiceHome {
           id: aula.id,
           data: new Date(aula.data),
           situacao: aula.situacao,
+          reposicao: aula.reposicao,
           contrato_id: aula.contrato?.id,
           aluno: adaptarAlunoParaResponse(aula.contrato?.aluno) as Aluno
         } as Aula));
@@ -91,8 +93,32 @@ export class ServiceHome {
             const horaIgual =
               this.ajustarMinutosParaIntervalo(aula.data).getHours() === intervalo.getHours() &&
               this.ajustarMinutosParaIntervalo(aula.data).getMinutes() === intervalo.getMinutes();
+              // exemplo: 10:30 precisa aparecer em 10:30
 
-            if (horaIgual) {
+              const horaMaior30minutos =
+              this.ajustarMinutosParaIntervalo(aula.data).getHours() === intervalo.getHours() &&
+              this.ajustarMinutosParaIntervalo(aula.data).getMinutes() === intervalo.getMinutes() - 30;
+              // exemplo: 10:30 precisa aparecer em 11:00
+
+              const horaMaior1hora =
+              this.ajustarMinutosParaIntervalo(aula.data).getHours() + 1 === intervalo.getHours()
+              // exemplo: 10:30 precisa aparecer em 11:30
+
+              const horaMaior1horaE30Minutos = 
+              this.ajustarMinutosParaIntervalo(aula.data).getHours() + 1 === intervalo.getHours() &&
+              this.ajustarMinutosParaIntervalo(aula.data).getMinutes() === intervalo.getMinutes() - 30;
+              // exemplo: 10:00 precisa aparecer em 11:30
+
+              //  const horaMaiorIniciandoCom30Minutos = 
+              // this.ajustarMinutosParaIntervalo(aula.data).getHours() + 2 === intervalo.getHours() &&
+              // this.ajustarMinutosParaIntervalo(aula.data).getMinutes() - 30 === intervalo.getMinutes();
+              // exemplo: 10:30 precisa aparecer em 12:00
+              
+
+
+
+
+            if (horaIgual || horaMaior30minutos || horaMaior1hora || horaMaior1horaE30Minutos ) {
               aulasDoIntervalo.push(aula)
             }
           }

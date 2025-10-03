@@ -90,4 +90,6 @@ export class ListaAlunosHomeComponent implements OnInit {
     )
     return indice
   }
+
+    
 }

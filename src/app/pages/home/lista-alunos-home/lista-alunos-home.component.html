@@ -18,11 +18,16 @@
             [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo === 'F' }"
             shape="circle" />
           <div class="div_name">
-            <span class="list_principal_nome">{{ aula.aluno.nome }}</span>
-            <span class="list_principal_situacao" *ngIf="aula.situacao == 1">Reposição</span>
+            <span class="list_principal_nome" *ngIf="aula.aluno.nome.length > 18">{{aula.aluno.nome.slice(0,18)}}...</span>
+            <span class="list_principal_nome" *ngIf="aula.aluno.nome.length < 18">{{aula.aluno.nome.slice(0,18)}}</span>
+            <span class="situacao-cancelada" *ngIf="aula.situacao == 0">Cancelada</span>
+            <span class="situacao-reposicao" *ngIf="aula.reposicao">Reposição</span>
+          </div>
+          <div class="icon_angle">
+            <i class="pi pi-angle-right" style="font-size: 1rem"></i>
           </div>
         </div>
-        <span class="lista_vazia" *ngIf="item.aulas.length <= 0">Sem alunos iniciando nesse horario.</span>
+        <span class="lista_vazia" *ngIf="item.aulas.length <= 0">Sem alunos nesse horario.</span>
       </div>
     </ng-template>
   </p-carousel>

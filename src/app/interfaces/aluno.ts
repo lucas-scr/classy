@@ -1,4 +1,5 @@
 import { Contrato } from "./contrato";
+import { HistoricoAtividade } from "./historico-atividade";
 
 export interface Aluno{
     dataNascimento: Date;
@@ -8,4 +9,5 @@ export interface Aluno{
     iniciais?: string;
     sexo: string;
     contrato?:  Partial<Contrato> | null;
+    historico_atividades?: HistoricoAtividade[];
 }

@@ -5,6 +5,7 @@ export interface Aula{
     aluno?: Aluno | undefined;
     data: Date;
     situacao: number;
+    reposicao: boolean;
     contrato_id?: number | undefined;
 }
 
