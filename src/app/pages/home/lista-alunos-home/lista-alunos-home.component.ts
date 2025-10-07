@@ -4,18 +4,23 @@ import { ServiceHome } from '../../../services/service-home.service';
 import { Aula, AulasPorIntervalo } from '../../../interfaces/aula';
 import { error } from 'pdf-lib';
 import { CarouselModule } from 'primeng/carousel';
+import { DetalharAlunosComponent } from "../../alunos/detalhar-alunos/detalhar-alunos.component";
+import { DateUtils } from '../../../shared/utils/date-utils';
 
 
 @Component({
   selector: 'app-lista-alunos-home',
-  imports: [PrimengImports, CarouselModule],
+  imports: [PrimengImports, CarouselModule, DetalharAlunosComponent],
   templateUrl: './lista-alunos-home.component.html',
   styleUrl: './lista-alunos-home.component.css'
 })
 export class ListaAlunosHomeComponent implements OnInit {
 
+  detalhesAlunoApresentado: boolean = false;
+  detalhealunoId: number;
+
   dataAtual: Date = new Date();
-  dataLocal = this.dataAtual.toLocaleDateString("pt-BR"); 
+  dataLocal = this.dataAtual.toLocaleDateString("pt-BR");
   qtdCardsVisiveis = 4;
   qtdCardsArrastados = 1;
   paginaInicial: number;
@@ -30,20 +35,7 @@ export class ListaAlunosHomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.serviceHome.getAulasDoDia(this.dataAtual).subscribe({
-      next: (data) => {
-        this.listaAulasDoDia = data;
-        this.serviceHome.atribuirAulasDoDiaAoIntervalo(this.dataAtual).subscribe({
-          next: (lista) => {
-            this.listaAulasPorIntervalo = lista
-            this.paginaInicial = this.encontrarIndiceDoHorario() - 1;
-          },
-          error: (err) => console.log(err)
-        })
-      },
-      error: (err) => console.log(err)
-    });
-
+    this.carregarAulasDoDia(this.dataAtual)
 
 
     this.responsiveOptions = [
@@ -71,6 +63,22 @@ export class ListaAlunosHomeComponent implements OnInit {
 
   }
 
+  carregarAulasDoDia(data: Date) {
+    this.serviceHome.getAulasDoDia(data).subscribe({
+      next: (data) => {
+        this.listaAulasDoDia = data;
+        this.serviceHome.atribuirAulasDoDiaAoIntervalo(this.dataAtual).subscribe({
+          next: (lista) => {
+            this.listaAulasPorIntervalo = lista
+            this.paginaInicial = this.encontrarIndiceDoHorario() - 1;
+          },
+          error: (err) => console.log(err)
+        })
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
 
   encontrarIndiceDoHorario(): number {
     let indice: number = 0
@@ -91,5 +99,22 @@ export class ListaAlunosHomeComponent implements OnInit {
     return indice
   }
 
-    
+
+  abrirDetalhes(id_aluno: number) {
+    this.detalhealunoId = id_aluno;
+    this.detalhesAlunoApresentado = true;
+  }
+
+  avancarDia() {
+    this.dataAtual = DateUtils.adjustDate(this.dataAtual, 1, 'days')
+    console.log(this.dataAtual)
+    this.carregarAulasDoDia(this.dataAtual
+    )
+  }
+
+    retornarDia() {
+    this.dataAtual = DateUtils.adjustDate(this.dataAtual, -1, 'days')
+    this.carregarAulasDoDia(this.dataAtual
+    )
+  }
 }

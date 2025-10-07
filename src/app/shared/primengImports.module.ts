@@ -29,6 +29,8 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FieldsetModule } from 'primeng/fieldset';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 
 
 
@@ -97,7 +99,8 @@ import { FieldsetModule } from 'primeng/fieldset';
     InputMaskModule,
     DialogModule,
     FileUploadModule,
-    FieldsetModule
+    FieldsetModule,
+    
     
   ]
 })

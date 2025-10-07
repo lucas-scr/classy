@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ServiceAlunos } from '../../../services/service_alunos';
 
 import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
@@ -8,21 +8,26 @@ import { PrimengImports } from '../../../shared/primengImports.module';
 import { Aluno } from '../../../interfaces/aluno';
 import { Contrato } from '../../../interfaces/contrato';
 import { ServiceContratos } from '../../../services/service_contratos';
+import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
 
 @Component({
   selector: 'app-detalhar-alunos',
   imports: [
-    PrimengImports,
-    RouterLink,
+    PrimengImports
   ],
   templateUrl: './detalhar-alunos.component.html',
   styleUrl: './detalhar-alunos.component.css',
 })
-export class DetalharAlunosComponent {
-  alunoId: number;
+export class DetalharAlunosComponent implements OnInit, OnChanges  {
+  @Input() visible: boolean = false
+  @Input() alunoId: number;
 
+  @Output() visibleChange = new EventEmitter<boolean>();
+
+  
   aluno: Aluno;
   contrato: Contrato;
+  historicoAtividade: HistoricoAtividade [] = []
 
     dias: string [] = [
       DiasDaSemana.SEGUNDA,
@@ -39,7 +44,16 @@ export class DetalharAlunosComponent {
     private serviceContrato: ServiceContratos,
     private route: ActivatedRoute
   ) {
-    this.capturarId();
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['alunoId'] && this.alunoId && this.visible) {
+      console.log('Carregar dados do aluno', this.alunoId);
+    }
   }
 
   capturarId() {
@@ -59,6 +73,7 @@ export class DetalharAlunosComponent {
     this.serviceAluno.findById(this.alunoId).subscribe((res) => {
       this.aluno = res;
       this.aluno.dataNascimento = new Date(this.aluno.dataNascimento);
+      this.carregarHistoricoAtividades()
     });
   }
 
@@ -68,5 +83,18 @@ export class DetalharAlunosComponent {
       this.diasSelecionados = (this.contrato.diasDasAulas || []).map(d => d.diaSemana ),
       console.log(this.contrato)
   });
+  }
+
+  carregarHistoricoAtividades(){
+    this.serviceAluno.obterHistoricoAtividadesPorAluno(this.alunoId).subscribe({
+      next: (data) => this.historicoAtividade = data,
+      error: (err) => console.log(err)
+    })
+
+  }
+
+  fecharJanela() {
+    this.visible = false;
+    this.visibleChange.emit(this.visible);
   }
 }

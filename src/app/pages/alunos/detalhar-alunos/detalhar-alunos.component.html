@@ -1,77 +1,61 @@
-<p-card header="Alterar dado do aluno">
-    <ng-template #title>
-        Detalhes do aluno
-    </ng-template>
-    <form #formAluno="ngForm">
-        <div class="cadastro_input">
-            <p-floatlabel variant="on">
-                <input id="username" pInputText [(ngModel)]="aluno.nome" readonly disabled name="nome">
-                <label for="username">Nome do aluno</label>
-            </p-floatlabel>
+<p-dialog [(visible)]="visible" [modal]="true"  [style]="{ width: '25rem' }" [closable]="false" draggable="false">
+  <ng-template #header>
+    <h3>Detalhes do aluno</h3>
+  </ng-template>
 
-        </div>
+  <div class="cadastro_input">
+    <p-floatlabel variant="on">
+      <input id="username" pInputText readonly disabled name="nome">
+      <label for="username">Nome do aluno</label>
+    </p-floatlabel>
 
-        <div class="cadastro_input">
-            <p-floatlabel variant="on">
-                <p-datepicker id="dataNascimento" [(ngModel)]="aluno.dataNascimento " disabled required readonlyInput
-                    name="dataNascimento" dateFormat="dd/mm/yy" [iconDisplay]="'input'" [showIcon]="true"
-                    inputId="icondisplay" />
-                <label class="calendar_label" for="dataNascimento">Data de nascimento</label>
-            </p-floatlabel>
+  </div>
 
-        </div>
+  <div class="cadastro_input">
+    <p-floatlabel variant="on">
+      <p-datepicker id="dataNascimento" disabled required readonlyInput
+        name="dataNascimento" dateFormat="dd/mm/yy" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
+      <label class="calendar_label" for="dataNascimento">Data de nascimento</label>
+    </p-floatlabel>
 
-        <div class="cadastro_input">
-            <label class="label_radiogroup" for="sexoAluno">Sexo</label>
-            <div id="sexoAluno" class="radio_button">
-                <div class="flex items-center">
-                    <p-radiobutton name="masculino" disabled="true" readonly="true"  value="M"  [(ngModel)]="aluno.sexo" inputId="sexo1"
-                        name="sexo" />
-                    <label for="sexo1" class="ml-2">Masculino</label>
-                </div>
-
-                <div class="radio_button">
-                    <p-radiobutton name="feminino" disabled="true" readonly="true"  value="F"  [(ngModel)]="aluno.sexo" inputId="sexo2"
-                        name="sexo" />
-                    <label for="sexo2" class="ml-2">Feminino</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="cadastro_input" *ngIf="!contrato.diasAlternados">
-            <label class="label_multiselect"  for="dias_aluno">Dias da semana:</label>
-            <div class="cadastro_input_multiselecao">
-                <div class="checkbox"  *ngFor="let dia of dias" name="dias_aluno">
-                    <p-checkbox readonly [inputId]="dia"  name="dias_aluno" [value]="dia" [(ngModel)]="diasSelecionados" />
-                    <label class="label_checkbox" [for]="dia"> {{ dia }} </label>
-                </div>
-            </div>
-        </div>
-        <p-divider />
-
-        <div class="cadastro_input" *ngIf="contrato.diasAlternados">
-            <p-checkbox [(ngModel)]="contrato.diasAlternados" readonly [binary]="true" inputId="diasAlternados"
-                name="diasAlternados" />
-                <label for="diasAlternados" class="ml-2">As aulas serão realizadas em dias alternados</label>
-            </div>
-        
-        <div class="cadastro_input">
-            <p-checkbox [(ngModel)]="contrato.diasAlternados" readonly [binary]="true" inputId="autorizaocaoImagem"
-                name="usoImagem" />
-            <label for="autorizaocaoImagem" class="ml-2">Autorizado o uso de imagem e video do aluno</label>
-        </div>
-
-                <p-divider />
-
-        
+  </div>
 
 
-        <div class="cadastro_botoes">
-            <p-button label="Voltar" routerLink="/alunos" severity="secondary" class="w-full" [outlined]="true"
-                styleClass="w-full" />
-        </div>
-    </form>
-    <ng-template #footer>
+  <div class="cadastro_input" >
+    <label class="label_multiselect" for="dias_aluno">Dias da semana:</label>
+    <div class="cadastro_input_multiselecao">
+      <div class="checkbox" *ngFor="let dia of dias" name="dias_aluno">
+        <p-checkbox readonly [inputId]="dia" name="dias_aluno" [value]="dia" />
+        <label class="label_checkbox" [for]="dia"> {{ dia }} </label>
+      </div>
+    </div>
+  </div>
+  <label>
+    Histórico de atividades
+  </label>
+  <p-divider />
 
-    </ng-template>
-</p-card>
+  <div class="cadastro_input" >
+    <p-checkbox  readonly [binary]="true" inputId="diasAlternados"
+      name="diasAlternados" />
+    <label for="diasAlternados" class="ml-2">As aulas serão realizadas em dias alternados</label>
+  </div>
+
+  <div class="cadastro_input">
+    <p-checkbox readonly [binary]="true" inputId="autorizaocaoImagem"
+      name="usoImagem" />
+    <label for="autorizaocaoImagem" class="ml-2">Autorizado o uso de imagem e video do aluno</label>
+  </div>
+
+  <p-divider />
+
+
+
+
+  <div class="cadastro_botoes">
+    <p-button label="Voltar" severity="secondary" class="w-full" [outlined]="true" (onClick)="fecharJanela()"
+      styleClass="w-full" />
+  </div>
+  <ng-template #footer>
+  </ng-template>
+</p-dialog>

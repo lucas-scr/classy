@@ -1,35 +1,40 @@
-<p-card >
+<p-card>
   <div class="title_card">
-    <h3>Aulas do dia {{dataLocal}}</h3>
+    <p-button icon="pi pi-angle-left" [rounded]="true" [text]="true" (onClick)="retornarDia()"/>
+    <h3>Aulas do dia {{dataAtual | date:'dd/MM/yyyy'}}</h3>
+    <p-button icon="pi pi-angle-right" [rounded]="true" [text]="true"  (onClick)="avancarDia()" />
   </div>
- <div class="content">
-  <p-carousel *ngIf="listaAulasPorIntervalo?.length > 0" [page]="paginaInicial" [value]="listaAulasPorIntervalo"
-    [numVisible]="qtdCardsVisiveis" [numScroll]="qtdCardsArrastados" [responsiveOptions]="responsiveOptions">
-    <ng-template let-item #item>
-      <div class="div2">
-        <i class="pi pi-clock" style="font-size: 1rem"></i>
-        <span class="time_label">
-          {{item.data.toString().slice(16, 21) }}
-        </span>
-      </div>
-      <div class="div1">
-        <div class="div_aluno" *ngFor="let aula of item.aulas">
-          <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2"
-            [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo === 'F' }"
-            shape="circle" />
-          <div class="div_name">
-            <span class="list_principal_nome" *ngIf="aula.aluno.nome.length > 18">{{aula.aluno.nome.slice(0,18)}}...</span>
-            <span class="list_principal_nome" *ngIf="aula.aluno.nome.length < 18">{{aula.aluno.nome.slice(0,18)}}</span>
-            <span class="situacao-cancelada" *ngIf="aula.situacao == 0">Cancelada</span>
-            <span class="situacao-reposicao" *ngIf="aula.reposicao">Reposição</span>
-          </div>
-          <div class="icon_angle">
-            <i class="pi pi-angle-right" style="font-size: 1rem"></i>
-          </div>
+  <div class="content">
+    <p-carousel *ngIf="listaAulasPorIntervalo?.length > 0" [page]="paginaInicial" [value]="listaAulasPorIntervalo"
+      [numVisible]="qtdCardsVisiveis" [numScroll]="qtdCardsArrastados" [responsiveOptions]="responsiveOptions">
+      <ng-template let-item #item>
+        <div class="div2">
+          <i class="pi pi-clock" style="font-size: 1rem"></i>
+          <span class="time_label">
+            {{item.data.toString().slice(16, 21) }}
+          </span>
         </div>
-        <span class="lista_vazia" *ngIf="item.aulas.length <= 0">Sem alunos nesse horario.</span>
-      </div>
-    </ng-template>
-  </p-carousel>
- </div>
+        <div class="div1">
+          <div class="div_aluno" *ngFor="let aula of item.aulas" (click)="abrirDetalhes(aula.aluno.id)">
+            <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2"
+              [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo === 'F' }"
+              shape="circle" />
+            <div class="div_name">
+              <span class="list_principal_nome"
+                *ngIf="aula.aluno.nome.length > 18">{{aula.aluno.nome.slice(0,18)}}...</span>
+              <span class="list_principal_nome" *ngIf="aula.aluno.nome.length < 18">{{aula.aluno.nome}}</span>
+              <span class="situacao-cancelada" *ngIf="aula.situacao == 0">Cancelada</span>
+              <span class="situacao-reposicao" *ngIf="aula.reposicao">Reposição</span>
+            </div>
+            <div class="icon_angle">
+              <i class="pi pi-angle-right" style="font-size: 1rem"></i>
+            </div>
+          </div>
+          <span class="lista_vazia" *ngIf="item.aulas.length <= 0">Sem alunos nesse horário.</span>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
 </p-card>
+
+<app-detalhar-alunos [(visible)]="detalhesAlunoApresentado" [alunoId]="detalhealunoId"></app-detalhar-alunos>

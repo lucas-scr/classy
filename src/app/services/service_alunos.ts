@@ -6,6 +6,7 @@ import { SupabaseService } from '../core/services/serviceSupabase';
 import { adaptarAlunoParaRequest, adaptarAlunoParaResponse } from '../shared/adapters/aluno.adapter';
 import { Aluno } from '../interfaces/aluno';
 import { PostgrestResponse } from '@supabase/supabase-js';
+import { HistoricoAtividade } from '../interfaces/historico-atividade';
 
 
 @Injectable({
@@ -14,6 +15,7 @@ import { PostgrestResponse } from '@supabase/supabase-js';
 
 export class ServiceAlunos {
   private tabela = 'aluno';
+  private tabelaHistoricoAtividades = 'historico_atividades'
 
   constructor(
     private supabaseService: SupabaseService,
@@ -21,22 +23,23 @@ export class ServiceAlunos {
 
   }
 
-obterAlunos(): Observable<Aluno[]> {
-  return from(
-    this.supabaseService.getClient()
-      .from(this.tabela)
-      .select(`*, contrato:contrato(*, dias_aulas(horario, dia_semana))`)
-      .eq('contrato.situacao', 1)
-      .order('created_at', { foreignTable: 'contrato', ascending: false })
-      .limit(1, { foreignTable: 'contrato' })
-  ).pipe(
-    map((res: PostgrestResponse<Aluno>) => {
-      if (res.error) throw res.error;
-      return (res.data || []).map((item: any) => {
-        return adaptarAlunoParaResponse(item)});
-    })
-  );
-}
+  obterAlunos(): Observable<Aluno[]> {
+    return from(
+      this.supabaseService.getClient()
+        .from(this.tabela)
+        .select(`*, contrato:contrato(*, dias_aulas(horario, dia_semana))`)
+        .eq('contrato.situacao', 1)
+        .order('created_at', { foreignTable: 'contrato', ascending: false })
+        .limit(1, { foreignTable: 'contrato' })
+    ).pipe(
+      map((res: PostgrestResponse<Aluno>) => {
+        if (res.error) throw res.error;
+        return (res.data || []).map((item: any) => {
+          return adaptarAlunoParaResponse(item)
+        });
+      })
+    );
+  }
 
   findById(id: number): Observable<Aluno> {
     return from(
@@ -80,7 +83,7 @@ obterAlunos(): Observable<Aluno[]> {
         .eq('id', aluno.id)
         .select()
         .single()
-      ).pipe(
+    ).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return adaptarAlunoParaResponse(data);
@@ -104,7 +107,31 @@ obterAlunos(): Observable<Aluno[]> {
     );
   }
 
-   tratarErro(error: any){
+  tratarErro(error: any) {
     this.supabaseService.handleError(error)
+  }
+
+  obterHistoricoAtividadesPorAluno(aluno_id: number): Observable<HistoricoAtividade[]> {
+    return from(
+      this.supabaseService.getClient()
+        .from(this.tabelaHistoricoAtividades)
+        .select('atividade(descricao, codigo, materia(nome)), aula_id, descricao, created_at')
+        .eq('aluno_id', aluno_id))
+      .pipe(
+        map(({ data, error }) => {
+          console.log(data)
+          if (error) throw error;
+          return (data || []).map((item: any): HistoricoAtividade => ({
+            id: item.id,
+            codigo_atividade: item.codigo,
+            materia: item.atividade.materia.nome,
+            nome_atividade: item.atividade.descricao,
+            descricao: item.descricao,
+            data_criacao: item.created_at
+          })
+          )
+        }
+        )
+      )
   }
 }
