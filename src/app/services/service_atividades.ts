@@ -166,5 +166,7 @@ export class ServiceAtividades {
   tratarErro(error: any){
     this.supabase.handleError(error)
   }
+
+
 }
 

@@ -18,6 +18,7 @@ export class ListaAlunosHomeComponent implements OnInit {
 
   detalhesAlunoApresentado: boolean = false;
   detalhealunoId: number;
+  DataAulaDetalhe: Date;
 
   dataAtual: Date = new Date();
   dataLocal = this.dataAtual.toLocaleDateString("pt-BR");
@@ -100,9 +101,12 @@ export class ListaAlunosHomeComponent implements OnInit {
   }
 
 
-  abrirDetalhes(id_aluno: number) {
+  abrirDetalhes(id_aluno: number, data_aula: Date) {
     this.detalhealunoId = id_aluno;
+    this.DataAulaDetalhe= data_aula;
     this.detalhesAlunoApresentado = true;
+    this.obterAula(data_aula)
+     
   }
 
   avancarDia() {
@@ -117,4 +121,11 @@ export class ListaAlunosHomeComponent implements OnInit {
     this.carregarAulasDoDia(this.dataAtual
     )
   }
+
+
+  obterAula(dataAula: Date): Date{
+    return dataAula
+  }
+
+
 }

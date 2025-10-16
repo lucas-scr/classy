@@ -1,69 +1,104 @@
-.cadastro_input{
-    margin-top: 1rem;
-    margin-bottom: 1.2rem;
-}
 
-input{
-    width: 100%;
-}
 
-small{
-    color: red;
-    font-size: 12px;
-}
-
-.cadastro_input_radiogroup{
+.list_dias{
     display: flex;
-    justify-content: space-between;  
+}
+
+.list_dias_semana{
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    height: 30px;
+}
+
+
+.list_principal_nome{
+    font-weight: 500;
+    font-size: 1.4rem;
+    margin: 0px;
+}
+
+.item_labels{
+    padding: 5px 5px 0px 0px;
+    height: 89px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     flex-direction: column;
 }
 
-.radio_button{
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+.item_list_chip{
+    height: 25px;
+    color:rgb(51, 51, 51);
+    margin: 2px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 3px 2px 3px;
+    border: 1px solid rgba(87, 85, 85, 0.8); 
 }
 
-.label_radiogroup{
-    margin-top: 0.5rem;
+.label_item_list{
+    font-size: 14px;
 }
 
-
-.cadastro_input_checkbox{
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+.list_sexo_m{
+    background-color: #a2d9f059;
+    border: 1px solid #64afec; 
+    color: #4ba2e9;
+    width: 88px;
+    height: 88px;
 }
 
-.cadastro_botoes{
+.list_sexo_f{
+    background-color: #f0a2ec4d;
+    color: #eb7fe5;
+    border-color: #eb7fe5;
+    border: 1px solid;
+    width: 88px;
+    height: 88px;
+
+}
+
+.list_header{
     display: flex;
-    margin-top: 1.5rem;
-    justify-content: center;
-}
-
-.cadastro_botoes p-button{
- margin-left: 1rem;
- margin-right: 1rem;
+    align-items: center;
 
 }
-
-.cadastro_input_checkbox label{
-    margin-left: 0.8rem;
-}
-
-.radio_button label{
-    margin-left: 0.8rem;
-}
-
-
-.cadastro_input_multiselecao {
+.list_principle_header{
     display: flex;
-    width: 60%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+.list_header_title{
+    flex-grow: 1;
+}
+
+.list_dias_semana{
+    margin-top: 10px;
+}
+
+.container-itens-historico-atividade{
+  margin-top: 10px;
+}
+
+.container-avatar{
+    margin: 5px 10px 5px 0px;
+}
+
+.body-card{
+    border-top: #e2e8f0 solid 1px;
+    padding-top: 16px;
+}
+
+.container-actions{
+    margin-top: 5px;
+    height: 25px;
+    display: flex;
     justify-content: space-between;
-
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
 }
 
-::ng-deep p-checkbox    {
-margin-right: 1rem;
-}  
+

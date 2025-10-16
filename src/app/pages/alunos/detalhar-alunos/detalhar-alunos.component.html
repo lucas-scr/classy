@@ -1,61 +1,51 @@
-<p-dialog [(visible)]="visible" [modal]="true"  [style]="{ width: '25rem' }" [closable]="false" draggable="false">
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" [closable]="false" draggable="false">
   <ng-template #header>
-    <h3>Detalhes do aluno</h3>
+    <div class="container-avatar">
+      <p-avatar [label]=aluno.iniciais styleClass="mr-2"
+        [ngClass]="{ 'list_sexo_m': aluno.sexo === 'M', 'list_sexo_f': aluno.sexo === 'F' }" shape="circle"
+        size="xlarge" />
+    </div>
+    <div class="item_labels">
+      <h3 class="list_principal_nome">{{ aluno?.nome }}</h3>
+      <div>
+        <i class="pi pi-calendar" style="font-size: 1rem"></i>
+        <span>{{data_aula | date:'dd/MM/yyyy HH:mm'}}</span>
+      </div>
+      <div class="container-actions">
+
+        <p-button icon="pi pi-file-check" [rounded]="true" [text]="true" size="small" label="Atividade" severity="secondary"></p-button>
+        <p-button icon="pi pi-comment" [rounded]="true" [text]="true" size="small" label="Comentar" severity="secondary" />
+        <p-button icon="pi pi-times" [rounded]="true" [text]="true" severity="danger"  label="Cancelar" size="small" />
+
+
+      </div>
+    </div>
+
+
   </ng-template>
-
-  <div class="cadastro_input">
-    <p-floatlabel variant="on">
-      <input id="username" pInputText readonly disabled name="nome">
-      <label for="username">Nome do aluno</label>
-    </p-floatlabel>
-
-  </div>
-
-  <div class="cadastro_input">
-    <p-floatlabel variant="on">
-      <p-datepicker id="dataNascimento" disabled required readonlyInput
-        name="dataNascimento" dateFormat="dd/mm/yy" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
-      <label class="calendar_label" for="dataNascimento">Data de nascimento</label>
-    </p-floatlabel>
-
-  </div>
-
-
-  <div class="cadastro_input" >
-    <label class="label_multiselect" for="dias_aluno">Dias da semana:</label>
-    <div class="cadastro_input_multiselecao">
-      <div class="checkbox" *ngFor="let dia of dias" name="dias_aluno">
-        <p-checkbox readonly [inputId]="dia" name="dias_aluno" [value]="dia" />
-        <label class="label_checkbox" [for]="dia"> {{ dia }} </label>
+  <div class="body-card">
+    <label class="subtitle">Dias das aulas do aluno:</label>
+    <div class="list_dias_semana">
+      <div class="list_dias">
+        <p-chip class="item_list_chip" *ngFor="let chip of contrato?.diasDasAulas">
+          <a>{{descricaoAmigavelDias[chip.diaSemana].toString().slice(0,3)}}. {{chip.horario.slice(0,5).toString()}}</a>
+        </p-chip>
       </div>
     </div>
   </div>
-  <label>
-    Histórico de atividades
-  </label>
   <p-divider />
-
-  <div class="cadastro_input" >
-    <p-checkbox  readonly [binary]="true" inputId="diasAlternados"
-      name="diasAlternados" />
-    <label for="diasAlternados" class="ml-2">As aulas serão realizadas em dias alternados</label>
-  </div>
-
-  <div class="cadastro_input">
-    <p-checkbox readonly [binary]="true" inputId="autorizaocaoImagem"
-      name="usoImagem" />
-    <label for="autorizaocaoImagem" class="ml-2">Autorizado o uso de imagem e video do aluno</label>
+  <label class="subtitle"> Últimas atividades: </label>
+  <div class="container-itens-historico-atividade">
+    <div class="container-ultimas-atividades" *ngFor="let item of historicoAtividade">
+      <span class="atividade-codigo"> {{item.codigo_atividade}}</span>
+      <span class="atividade-descricao"> {{item.descricao}}</span>
+      <span class="atividade-data">{{item.data_criacao}}</span>
+    </div>
   </div>
 
   <p-divider />
-
-
-
-
   <div class="cadastro_botoes">
-    <p-button label="Voltar" severity="secondary" class="w-full" [outlined]="true" (onClick)="fecharJanela()"
+    <p-button label="Fechar" severity="secondary" class="w-full" [outlined]="true" (onClick)="fecharJanela()"
       styleClass="w-full" />
   </div>
-  <ng-template #footer>
-  </ng-template>
 </p-dialog>

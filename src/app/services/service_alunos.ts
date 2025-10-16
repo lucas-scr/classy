@@ -71,9 +71,6 @@ export class ServiceAlunos {
     );
   }
 
-
-
-
   atualizarAluno(aluno: Aluno): Observable<Aluno> {
     if (!aluno.id) throw new Error('ID do aluno é obrigatório para atualização');
     return from(
@@ -127,11 +124,50 @@ export class ServiceAlunos {
             materia: item.atividade.materia.nome,
             nome_atividade: item.atividade.descricao,
             descricao: item.descricao,
-            data_criacao: item.created_at
+            data_criacao: item.created_at,
+            atividade_id: item.atividade_id
           })
           )
         }
         )
       )
+  }
+
+  lançarAtividade(historico_atividades: HistoricoAtividade): Observable<any> {
+    return from(
+      this.supabaseService.getClient()
+        .from(this.tabelaHistoricoAtividades)
+        .insert({
+          aluno_id: historico_atividades.aluno_id,
+          atividade_id: historico_atividades,
+          aula_id: historico_atividades.aula_id,
+          descricao: historico_atividades.descricao
+        })
+        .select('atividade(descricao, codigo, materia(nome)), id, aula_id, descricao, created_at')
+        .single()
+    ).pipe(
+      map((data, error) => {
+        if (error) throw error
+        console.log(data)
+        return data
+      })
+    )
+  }
+
+    obterUltimaAtividadeDoAluno(aluno_id: number): Observable<any>{
+   return from(
+
+      this.supabaseService.getClient()
+        .from(this.tabelaHistoricoAtividades)
+        .select('atividade(descricao, codigo, materia(nome)), aula_id, descricao, created_at')
+        .eq('aluno_id', aluno_id)
+        .order('created_at', {ascending: false})
+        .limit(4)
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+           return data; 
+      })
+    );
   }
 }

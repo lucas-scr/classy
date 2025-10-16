@@ -9,6 +9,7 @@ import { Aluno } from '../../../interfaces/aluno';
 import { Contrato } from '../../../interfaces/contrato';
 import { ServiceContratos } from '../../../services/service_contratos';
 import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
+import { Aula } from '../../../interfaces/aula';
 
 @Component({
   selector: 'app-detalhar-alunos',
@@ -21,12 +22,15 @@ import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
 export class DetalharAlunosComponent implements OnInit, OnChanges  {
   @Input() visible: boolean = false
   @Input() alunoId: number;
+  @Input() data_aula: Date;
 
   @Output() visibleChange = new EventEmitter<boolean>();
 
   
-  aluno: Aluno;
-  contrato: Contrato;
+  aluno: Aluno; 
+  contrato: Contrato = undefined;
+  descricaoAmigavelDias = DiasDaSemanaDescricao;
+
   historicoAtividade: HistoricoAtividade [] = []
 
     dias: string [] = [
@@ -42,7 +46,6 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   constructor(
     private serviceAluno: ServiceAlunos,
     private serviceContrato: ServiceContratos,
-    private route: ActivatedRoute
   ) {
   }
 
@@ -51,22 +54,15 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['data_aula']) {
+    console.log('Data da aula recebida:', this.data_aula);
+  }
     if (changes['alunoId'] && this.alunoId && this.visible) {
       console.log('Carregar dados do aluno', this.alunoId);
+      this.carregarDadosAluno()
+      this.carregarDadosContratoAluno()
     }
-  }
 
-  capturarId() {
-    this.route.params.subscribe((params) => {
-      if (params != undefined) {
-        this.alunoId = params['id'];
-        this.carregarDadosAluno();
-        this.carregarDadosContratoAluno()
-
-      } else {
-        throw console.error('Aluno não identificado');
-      }
-    });
   }
 
   carregarDadosAluno() {
@@ -86,7 +82,7 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   }
 
   carregarHistoricoAtividades(){
-    this.serviceAluno.obterHistoricoAtividadesPorAluno(this.alunoId).subscribe({
+    this.serviceAluno.obterUltimaAtividadeDoAluno(this.alunoId).subscribe({
       next: (data) => this.historicoAtividade = data,
       error: (err) => console.log(err)
     })
@@ -97,4 +93,5 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
     this.visible = false;
     this.visibleChange.emit(this.visible);
   }
+
 }
