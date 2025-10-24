@@ -15,7 +15,7 @@
           </span>
         </div>
         <div class="div1">
-          <div class="div_aluno" *ngFor="let aula of item.aulas" (click)="abrirDetalhes(aula.aluno.id, aula.data)">
+          <div class="div_aluno" *ngFor="let aula of item.aulas" (click)="abrirDetalhes(aula.aluno.id, aula.data, aula.id)">
             <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2"
               [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo === 'F' }"
               shape="circle" />
@@ -38,4 +38,9 @@
 </p-card>
 
 
-<app-detalhar-alunos [(visible)]="detalhesAlunoApresentado" [alunoId]="detalhealunoId" [data_aula]="DataAulaDetalhe"></app-detalhar-alunos>
+<app-detalhar-alunos 
+[(visible)]="detalhesAlunoApresentado" 
+[alunoId]="detalhealunoId" 
+[data_aula]="DataAulaDetalhe" 
+[aula_id]="aula_id">
+</app-detalhar-alunos>

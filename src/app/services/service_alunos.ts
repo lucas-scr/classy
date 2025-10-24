@@ -154,19 +154,27 @@ export class ServiceAlunos {
     )
   }
 
-    obterUltimaAtividadeDoAluno(aluno_id: number): Observable<any>{
-   return from(
-
+  obterUltimaAtividadeDoAluno(aluno_id: number): Observable<HistoricoAtividade[]> {
+    return from(
       this.supabaseService.getClient()
         .from(this.tabelaHistoricoAtividades)
         .select('atividade(descricao, codigo, materia(nome)), aula_id, descricao, created_at')
         .eq('aluno_id', aluno_id)
-        .order('created_at', {ascending: false})
-        .limit(4)
+        .order('created_at', { ascending: false })
+        .limit(3)
     ).pipe(
       map(({ data, error }) => {
         if (error) throw error;
-           return data; 
+        return (data || []).map((item: any): HistoricoAtividade => ({
+          id: item.id,
+          codigo_atividade: item.atividade.codigo,
+          materia: item.atividade.materia.nome,
+          nome_atividade: item.atividade.descricao,
+          descricao: item.descricao,
+          data_criacao: item.created_at,
+          atividade_id: item.atividade_id
+        })
+        );
       })
     );
   }

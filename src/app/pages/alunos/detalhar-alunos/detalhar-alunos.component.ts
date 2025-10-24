@@ -9,13 +9,17 @@ import { Aluno } from '../../../interfaces/aluno';
 import { Contrato } from '../../../interfaces/contrato';
 import { ServiceContratos } from '../../../services/service_contratos';
 import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
-import { Aula } from '../../../interfaces/aula';
+import { TimelineModule } from 'primeng/timeline';
+import { LancarAtividadeComponent } from "../../home/lancar-atividade/lancar-atividade.component";
+
 
 @Component({
   selector: 'app-detalhar-alunos',
   imports: [
-    PrimengImports
-  ],
+    PrimengImports,
+    TimelineModule,
+    LancarAtividadeComponent
+],
   templateUrl: './detalhar-alunos.component.html',
   styleUrl: './detalhar-alunos.component.css',
 })
@@ -23,6 +27,9 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   @Input() visible: boolean = false
   @Input() alunoId: number;
   @Input() data_aula: Date;
+  @Input() aula_id: number;
+  
+  apresentarLancarAtividade = false
 
   @Output() visibleChange = new EventEmitter<boolean>();
 
@@ -54,11 +61,7 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['data_aula']) {
-    console.log('Data da aula recebida:', this.data_aula);
-  }
     if (changes['alunoId'] && this.alunoId && this.visible) {
-      console.log('Carregar dados do aluno', this.alunoId);
       this.carregarDadosAluno()
       this.carregarDadosContratoAluno()
     }
@@ -92,6 +95,10 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   fecharJanela() {
     this.visible = false;
     this.visibleChange.emit(this.visible);
+  }
+
+  abrirLancarAtividade(){
+    this.apresentarLancarAtividade = true;
   }
 
 }

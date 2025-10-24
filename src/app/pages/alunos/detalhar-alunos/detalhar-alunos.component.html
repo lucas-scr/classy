@@ -1,7 +1,7 @@
-<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" [closable]="false" draggable="false">
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" [closable]="false" draggable="false" resizable="false">
   <ng-template #header>
     <div class="container-avatar">
-      <p-avatar [label]=aluno.iniciais styleClass="mr-2"
+      <p-avatar [label]=aluno?.iniciais styleClass="mr-2"
         [ngClass]="{ 'list_sexo_m': aluno.sexo === 'M', 'list_sexo_f': aluno.sexo === 'F' }" shape="circle"
         size="xlarge" />
     </div>
@@ -12,12 +12,10 @@
         <span>{{data_aula | date:'dd/MM/yyyy HH:mm'}}</span>
       </div>
       <div class="container-actions">
-
-        <p-button icon="pi pi-file-check" [rounded]="true" [text]="true" size="small" label="Atividade" severity="secondary"></p-button>
-        <p-button icon="pi pi-comment" [rounded]="true" [text]="true" size="small" label="Comentar" severity="secondary" />
-        <p-button icon="pi pi-times" [rounded]="true" [text]="true" severity="danger"  label="Cancelar" size="small" />
-
-
+        <p-button icon="pi pi-comment" [rounded]="false" [outlined]="true" [text]="true" size="small" label="Comentar"
+          severity="secondary" />
+        <p-button icon="pi pi-times" [rounded]="false" [outlined]="true" [text]="true" severity="danger"
+          label="Cancelar" size="small" />
       </div>
     </div>
 
@@ -35,13 +33,35 @@
   </div>
   <p-divider />
   <label class="subtitle"> Últimas atividades: </label>
-  <div class="container-itens-historico-atividade">
-    <div class="container-ultimas-atividades" *ngFor="let item of historicoAtividade">
-      <span class="atividade-codigo"> {{item.codigo_atividade}}</span>
-      <span class="atividade-descricao"> {{item.descricao}}</span>
-      <span class="atividade-data">{{item.data_criacao}}</span>
+  <div class="container-timelime">
+    <div class="item-timeline" *ngFor="let item of historicoAtividade">
+      <div class="item-line">
+        <div class="item-marker">
+         <i class="pi pi-file-check" style="font-size: 1rem"></i>
+        </div>
+        <div class="item-divider">
+        </div>
+      </div>
+      <div class="container-content">
+        <div class="timeline-title">
+          {{item.data_criacao | date:'dd/MM/yyyy HH:mm'}}
+        </div>
+        <div class="timeline-content">
+          <p-card >
+            <span class="content-title" >{{item.codigo_atividade}}</span>
+            <p class="content-description">{{item.descricao}}</p>
+
+
+          </p-card>
+        </div>
+      </div>
     </div>
   </div>
+      <div class="atividade-options">
+      <p-button icon="pi pi-file-check" [rounded]="false" [text]="true" size="small" label="Lançar atividade"
+        severity="secondary" (onClick)="abrirLancarAtividade()"></p-button>
+    </div>
+
 
   <p-divider />
   <div class="cadastro_botoes">
@@ -49,3 +69,6 @@
       styleClass="w-full" />
   </div>
 </p-dialog>
+
+
+<app-lancar-atividade [(visible)]="apresentarLancarAtividade"  [id_aluno]="alunoId" [id_aula]="aula_id"></app-lancar-atividade>

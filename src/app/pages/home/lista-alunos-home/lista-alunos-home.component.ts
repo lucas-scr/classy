@@ -19,6 +19,7 @@ export class ListaAlunosHomeComponent implements OnInit {
   detalhesAlunoApresentado: boolean = false;
   detalhealunoId: number;
   DataAulaDetalhe: Date;
+  aula_id: number;
 
   dataAtual: Date = new Date();
   dataLocal = this.dataAtual.toLocaleDateString("pt-BR");
@@ -101,9 +102,10 @@ export class ListaAlunosHomeComponent implements OnInit {
   }
 
 
-  abrirDetalhes(id_aluno: number, data_aula: Date) {
+  abrirDetalhes(id_aluno: number, data_aula: Date, aula_id: number) {
     this.detalhealunoId = id_aluno;
     this.DataAulaDetalhe= data_aula;
+    this.aula_id = aula_id;
     this.detalhesAlunoApresentado = true;
     this.obterAula(data_aula)
      

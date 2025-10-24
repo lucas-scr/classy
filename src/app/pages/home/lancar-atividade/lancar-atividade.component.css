@@ -1,0 +1,25 @@
+.input-atividade{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.dropdown-atividade{
+    flex-grow: 1; flex-basis: auto;
+    align-self: stretch;
+    width: 100%;
+    margin: 14px 5px 14px 0px;
+}
+
+.dropdown-atividade label{
+    z-index: 100;
+}
+
+.container-observacoes {
+    width: 100%;
+}
+
+.container-observacoes textarea{
+    width: 100%;
+}

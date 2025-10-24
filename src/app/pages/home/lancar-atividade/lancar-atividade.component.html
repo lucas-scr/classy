@@ -1,0 +1,34 @@
+<p>lista-pagamentos-home works!</p>
+<p-dialog header="Cadastrar Histórico de Atividade" [(visible)]="visible" resizable="false" [modal]="true" [style]="{ width: '500px', heigth: '600px' }"
+  [closable]="false">
+  <div class="container">
+    <div class="input-atividade">
+      <p-floatlabel variant="on" class="dropdown-atividade">
+        <label for="atividade">Atividade</label>
+        <p-dropdown id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada"
+          optionLabel="descricaoFormatada" [showClear]="true" [filter]="true" [style]="{width: '100%'}">
+        </p-dropdown>
+      </p-floatlabel>
+    <div class="bt-download">
+      <p-button icon="pi pi-download" [disabled]="!atividadeSelecionada" (onClick)="baixarAtividade()"></p-button>
+    </div>
+    </div>
+
+
+
+    <div class="container-observacoes">
+      <p-floatlabel variant="on">
+        <label for="observacoes">Observações</label>
+        <textarea id="observacoes" pInputTextarea rows="4" variant="on" [(ngModel)]="observacoes"></textarea>
+      </p-floatlabel>
+    </div>
+  </div>
+
+
+  <ng-template pTemplate="footer">
+    <div class="container-acoes">
+      <p-button label="Fechar" icon="pi pi-times" severity="secondary" (onClick)="fechar()"></p-button>
+      <p-button label="Salvar" icon="pi pi-save" (onClick)="salvar()" [disabled]="!atividadeSelecionada"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
