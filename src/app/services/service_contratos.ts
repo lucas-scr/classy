@@ -43,7 +43,7 @@ export class ServiceContratos {
     return from(
       this.supabase.getClient()
         .from(this.tabela)
-        .select("*, turma(*), dias_aulas(*)")
+        .select("*, turma(*), dias_aulas(*), aluno(*)")
         .eq('aluno', idAluno)
         .single()
     ).pipe(

@@ -1,18 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PrimengImports } from '../../../shared/primengImports.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { TextareaModule } from 'primeng/textarea';
+import { ServiceAlunos } from '../../../services/service_alunos';
+import { ServiceAtividades } from '../../../services/service_atividades';
+import { Atividade } from '../../../interfaces/atividades';
+import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
+import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
 
 
-
-
-interface Atividade {
-  id: number;
-  codigo: string;
-  materia: string;
-  arquivoUrl?: string;
-  descricaoFormatada?: string;
-}
 
 @Component({
   selector: 'app-lancar-atividade',
@@ -21,58 +17,92 @@ interface Atividade {
   styleUrl: './lancar-atividade.component.css'
 })
 
-export class LancarAtividadeComponent {
+export class LancarAtividadeComponent implements OnInit {
 
 
   @Input() visible = false;
-  @Input() id_aula: number;
-  @Input() id_aluno: number;
+  @Input('id_aula') id_aula: number;
+  @Input('id_aluno') id_aluno: number;
 
   @Output() visibleChange = new EventEmitter<boolean>();
-  
+
+  urlArquivo: string = '';
 
   atividadeSelecionada?: Atividade;
   observacoes: string = '';
 
-  atividades: Atividade[] = [
-    { id: 20, codigo: 'MAT01', materia: 'Matemática', arquivoUrl: 'https://exemplo.com/mat01.pdf' },
-    { id: 21, codigo: 'PORT02', materia: 'Português', arquivoUrl: 'https://exemplo.com/port02.pdf' },
-    { id: 22, codigo: 'HIST03', materia: 'História', arquivoUrl: 'https://exemplo.com/hist03.pdf' },
-  ];
+  atividades: Atividade[] = [];
 
-  constructor() {
-    this.atividades.forEach(
-      a => a.descricaoFormatada = `${a.materia} - ${a.codigo}`
-    );
+  constructor( 
+    private serviceAluno: ServiceAlunos,  
+    private serviceAtividades: ServiceAtividades,
+    private serviceMensagem: ServiceMensagemGlobal
+  ) {
   }
 
-  abrir() {
-    this.visible = true;
+  ngOnInit(): void {
+    this.serviceAtividades.getAtividades().subscribe({
+      next:(data) => this.atividades = data,
+      error: (err) => console.log("erro", err)
+
+    })
+
+
   }
+
 
   fechar() {
     this.visible = false;
-    this.atividadeSelecionada = undefined;
     this.observacoes = '';
-    this.visibleChange.emit(this.visible);
-
-    
+    this.limparEscolha()
+    this.visibleChange.emit(this.visible);    
   }
 
   baixarAtividade() {
-    if (this.atividadeSelecionada?.arquivoUrl) {
-      window.open(this.atividadeSelecionada.arquivoUrl, '_blank');
-    }
+    this.serviceAtividades.abrirArquivo(this.atividadeSelecionada.url).subscribe({
+      next: (data) => {console.log(data)
+        this.urlArquivo = data
+      },
+      error: (err) => console.log("Erro", err)
+    })
+      console.log(this.atividadeSelecionada.url)
+          console.log('teste',this.id_aluno, this.id_aula)
+
   }
 
   salvar() {
-    const historico = {
-      atividadeId: this.atividadeSelecionada?.id,
-      observacoes: this.observacoes,
-      data: new Date(),
+    let atividadeLancada: HistoricoAtividade = {
+      aluno_id: this.id_aluno,
+      aula_id: this.id_aula,
+      descricao: this.observacoes,
+      atividade_id: this.atividadeSelecionada.id,
+      codigo_atividade: '',
+      materia: '',
+      nome_atividade: '',
+      data_criacao: undefined
     };
-    console.log('Histórico salvo:', historico);
-    this.fechar();
+
+    atividadeLancada.aula_id = this.id_aula;
+    atividadeLancada.atividade_id = this.atividadeSelecionada.id;
+    atividadeLancada.descricao = this.observacoes;
+
+
+    this.serviceAluno.lançarAtividade(atividadeLancada).subscribe({
+      next: (data) => {
+        this.serviceMensagem.showMessage('success','Sucesso.', 'Atividade lançada com sucesso.');
+        this.fechar();
+      },
+      error: (err) => {
+        this.serviceMensagem.showMessage('danger', 'Erro ao lançar', 'Não foi possível registrar o histórico da atividade. Tente novamente.');
+        console.log(err)
+      }
+    })
+  }
+
+
+  limparEscolha(){
+    this.atividadeSelecionada = undefined;
+    this.urlArquivo = ''
   }
 
 }

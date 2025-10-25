@@ -25,9 +25,9 @@ import { LancarAtividadeComponent } from "../../home/lancar-atividade/lancar-ati
 })
 export class DetalharAlunosComponent implements OnInit, OnChanges  {
   @Input() visible: boolean = false
-  @Input() alunoId: number;
+  @Input() id_aluno: number;
   @Input() data_aula: Date;
-  @Input() aula_id: number;
+  @Input() id_aula: number;
   
   apresentarLancarAtividade = false
 
@@ -57,11 +57,10 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   }
 
   ngOnInit(): void {
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['alunoId'] && this.alunoId && this.visible) {
+    if (changes['id_aluno'] && this.id_aluno && this.visible) {
       this.carregarDadosAluno()
       this.carregarDadosContratoAluno()
     }
@@ -69,7 +68,7 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   }
 
   carregarDadosAluno() {
-    this.serviceAluno.findById(this.alunoId).subscribe((res) => {
+    this.serviceAluno.findById(this.id_aluno).subscribe((res) => {
       this.aluno = res;
       this.aluno.dataNascimento = new Date(this.aluno.dataNascimento);
       this.carregarHistoricoAtividades()
@@ -77,15 +76,16 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   }
 
   carregarDadosContratoAluno(){
-    this.serviceContrato.findByAluno(this.alunoId).subscribe(res => {
+    this.serviceContrato.findByAluno(this.id_aluno).subscribe(res => {
       this.contrato = res;
       this.diasSelecionados = (this.contrato.diasDasAulas || []).map(d => d.diaSemana ),
+      this.id_aluno =  res.aluno.id;
       console.log(this.contrato)
   });
   }
 
   carregarHistoricoAtividades(){
-    this.serviceAluno.obterUltimaAtividadeDoAluno(this.alunoId).subscribe({
+    this.serviceAluno.obterUltimaAtividadeDoAluno(this.id_aluno).subscribe({
       next: (data) => this.historicoAtividade = data,
       error: (err) => console.log(err)
     })

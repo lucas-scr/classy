@@ -11,6 +11,8 @@ import { adaptarAtividadeParaRequest, adaptarAtividadeParaResponse } from '../sh
 
 export class ServiceAtividades {
   private tabela = 'atividade';
+  private bucket = 'atividades';
+
 
   constructor(private supabase: SupabaseService) {
 
@@ -163,10 +165,33 @@ export class ServiceAtividades {
     );
   }
 
-  tratarErro(error: any){
+  tratarErro(error: any) {
     this.supabase.handleError(error)
   }
 
 
+abrirArquivo(urlArquivo: string): Observable<string> {
+
+  return from(
+    (async () => {
+      if (!urlArquivo) {
+        throw new Error('URL do arquivo não informada.');
+      }
+
+      const { data, error } = await this.supabase
+        .getClient()
+        .storage
+        .from(this.bucket)
+        .createSignedUrl(urlArquivo, 60*5); 
+
+      if (error) {
+        console.error('Erro ao gerar URL assinada:', error.message);
+        throw error;
+      }
+
+      return data.signedUrl; 
+    })()
+  );
+}
 }
 

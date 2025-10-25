@@ -1,29 +1,47 @@
-<p>lista-pagamentos-home works!</p>
-<p-dialog header="Cadastrar Histórico de Atividade" [(visible)]="visible" resizable="false" [modal]="true" [style]="{ width: '500px', heigth: '600px' }"
-  [closable]="false">
+<p-dialog header="Lançar Atividade" [(visible)]="visible" resizable="false" [modal]="true"
+  [style]="{ width: ' 800px', heigth: '700px' }" [closable]="false">
   <div class="container">
-    <div class="input-atividade">
-      <p-floatlabel variant="on" class="dropdown-atividade">
-        <label for="atividade">Atividade</label>
-        <p-dropdown id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada"
-          optionLabel="descricaoFormatada" [showClear]="true" [filter]="true" [style]="{width: '100%'}">
-        </p-dropdown>
-      </p-floatlabel>
-    <div class="bt-download">
-      <p-button icon="pi pi-download" [disabled]="!atividadeSelecionada" (onClick)="baixarAtividade()"></p-button>
-    </div>
-    </div>
+    <div class="container-form">
+      <div class="input-atividade">
+        <p-floatlabel variant="on" class="dropdown-atividade">
+          <label for="atividade">Atividade</label>
+          <p-dropdown id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada"
+            optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true" (onClear)="limparEscolha()" [style]="{width: '100%'}">
+            <ng-template let-atividade pTemplate="item">
+              {{ atividade.nome_materia }} - {{ atividade.codigo }}
+            </ng-template>
+
+            <ng-template let-atividade pTemplate="selectedItem">
+              {{ atividade.nome_materia }} - {{ atividade.codigo }}
+            </ng-template>
+          </p-dropdown>
+        </p-floatlabel>
+        <div class="bt-download">
+          <p-button icon="pi pi-download" label="Apresentar" [disabled]="!atividadeSelecionada" (onClick)="baixarAtividade()"></p-button>
+        </div>
+      </div>
 
 
 
-    <div class="container-observacoes">
-      <p-floatlabel variant="on">
-        <label for="observacoes">Observações</label>
-        <textarea id="observacoes" pInputTextarea rows="4" variant="on" [(ngModel)]="observacoes"></textarea>
-      </p-floatlabel>
+      <div class="container-observacoes" style="margin-bottom: 14px;">
+        <p-floatlabel variant="on">
+          <label for="observacoes">Observações</label>
+          <textarea id="observacoes" pInputTextarea rows="4" variant="on" [(ngModel)]="observacoes"></textarea>
+        </p-floatlabel>
+      </div>
+      <label for="observacoes">Detalhes do arquivo</label>
+
+      <div class="container-iframe">
+        <iframe [(src)]="urlArquivo" *ngIf="urlArquivo">
+        </iframe>
+        <div *ngIf="!urlArquivo" class="arquivo-ausente">
+          <label>Selecione a atividade e clique em "Apresentar"</label>
+        </div>
+      </div>
     </div>
+
+
   </div>
-
 
   <ng-template pTemplate="footer">
     <div class="container-acoes">

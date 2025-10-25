@@ -139,7 +139,7 @@ export class ServiceAlunos {
         .from(this.tabelaHistoricoAtividades)
         .insert({
           aluno_id: historico_atividades.aluno_id,
-          atividade_id: historico_atividades,
+          atividade_id: historico_atividades.atividade_id,
           aula_id: historico_atividades.aula_id,
           descricao: historico_atividades.descricao
         })
@@ -178,4 +178,5 @@ export class ServiceAlunos {
       })
     );
   }
+
 }

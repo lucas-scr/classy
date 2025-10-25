@@ -2,7 +2,7 @@
   <ng-template #header>
     <div class="container-avatar">
       <p-avatar [label]=aluno?.iniciais styleClass="mr-2"
-        [ngClass]="{ 'list_sexo_m': aluno.sexo === 'M', 'list_sexo_f': aluno.sexo === 'F' }" shape="circle"
+        [ngClass]="{ 'list_sexo_m': aluno?.sexo === 'M', 'list_sexo_f': aluno?.sexo === 'F' }" shape="circle"
         size="xlarge" />
     </div>
     <div class="item_labels">
@@ -71,4 +71,4 @@
 </p-dialog>
 
 
-<app-lancar-atividade [(visible)]="apresentarLancarAtividade"  [id_aluno]="alunoId" [id_aula]="aula_id"></app-lancar-atividade>
+<app-lancar-atividade [(visible)]="apresentarLancarAtividade"  [id_aluno]="id_aluno" [id_aula]="id_aula"></app-lancar-atividade>
