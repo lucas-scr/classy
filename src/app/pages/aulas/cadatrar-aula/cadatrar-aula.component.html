@@ -1,0 +1,55 @@
+<p-dialog [closable]="false" [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }">
+  <form #formCadastrarAula="ngForm" (ngSubmit)="onSubmit()">
+    <ng-template #header>
+      <div class="header">
+        <span class="titulo">Cadastrar Aula</span>
+      </div>
+    </ng-template>
+    <div class="flex items-center gap-4 mb-4">
+      <p-floatlabel class="w-full md:w-56" variant="on">
+        <label for="on_label">Aluno</label>
+        <p-select [options]="listaAlunos" [(ngModel)]="alunoSelecionado" optionLabel="nome" [filter]="true"
+          filterBy="nome" [showClear]="true" placeholder="Selecione o aluno" id="aluno" class="w-full md:w-56">
+          <ng-template #selectedItem let-selectedOption>
+            <div class="flex items-center gap-2">
+              <div>{{ selectedOption.nome }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-aluno #item>
+            <div class="flex items-center gap-2">
+              <div>{{ aluno.name }}</div>
+            </div>
+          </ng-template>
+        </p-select>
+      </p-floatlabel>
+      <div *ngIf="formCadastrarAula.controls['aluno']?.invalid && formCadastrarAula.controls['aluno']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <p-datepicker id="dataDaAula" [(ngModel)]="diaEHorarioDaAula" required name="dataDaAula" dateFormat="dd/mm/yy"
+          [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
+        <label class="calendar_label" for="dataDaAula">Data de início</label>
+      </p-floatlabel>
+      <div *ngIf="formCadastrarAula.controls['dataDaAula']?.invalid && formCadastrarAula.controls['dataDaAula']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <p-datepicker required inputId="horarioDaAula" [(ngModel)]="diaEHorarioDaAula" [timeOnly]="true"
+          name="horarioDaAula" />
+        <label class="calendar_label" for="horarioDaAula">Horário da aula</label>
+      </p-floatlabel>
+      <div *ngIf="formCadastrarAula.controls['horarioDaAula']?.invalid && formCadastrarAula.controls['horarioDaAula']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+    <ng-template #footer>
+      <p-button label="Cancel" [text]="true" severity="secondary" (click)="visible = false" />
+      <p-button label="Save" [outlined]="true" severity="secondary" (click)="onSubmit()" />
+    </ng-template>
+  </form>
+</p-dialog>

@@ -6,11 +6,12 @@ import { error } from 'pdf-lib';
 import { CarouselModule } from 'primeng/carousel';
 import { DetalharAlunosComponent } from "../../alunos/detalhar-alunos/detalhar-alunos.component";
 import { DateUtils } from '../../../shared/utils/date-utils';
+import { CadatrarAulaComponent } from "../../aulas/cadatrar-aula/cadatrar-aula.component";
 
 
 @Component({
   selector: 'app-lista-alunos-home',
-  imports: [PrimengImports, CarouselModule, DetalharAlunosComponent],
+  imports: [PrimengImports, CarouselModule, DetalharAlunosComponent, CadatrarAulaComponent],
   templateUrl: './lista-alunos-home.component.html',
   styleUrl: './lista-alunos-home.component.css'
 })
@@ -127,6 +128,10 @@ export class ListaAlunosHomeComponent implements OnInit {
 
   obterAula(dataAula: Date): Date{
     return dataAula
+  }
+
+  abrirCadastroAulas(): boolean{
+    return true
   }
 
 

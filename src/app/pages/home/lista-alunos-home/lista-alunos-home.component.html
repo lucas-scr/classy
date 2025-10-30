@@ -3,6 +3,7 @@
     <p-button icon="pi pi-angle-left" [rounded]="true" [text]="true" (onClick)="retornarDia()"/>
     <h3>Aulas do dia {{dataAtual | date:'dd/MM/yyyy'}}</h3>
     <p-button icon="pi pi-angle-right" [rounded]="true" [text]="true"  (onClick)="avancarDia()" />
+     <p-button icon="pi pi-calendar-plus" [rounded]="false" [text]="true" label="Cadastrar Aula" (onClick)="abrirCadastroAulas()" />
   </div>
   <div class="content">
     <p-carousel *ngIf="listaAulasPorIntervalo?.length > 0" [page]="paginaInicial" [value]="listaAulasPorIntervalo"
@@ -44,3 +45,8 @@
 [data_aula]="DataAulaDetalhe" 
 [id_aula]="aula_id">
 </app-detalhar-alunos>
+
+
+<app-cadatrar-aula 
+[visible]="abrirCadastroAulas()">
+</app-cadatrar-aula>
