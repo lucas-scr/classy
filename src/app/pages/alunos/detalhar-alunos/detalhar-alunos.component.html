@@ -14,7 +14,7 @@
       <div class="container-actions">
         <p-button icon="pi pi-comment" [rounded]="false" [outlined]="true" [text]="true" size="small" label="Comentar"
           severity="secondary" />
-        <p-button icon="pi pi-times" [rounded]="false" [outlined]="true" [text]="true" severity="danger"
+        <p-button icon="pi pi-times" [rounded]="false" [outlined]="true" [text]="true" severity="danger" (onClick)="cancelarAula()"
           label="Cancelar" size="small" />
       </div>
     </div>
@@ -70,5 +70,7 @@
   </div>
 </p-dialog>
 
+<p-toast />
+<p-confirmdialog />
 
 <app-lancar-atividade [(visible)]="apresentarLancarAtividade"  [id_aluno]="id_aluno" [id_aula]="id_aula"></app-lancar-atividade>

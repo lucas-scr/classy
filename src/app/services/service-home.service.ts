@@ -36,6 +36,7 @@ export class ServiceHome {
       aluno(id, nome, data_nascimento, sexo))`)
         .gte('data', inicio.toISOString())
         .lte('data', fim.toISOString())
+        .in('situacao', [0, 1])
     ).pipe(
       map(({ data, error }) => {
         if (error) throw error;

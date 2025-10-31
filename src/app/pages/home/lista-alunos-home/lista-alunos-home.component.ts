@@ -18,6 +18,7 @@ import { CadatrarAulaComponent } from "../../aulas/cadatrar-aula/cadatrar-aula.c
 export class ListaAlunosHomeComponent implements OnInit {
 
   detalhesAlunoApresentado: boolean = false;
+  modalCadastrarAulaAberta: boolean = false;
   detalhealunoId: number;
   DataAulaDetalhe: Date;
   aula_id: number;
@@ -131,7 +132,7 @@ export class ListaAlunosHomeComponent implements OnInit {
   }
 
   abrirCadastroAulas(): boolean{
-    return true
+    return this.modalCadastrarAulaAberta = true;
   }
 
 

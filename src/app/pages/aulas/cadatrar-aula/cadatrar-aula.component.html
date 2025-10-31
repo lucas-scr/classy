@@ -1,15 +1,15 @@
-<p-dialog [closable]="false" [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }">
+<p-dialog [closable]="false" [(visible)]="visible" [modal]="true" [style]="{ width: '25rem'}">
+  <ng-template #header>
+    <div class="header">
+      <h3>Cadastrar Aula</h3>
+    </div>
+  </ng-template>
   <form #formCadastrarAula="ngForm" (ngSubmit)="onSubmit()">
-    <ng-template #header>
-      <div class="header">
-        <span class="titulo">Cadastrar Aula</span>
-      </div>
-    </ng-template>
-    <div class="flex items-center gap-4 mb-4">
-      <p-floatlabel class="w-full md:w-56" variant="on">
-        <label for="on_label">Aluno</label>
-        <p-select [options]="listaAlunos" [(ngModel)]="alunoSelecionado" optionLabel="nome" [filter]="true"
-          filterBy="nome" [showClear]="true" placeholder="Selecione o aluno" id="aluno" class="w-full md:w-56">
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <p-select required [options]="listaAlunos" [(ngModel)]="aula.aluno" optionLabel="nome" [filter]="true"
+          [style]="{width: '100%'}" appendTo="body" filterBy="nome" [showClear]="true" inputId="aluno"
+          class="w-full md:w-56" name="aluno">
           <ng-template #selectedItem let-selectedOption>
             <div class="flex items-center gap-2">
               <div>{{ selectedOption.nome }}</div>
@@ -17,10 +17,11 @@
           </ng-template>
           <ng-template let-aluno #item>
             <div class="flex items-center gap-2">
-              <div>{{ aluno.name }}</div>
+              <div>{{ aluno.nome }}</div>
             </div>
           </ng-template>
         </p-select>
+        <label for="aluno">Aluno</label>
       </p-floatlabel>
       <div *ngIf="formCadastrarAula.controls['aluno']?.invalid && formCadastrarAula.controls['aluno']?.touched">
         <small>Este campo é obrigatório</small>
@@ -28,28 +29,38 @@
     </div>
     <div class="cadastro_input">
       <p-floatlabel variant="on">
-        <p-datepicker id="dataDaAula" [(ngModel)]="diaEHorarioDaAula" required name="dataDaAula" dateFormat="dd/mm/yy"
-          [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
-        <label class="calendar_label" for="dataDaAula">Data de início</label>
+        <p-datepicker id="dataDaAula" [(ngModel)]="aula.data" required name="dataDaAula" dateFormat="dd/mm/yy"
+          [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" autoZIndex="true" appendTo="body"
+          [style]="{width: '100%'}" />
+        <label class="calendar_label" for="dataDaAula">Data da aula</label>
       </p-floatlabel>
-      <div *ngIf="formCadastrarAula.controls['dataDaAula']?.invalid && formCadastrarAula.controls['dataDaAula']?.touched">
+      <div
+        *ngIf="formCadastrarAula.controls['dataDaAula']?.invalid && formCadastrarAula.controls['dataDaAula']?.touched">
         <small>Este campo é obrigatório</small>
       </div>
     </div>
-
     <div class="cadastro_input">
       <p-floatlabel variant="on">
-        <p-datepicker required inputId="horarioDaAula" [(ngModel)]="diaEHorarioDaAula" [timeOnly]="true"
-          name="horarioDaAula" />
+        <p-datepicker required inputId="horarioDaAula" [(ngModel)]="aula.data" [timeOnly]="true" name="horarioDaAula"
+          [style]="{width: '100%'}" appendTo="body" />
         <label class="calendar_label" for="horarioDaAula">Horário da aula</label>
       </p-floatlabel>
-      <div *ngIf="formCadastrarAula.controls['horarioDaAula']?.invalid && formCadastrarAula.controls['horarioDaAula']?.touched">
+      <div
+        *ngIf="formCadastrarAula.controls['horarioDaAula']?.invalid && formCadastrarAula.controls['horarioDaAula']?.touched">
         <small>Este campo é obrigatório</small>
       </div>
     </div>
-    <ng-template #footer>
-      <p-button label="Cancel" [text]="true" severity="secondary" (click)="visible = false" />
-      <p-button label="Save" [outlined]="true" severity="secondary" (click)="onSubmit()" />
-    </ng-template>
+    <div class="cadastro_input">
+      <p-floatlabel class="w-full md:w-56" variant="on">
+        <p-select [(ngModel)]="reposicao" appendTo="body" inputId="on_label" [options]="tiposAula" optionLabel="tipo"
+          [(ngModel)]="aula.reposicao" optionValue="valor" class="w-full" />
+        <label for="on_label">Tipo de aula</label>
+      </p-floatlabel>
+    </div>
   </form>
+  <ng-template #footer>
+    <p-button label="Cancelar" [text]="true" severity="secondary" (click)="fecharJanela()" />
+    <p-button label="Cadastrar" [outlined]="true" severity="primary" (click)="onSubmit()"
+      [disabled]="formCadastrarAula.invalid" />
+  </ng-template>
 </p-dialog>

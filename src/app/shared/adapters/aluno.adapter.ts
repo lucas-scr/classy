@@ -13,6 +13,7 @@ export function adaptarAlunoParaResponse(data: any): Aluno {
         iniciais: gerarIniciais(data.nome),
         sexo: data.sexo,
         contrato: contrato ? {
+            id: contrato.id,
             situacao: contrato.situacao,
             nomeResponsavel: contrato.nome_responsavel,
             diasDasAulas: contrato.dias_aulas,

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ServiceAlunos } from '../../../services/service_alunos';
+import { ToastModule } from 'primeng/toast';
 
-import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 
 import { DiasDaSemana, DiasDaSemanaDescricao } from '../../../shared/Enums/enumDiasDaSemana';
 import { PrimengImports } from '../../../shared/primengImports.module';
@@ -11,6 +11,8 @@ import { ServiceContratos } from '../../../services/service_contratos';
 import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
 import { TimelineModule } from 'primeng/timeline';
 import { LancarAtividadeComponent } from "../../home/lancar-atividade/lancar-atividade.component";
+import { ServiceAulas } from '../../../services/service-aulas.service';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 
 
 @Component({
@@ -18,7 +20,11 @@ import { LancarAtividadeComponent } from "../../home/lancar-atividade/lancar-ati
   imports: [
     PrimengImports,
     TimelineModule,
-    LancarAtividadeComponent
+    LancarAtividadeComponent,
+    ToastModule,
+    ConfirmDialog
+],
+providers: [
 ],
   templateUrl: './detalhar-alunos.component.html',
   styleUrl: './detalhar-alunos.component.css',
@@ -53,6 +59,7 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
   constructor(
     private serviceAluno: ServiceAlunos,
     private serviceContrato: ServiceContratos,
+    private serviceAulas: ServiceAulas
   ) {
   }
 
@@ -99,6 +106,12 @@ export class DetalharAlunosComponent implements OnInit, OnChanges  {
 
   abrirLancarAtividade(){
     this.apresentarLancarAtividade = true;
+  }
+
+  cancelarAula(){
+    console.log('id da aula', this.id_aula)
+    this.serviceAulas.cancelarAulaComConfirmacao(this.id_aula)
+    this.fecharJanela()
   }
 
 }

@@ -1,9 +1,17 @@
 <p-card>
   <div class="title_card">
-    <p-button icon="pi pi-angle-left" [rounded]="true" [text]="true" (onClick)="retornarDia()"/>
-    <h3>Aulas do dia {{dataAtual | date:'dd/MM/yyyy'}}</h3>
-    <p-button icon="pi pi-angle-right" [rounded]="true" [text]="true"  (onClick)="avancarDia()" />
-     <p-button icon="pi pi-calendar-plus" [rounded]="false" [text]="true" label="Cadastrar Aula" (onClick)="abrirCadastroAulas()" />
+    <div class="header-card">
+      <div class="title-container">
+        <p-button icon="pi pi-angle-left" [rounded]="true" [text]="true" (onClick)="retornarDia()">
+        </p-button>
+        <h3 class="titulo">Aulas do dia {{ dataAtual | date:'dd/MM/yyyy' }}</h3>
+        <p-button icon="pi pi-angle-right" [rounded]="true" [text]="true" (onClick)="avancarDia()">
+        </p-button>
+      </div>
+      <p-button icon="pi pi-calendar-plus" label="Cadastrar Aula" severity="secondary" outlined="true" (onClick)="abrirCadastroAulas()"
+        class="cadastrar-btn">
+      </p-button>
+    </div>
   </div>
   <div class="content">
     <p-carousel *ngIf="listaAulasPorIntervalo?.length > 0" [page]="paginaInicial" [value]="listaAulasPorIntervalo"
@@ -16,7 +24,8 @@
           </span>
         </div>
         <div class="div1">
-          <div class="div_aluno" *ngFor="let aula of item.aulas" (click)="abrirDetalhes(aula.aluno.id, aula.data, aula.id)">
+          <div class="div_aluno" *ngFor="let aula of item.aulas"
+            (click)="abrirDetalhes(aula.aluno.id, aula.data, aula.id)">
             <p-avatar [label]=aula.aluno.iniciais styleClass="mr-2"
               [ngClass]="{ 'list_sexo_m': aula.aluno.sexo === 'M', 'list_sexo_f': aula.aluno.sexo === 'F' }"
               shape="circle" />
@@ -24,7 +33,7 @@
               <span class="list_principal_nome"
                 *ngIf="aula.aluno.nome.length > 18">{{aula.aluno.nome.slice(0,18)}}...</span>
               <span class="list_principal_nome" *ngIf="aula.aluno.nome.length < 18">{{aula.aluno.nome}}</span>
-              <span class="situacao-cancelada" *ngIf="aula.situacao == 0">Cancelada</span>
+              <span class="situacao-cancelada" *ngIf="aula.situacao === 0">Cancelada</span>
               <span class="situacao-reposicao" *ngIf="aula.reposicao">Reposição</span>
             </div>
             <div class="icon_angle">
@@ -39,14 +48,10 @@
 </p-card>
 
 
-<app-detalhar-alunos 
-[(visible)]="detalhesAlunoApresentado" 
-[id_aluno]="detalhealunoId" 
-[data_aula]="DataAulaDetalhe" 
-[id_aula]="aula_id">
+<app-detalhar-alunos [(visible)]="detalhesAlunoApresentado" [id_aluno]="detalhealunoId" [data_aula]="DataAulaDetalhe"
+  [id_aula]="aula_id">
 </app-detalhar-alunos>
 
 
-<app-cadatrar-aula 
-[visible]="abrirCadastroAulas()">
+<app-cadatrar-aula [(visible)]="modalCadastrarAulaAberta">
 </app-cadatrar-aula>

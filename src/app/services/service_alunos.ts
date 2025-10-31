@@ -10,7 +10,7 @@ import { HistoricoAtividade } from '../interfaces/historico-atividade';
 
 
 @Injectable({
-  providedIn: 'root' // Torna o serviço disponível globalmente
+  providedIn: 'root'
 })
 
 export class ServiceAlunos {
@@ -24,6 +24,23 @@ export class ServiceAlunos {
   }
 
   obterAlunos(): Observable<Aluno[]> {
+    return from(
+      this.supabaseService.getClient()
+        .from(this.tabela)
+        .select(`*, contrato:contrato(*, dias_aulas(horario, dia_semana))`)
+        .order('created_at', { foreignTable: 'contrato', ascending: false })
+        .limit(1, { foreignTable: 'contrato' })
+    ).pipe(
+      map((res: PostgrestResponse<Aluno>) => {
+        if (res.error) throw res.error;
+        return (res.data || []).map((item: any) => {
+          return adaptarAlunoParaResponse(item)
+        });
+      })
+    );
+  }
+
+    obterAlunosAtivos(): Observable<Aluno[]> {
     return from(
       this.supabaseService.getClient()
         .from(this.tabela)
