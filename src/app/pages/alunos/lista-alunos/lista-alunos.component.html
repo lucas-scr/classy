@@ -17,7 +17,7 @@
 
     </diV>
     <div class="list_botoes">
-      <p-button label="Novo Aluno" routerLink="/cadastrar-alunos" icon="pi pi-plus" iconPos="left" />
+      <p-button label="Novo Aluno" icon="pi pi-plus" iconPos="left" />
     </div>
   </div>
   <p-floatlabel variant="on">
@@ -40,7 +40,6 @@
                   [ngClass]="{ 'list_sexo_m': item.sexo === 'M', 'list_sexo_f': item.sexo === 'F' }" size="xlarge"
                   shape="circle" />
               </div>
-
               <div class="item_labels">
                 <span class="list_principal_nome">{{ item.nome }}</span>
                 <div class="item_nascimento">

@@ -6,7 +6,8 @@
         <p-floatlabel variant="on" class="dropdown-atividade">
           <label for="atividade">Atividade</label>
           <p-dropdown id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada"
-            optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true" (onClear)="limparEscolha()" [style]="{width: '100%'}">
+            optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true" (onClear)="limparEscolha()"
+            [style]="{width: '100%'}">
             <ng-template let-atividade pTemplate="item">
               {{ atividade.nome_materia }} - {{ atividade.codigo }}
             </ng-template>
@@ -17,7 +18,8 @@
           </p-dropdown>
         </p-floatlabel>
         <div class="bt-download">
-          <p-button icon="pi pi-download" label="Apresentar" [disabled]="!atividadeSelecionada" (onClick)="baixarAtividade()"></p-button>
+          <p-button icon="pi pi-download" label="Apresentar" [disabled]="!atividadeSelecionada"
+            (onClick)="apresentarAtividade()"></p-button>
         </div>
       </div>
 
@@ -26,21 +28,25 @@
       <div class="container-observacoes" style="margin-bottom: 14px;">
         <p-floatlabel variant="on">
           <label for="observacoes">Observações</label>
-          <textarea id="observacoes" pInputTextarea rows="4" variant="on" [(ngModel)]="observacoes"></textarea>
+          <textarea id="observacoes" [(ngModel)]="observacoes"></textarea>
         </p-floatlabel>
       </div>
       <label for="observacoes">Detalhes do arquivo</label>
 
       <div class="container-iframe">
-        <iframe [(src)]="urlArquivo" *ngIf="urlArquivo">
+        <!-- <iframe [(src)]="urlArquivo" *ngIf="urlArquivo">
         </iframe>
         <div *ngIf="!urlArquivo" class="arquivo-ausente">
           <label>Selecione a atividade e clique em "Apresentar"</label>
-        </div>
+        </div> -->
+
+        <app-visualizar-arquivo *ngIf="atividadeSelecionada?.url"
+        [fileUrl]="atividadeSelecionada.url"
+          [imageUrls]="imagensSelecionadas"    >
+
+        </app-visualizar-arquivo>
       </div>
     </div>
-
-
   </div>
 
   <ng-template pTemplate="footer">

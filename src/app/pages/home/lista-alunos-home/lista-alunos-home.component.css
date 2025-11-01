@@ -101,7 +101,8 @@
 .situacao-cancelada {
       margin-left: 7px;
         border-radius: 4px;
-        background-color: #fd454569;
+        background-color: #fc0505e1;
+        color: white;
         margin: 2px;
         align-self: auto;
         flex-grow: 1;

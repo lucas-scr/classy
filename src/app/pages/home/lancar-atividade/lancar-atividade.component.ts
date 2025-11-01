@@ -7,12 +7,13 @@ import { ServiceAtividades } from '../../../services/service_atividades';
 import { Atividade } from '../../../interfaces/atividades';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
+import { VisualizarArquivoComponent } from "../../atividades/visualizar-arquivo/visualizar-arquivo.component";
 
 
 
 @Component({
   selector: 'app-lancar-atividade',
-  imports: [PrimengImports, DropdownModule, TextareaModule],
+  imports: [PrimengImports, DropdownModule, TextareaModule, VisualizarArquivoComponent],
   templateUrl: './lancar-atividade.component.html',
   styleUrl: './lancar-atividade.component.css'
 })
@@ -27,14 +28,17 @@ export class LancarAtividadeComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<boolean>();
 
   urlArquivo: string = '';
+  urlArquivoSelecionado: string;
+
+  imagensSelecionadas = [];
 
   atividadeSelecionada?: Atividade;
   observacoes: string = '';
 
   atividades: Atividade[] = [];
 
-  constructor( 
-    private serviceAluno: ServiceAlunos,  
+  constructor(
+    private serviceAluno: ServiceAlunos,
     private serviceAtividades: ServiceAtividades,
     private serviceMensagem: ServiceMensagemGlobal
   ) {
@@ -42,12 +46,10 @@ export class LancarAtividadeComponent implements OnInit {
 
   ngOnInit(): void {
     this.serviceAtividades.getAtividades().subscribe({
-      next:(data) => this.atividades = data,
+      next: (data) => this.atividades = data,
       error: (err) => console.log("erro", err)
 
     })
-
-
   }
 
 
@@ -55,18 +57,27 @@ export class LancarAtividadeComponent implements OnInit {
     this.visible = false;
     this.observacoes = '';
     this.limparEscolha()
-    this.visibleChange.emit(this.visible);    
+    this.visibleChange.emit(this.visible);
   }
 
-  baixarAtividade() {
+  apresentarAtividade() {
     this.serviceAtividades.abrirArquivo(this.atividadeSelecionada.url).subscribe({
-      next: (data) => {console.log(data)
+      next: (data) => {
+        console.log(data)
         this.urlArquivo = data
+        if (this.urlArquivo.endsWith('.pdf')) {
+          this.atividadeSelecionada.url = data
+        } else {
+          if (this.imagensSelecionadas.length < 2) {
+            this.imagensSelecionadas.push(this.urlArquivo);
+          }
+        }
+
       },
       error: (err) => console.log("Erro", err)
     })
-      console.log(this.atividadeSelecionada.url)
-          console.log('teste',this.id_aluno, this.id_aula)
+    console.log(this.atividadeSelecionada.url)
+    console.log('teste', this.id_aluno, this.id_aula)
 
   }
 
@@ -89,7 +100,7 @@ export class LancarAtividadeComponent implements OnInit {
 
     this.serviceAluno.lançarAtividade(atividadeLancada).subscribe({
       next: (data) => {
-        this.serviceMensagem.showMessage('success','Sucesso.', 'Atividade lançada com sucesso.');
+        this.serviceMensagem.showMessage('success', 'Sucesso.', 'Atividade lançada com sucesso.');
         this.fechar();
       },
       error: (err) => {
@@ -100,7 +111,7 @@ export class LancarAtividadeComponent implements OnInit {
   }
 
 
-  limparEscolha(){
+  limparEscolha() {
     this.atividadeSelecionada = undefined;
     this.urlArquivo = ''
   }
