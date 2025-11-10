@@ -6,6 +6,27 @@
         <p-floatlabel variant="on" class="dropdown-atividade">
           <label for="atividade">Atividade</label>
           <p-dropdown id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada"
+            (onChange)="escolherAtividade()" optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true"
+            (onClear)="limparEscolha()" [style]="{width: '100%'}">
+            <ng-template let-atividade pTemplate="item">
+              {{ atividade.nome_materia }} - {{ atividade.codigo }}
+            </ng-template>
+
+            <ng-template let-atividade pTemplate="selectedItem">
+              {{ atividade.nome_materia }} - {{ atividade.codigo }}
+            </ng-template>
+          </p-dropdown>
+        </p-floatlabel>
+        <div class="bt-download">
+          <p-button icon="pi pi-download" label="Visualizar" [disabled]="!atividadeSelecionada"
+            (onClick)="apresentarAtividade()"></p-button>
+        </div>
+
+      </div>
+      <div class="input-atividade" *ngIf="isImagem">
+        <p-floatlabel variant="on" class="dropdown-atividade">
+          <label for="atividade2">Selecione uma segunda imagem (Opcional)</label>
+          <p-dropdown id="atividade2" [options]="atividades" [(ngModel)]="atividadeSelecionada2"
             optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true" (onClear)="limparEscolha()"
             [style]="{width: '100%'}">
             <ng-template let-atividade pTemplate="item">
@@ -18,20 +39,17 @@
           </p-dropdown>
         </p-floatlabel>
         <div class="bt-download">
-          <p-button icon="pi pi-download" label="Apresentar" [disabled]="!atividadeSelecionada"
+          <p-button icon="pi pi-download" label="Visualizar" [disabled]="!atividadeSelecionada"
             (onClick)="apresentarAtividade()"></p-button>
         </div>
       </div>
-
-
-
       <div class="container-observacoes" style="margin-bottom: 14px;">
         <p-floatlabel variant="on">
           <label for="observacoes">Observações</label>
           <textarea id="observacoes" [(ngModel)]="observacoes"></textarea>
         </p-floatlabel>
       </div>
-      <label for="observacoes">Detalhes do arquivo</label>
+      <label>Detalhes do arquivo</label>
 
       <div class="container-iframe">
         <!-- <iframe [(src)]="urlArquivo" *ngIf="urlArquivo">
@@ -40,19 +58,18 @@
           <label>Selecione a atividade e clique em "Apresentar"</label>
         </div> -->
 
-        <app-visualizar-arquivo *ngIf="atividadeSelecionada?.url"
-        [fileUrl]="atividadeSelecionada.url"
-          [imageUrls]="imagensSelecionadas"    >
+        <app-visualizar-arquivo *ngIf="atividadeSelecionada?.url" [fileUrl]="atividadeSelecionada.url"
+          [imageUrls]="imagensSelecionadas">
 
         </app-visualizar-arquivo>
       </div>
     </div>
-  </div>
 
-  <ng-template pTemplate="footer">
-    <div class="container-acoes">
-      <p-button label="Fechar" icon="pi pi-times" severity="secondary" (onClick)="fechar()"></p-button>
-      <p-button label="Salvar" icon="pi pi-save" (onClick)="salvar()" [disabled]="!atividadeSelecionada"></p-button>
-    </div>
-  </ng-template>
+    <ng-template pTemplate="footer">
+      <div class="container-acoes">
+        <p-button label="Fechar" icon="pi pi-times" severity="secondary" (onClick)="fechar()"></p-button>
+        <p-button label="Salvar" icon="pi pi-save" (onClick)="salvar()" [disabled]="!atividadeSelecionada"></p-button>
+      </div>
+    </ng-template>
+  </div>
 </p-dialog>

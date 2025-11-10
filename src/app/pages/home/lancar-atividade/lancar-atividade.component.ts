@@ -8,6 +8,7 @@ import { Atividade } from '../../../interfaces/atividades';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
 import { VisualizarArquivoComponent } from "../../atividades/visualizar-arquivo/visualizar-arquivo.component";
+import { endWith } from 'rxjs';
 
 
 
@@ -30,9 +31,12 @@ export class LancarAtividadeComponent implements OnInit {
   urlArquivo: string = '';
   urlArquivoSelecionado: string;
 
-  imagensSelecionadas = [];
+  isImagem: boolean = false;
 
+  imagensSelecionadas = [];
   atividadeSelecionada?: Atividade;
+  atividadeSelecionada2?: Atividade;
+
   observacoes: string = '';
 
   atividades: Atividade[] = [];
@@ -114,6 +118,22 @@ export class LancarAtividadeComponent implements OnInit {
   limparEscolha() {
     this.atividadeSelecionada = undefined;
     this.urlArquivo = ''
+  }
+
+  escolherAtividade(){
+    if(!this.atividadeSelecionada.url.endsWith('.pdf')){
+      this.isImagem = true;
+    }else{
+      this.isImagem = false;
+    }
+  }
+
+    escolherAtividade2(){
+      console.log("atividade 2",this.atividadeSelecionada2.url)
+    if(this.atividadeSelecionada2.url.endsWith('.pdf')){
+      this.isImagem = true;
+      this.atividadeSelecionada2 = undefined;
+    }
   }
 
 }
