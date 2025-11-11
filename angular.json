@@ -21,7 +21,10 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": [
-              "pako"
+              "pako",
+               "jspdf-autotable",
+               "raf",
+               "core-js"
             ],
             "assets": [
               {
