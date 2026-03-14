@@ -9,12 +9,14 @@ import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
 import { VisualizarArquivoComponent } from "../../atividades/visualizar-arquivo/visualizar-arquivo.component";
 import { endWith } from 'rxjs';
+import { SelectItemGroup } from 'primeng/api';
+import { SelectModule } from 'primeng/select';
 
 
 
 @Component({
   selector: 'app-lancar-atividade',
-  imports: [PrimengImports, DropdownModule, TextareaModule, VisualizarArquivoComponent],
+  imports: [PrimengImports, DropdownModule, TextareaModule, VisualizarArquivoComponent, SelectModule],
   templateUrl: './lancar-atividade.component.html',
   styleUrl: './lancar-atividade.component.css'
 })
@@ -31,7 +33,7 @@ export class LancarAtividadeComponent implements OnInit {
   urlArquivo: string = '';
   urlArquivoSelecionado: string;
 
-  isImagem: boolean = false;
+  isImagem: boolean;
 
   imagensSelecionadas = [];
   atividadeSelecionada?: Atividade;
@@ -40,19 +42,74 @@ export class LancarAtividadeComponent implements OnInit {
   observacoes: string = '';
 
   atividades: Atividade[] = [];
+  grupoAtividades: SelectItemGroup[]
 
   constructor(
     private serviceAluno: ServiceAlunos,
     private serviceAtividades: ServiceAtividades,
     private serviceMensagem: ServiceMensagemGlobal
   ) {
+    
   }
 
   ngOnInit(): void {
-    this.serviceAtividades.getAtividades().subscribe({
-      next: (data) => this.atividades = data,
-      error: (err) => console.log("erro", err)
+    this.grupoAtividades = [
+            {
+                label: 'Germany',
+                value: 'de',
+                items: [
+                    { label: 'Berlin', value: 'Berlin' },
+                    { label: 'Frankfurt', value: 'Frankfurt' },
+                    { label: 'Hamburg', value: 'Hamburg' },
+                    { label: 'Munich', value: 'Munich' }
+                ]
+            },
+            {
+                label: 'USA',
+                value: 'us',
+                items: [
+                    { label: 'Chicago', value: 'Chicago' },
+                    { label: 'Los Angeles', value: 'Los Angeles' },
+                    { label: 'New York', value: 'New York' },
+                    { label: 'San Francisco', value: 'San Francisco' }
+                ]
+            },
+            {
+                label: 'Japan',
+                value: 'jp',
+                items: [
+                    { label: 'Kyoto', value: 'Kyoto' },
+                    { label: 'Osaka', value: 'Osaka' },
+                    { label: 'Tokyo', value: 'Tokyo' },
+                    { label: 'Yokohama', value: 'Yokohama' }
+                ]
+            }
+        ];
 
+
+
+
+
+    this.isImagem = false
+    this.serviceAtividades.getAtividades().subscribe({
+      next: (data) => {
+        this.atividades = data;
+        let gpAtividadedes = [... new Set(this.atividades.map(a => a.nome_materia))]
+        console.log(gpAtividadedes)
+        gpAtividadedes.forEach(element => {
+          this.grupoAtividades.push({
+            label: element,
+            value: element,
+            items: this.atividades.filter(a => a.nome_materia === element)
+            .map(a => ({
+              label: a.codigo + "-" + a.descricao,
+              value: a
+            }))
+          })
+        });
+        console.log('grupo de atividades', this.grupoAtividades)
+      },
+      error: (err) => console.log("erro", err)
     })
   }
 
@@ -64,24 +121,26 @@ export class LancarAtividadeComponent implements OnInit {
     this.visibleChange.emit(this.visible);
   }
 
-  apresentarAtividade() {
-    this.serviceAtividades.abrirArquivo(this.atividadeSelecionada.url).subscribe({
+  apresentarAtividade(url: string, index: number) {
+    this.serviceAtividades.abrirArquivo(url).subscribe({
       next: (data) => {
-        console.log(data)
+        console.log('data', data)
+        this.urlArquivo = ''
         this.urlArquivo = data
+        console.log('urlArquivo', this.urlArquivo)
+
         if (this.urlArquivo.endsWith('.pdf')) {
           this.atividadeSelecionada.url = data
         } else {
-          if (this.imagensSelecionadas.length < 2) {
-            this.imagensSelecionadas.push(this.urlArquivo);
+          if (this.imagensSelecionadas.length <= 2) {
+            console.log("adicionado imagem em lista")
+            this.imagensSelecionadas[index] = this.urlArquivo;
+            console.log(this.imagensSelecionadas.length )
           }
         }
-
       },
       error: (err) => console.log("Erro", err)
     })
-    console.log(this.atividadeSelecionada.url)
-    console.log('teste', this.id_aluno, this.id_aula)
 
   }
 
@@ -117,23 +176,36 @@ export class LancarAtividadeComponent implements OnInit {
 
   limparEscolha() {
     this.atividadeSelecionada = undefined;
+    this.atividadeSelecionada2 = undefined;
+    this.imagensSelecionadas = [];
     this.urlArquivo = ''
+    this.urlArquivoSelecionado = ''
   }
 
   escolherAtividade(){
-    if(!this.atividadeSelecionada.url.endsWith('.pdf')){
-      this.isImagem = true;
-    }else{
-      this.isImagem = false;
-    }
+    this.verificarTipoArquivoAtividade(this.atividadeSelecionada);
+    this.urlArquivoSelecionado = this.atividadeSelecionada.url;
+    this.apresentarAtividade(this.urlArquivoSelecionado, 0)
   }
 
-    escolherAtividade2(){
-      console.log("atividade 2",this.atividadeSelecionada2.url)
-    if(this.atividadeSelecionada2.url.endsWith('.pdf')){
-      this.isImagem = true;
+  escolherAtividade2(){
+    this.verificarTipoArquivoAtividade(this.atividadeSelecionada2)
+    if(this.isImagem = false){
       this.atividadeSelecionada2 = undefined;
     }
+    this.urlArquivoSelecionado = this.atividadeSelecionada2.url;
+    this.apresentarAtividade(this.urlArquivoSelecionado, 1)
   }
 
+  verificarTipoArquivoAtividade(arquivo: Atividade){
+     if(arquivo.url.endsWith('.pdf')){
+      this.isImagem = false;
+      console.log("imagem", this.isImagem)
+    }else{
+      this.isImagem = true;
+      console.log("imagem", this.isImagem)
+
+    }
+    console.log("Fim da verificação")
+  }
 }

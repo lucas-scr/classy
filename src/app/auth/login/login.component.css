@@ -1,5 +1,5 @@
 .card_background {
-  background-color: #161616;
+  background-color: #baeaff;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -17,8 +17,8 @@
 }
 
 img {
-  width: 20%;
-  height: 70%;
+  width: 100px;
+  height: 100px;
 }
 
 input {
@@ -41,12 +41,12 @@ input {
 
 .bt_login {
   font-size: 1.2rem;
-  color: white;
-  background-color: #161616;
+  color: #1d1d1d;
+  background-color: #baeaff;
   width: 350px;
   height: 55px;
-  border-radius: 10px;
-  margin: 20px 0px 10px 0px;
+  border-radius: 50px;
+  margin: 20px 0px 20px 0px;
 }
 
 .login_google{
@@ -67,12 +67,12 @@ input {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  min-width: 350px;
+  min-width: 450px;
   max-width: 470px;
-  width: 30%;
+  width: 40%;
   min-height: 700px;
   height: 50%;
-  border-radius: 15% 0px 15% 0px;
+  border-radius: 40px 0px 40px 0px;
 }
 
 label {
@@ -128,12 +128,6 @@ h2 {
   position: relative;
 }
 
-.google-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-}
-
 .btn-text {
   font-weight: 500;
 }
@@ -150,4 +144,19 @@ h2 {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+  .card_login {
+  padding: 50px 25px 25px 25px;
+  height: 100%;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 700px;
+  border-radius: 0px 0px 0px 0px;
+}
 }

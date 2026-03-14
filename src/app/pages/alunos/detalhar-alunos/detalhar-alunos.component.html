@@ -1,4 +1,7 @@
-<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }" [closable]="false" draggable="false" resizable="false">
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '40%' }" [closable]="false" 
+draggable="false" resizable="false" 
+[breakpoints]="{'1024px': '70vw', '768px': '90vw', '510px': '100vw'}"
+>
   <ng-template #header>
     <div class="container-avatar">
       <p-avatar [label]=aluno?.iniciais styleClass="mr-2"
@@ -16,6 +19,7 @@
           severity="secondary" />
         <p-button icon="pi pi-times" [rounded]="false" [outlined]="true" [text]="true" severity="danger" (onClick)="cancelarAula()"
           label="Cancelar" size="small" />
+
       </div>
     </div>
 

@@ -210,3 +210,11 @@
 .content-title{
   font-weight: 500;
 }
+
+@media (max-width: 570px) {
+  ::ng-deep .p-dialog {
+    height: 100% !important;
+    max-height: 100vh !important;
+    background-color: #eb7fe5;
+  }
+}

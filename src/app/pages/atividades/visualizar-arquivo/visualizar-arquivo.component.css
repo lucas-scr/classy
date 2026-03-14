@@ -1,0 +1,11 @@
+.container_view_images{
+    width: 292px;
+    height: 421px;
+    background-color: rgb(230, 31, 114);
+}
+
+.image{
+object-fit: contain;
+transform: rotate(90deg);
+
+}

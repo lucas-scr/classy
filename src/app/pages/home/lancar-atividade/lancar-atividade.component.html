@@ -5,43 +5,42 @@
       <div class="input-atividade">
         <p-floatlabel variant="on" class="dropdown-atividade">
           <label for="atividade">Atividade</label>
-          <p-dropdown id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada"
-            (onChange)="escolherAtividade()" optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true"
-            (onClear)="limparEscolha()" [style]="{width: '100%'}">
+          <p-select id="atividade" [options]="grupoAtividades" group="true" [(ngModel)]="atividadeSelecionada"
+            (onChange)="escolherAtividade()" optionLabel="`atividade.codigo`"  [showClear]="true" [filter]="true" (onClear)="limparEscolha()"
+            [style]="{width: '100%'}">
+            <ng-template let-group #group>
+              <div class="flex items-center">
+                <span>{{ group.label }}</span>
+              </div>
+            </ng-template>
             <ng-template let-atividade pTemplate="item">
-              {{ atividade.nome_materia }} - {{ atividade.codigo }}
+              {{atividade.label}}
             </ng-template>
-
-            <ng-template let-atividade pTemplate="selectedItem">
-              {{ atividade.nome_materia }} - {{ atividade.codigo }}
+              <ng-template let-atividade pTemplate="selectedItem">
+              {{ atividade.label }}
             </ng-template>
-          </p-dropdown>
+          </p-select>
         </p-floatlabel>
-        <div class="bt-download">
-          <p-button icon="pi pi-download" label="Visualizar" [disabled]="!atividadeSelecionada"
-            (onClick)="apresentarAtividade()"></p-button>
-        </div>
-
       </div>
       <div class="input-atividade" *ngIf="isImagem">
         <p-floatlabel variant="on" class="dropdown-atividade">
           <label for="atividade2">Selecione uma segunda imagem (Opcional)</label>
-          <p-dropdown id="atividade2" [options]="atividades" [(ngModel)]="atividadeSelecionada2"
-            optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true" (onClear)="limparEscolha()"
-            [style]="{width: '100%'}">
+          <p-select id="atividade2" [options]="atividades" [(ngModel)]="atividadeSelecionada2"
+            (onChange)="escolherAtividade2()" optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true"
+            (onClear)="limparEscolha()" [style]="{width: '100%'}">
+            <ng-template let-group #group>
+              <div class="flex items-center">
+                <span>{{ group.label }}</span>
+              </div>
+            </ng-template>
             <ng-template let-atividade pTemplate="item">
               {{ atividade.nome_materia }} - {{ atividade.codigo }}
             </ng-template>
-
             <ng-template let-atividade pTemplate="selectedItem">
               {{ atividade.nome_materia }} - {{ atividade.codigo }}
             </ng-template>
-          </p-dropdown>
+          </p-select>
         </p-floatlabel>
-        <div class="bt-download">
-          <p-button icon="pi pi-download" label="Visualizar" [disabled]="!atividadeSelecionada"
-            (onClick)="apresentarAtividade()"></p-button>
-        </div>
       </div>
       <div class="container-observacoes" style="margin-bottom: 14px;">
         <p-floatlabel variant="on">
@@ -58,7 +57,7 @@
           <label>Selecione a atividade e clique em "Apresentar"</label>
         </div> -->
 
-        <app-visualizar-arquivo *ngIf="atividadeSelecionada?.url" [fileUrl]="atividadeSelecionada.url"
+        <app-visualizar-arquivo *ngIf="atividadeSelecionada?.url" [fileUrl]="urlArquivoSelecionado"
           [imageUrls]="imagensSelecionadas">
 
         </app-visualizar-arquivo>
