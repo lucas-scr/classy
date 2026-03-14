@@ -20,11 +20,8 @@ export class ListarAtividadesComponent implements OnInit {
   itemId: number;
 
   listaMaterias: [] = [];
-
   listaAtividades: Atividade[] = [];
-
   loading: boolean = true;
-
   opcoesDeAcoes: MenuItem[] | undefined;
 
   @ViewChild('menu') menu!: Menu;

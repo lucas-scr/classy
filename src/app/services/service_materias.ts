@@ -2,26 +2,47 @@ import { Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
 import { Materia } from '../interfaces/materias';
 import { SupabaseService } from '../core/services/serviceSupabase';
+import { adaptarMateriaParaRequest, adaptarMateriaResponse } from '../shared/adapters/materia.adapter';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServiceMateria {
-    private tabela = 'materia';
+  private tabela = 'materia';
 
-    constructor( private supabaseService: SupabaseService){
+  constructor(private supabaseService: SupabaseService) {
+  }
+
+    cadastrarTurma(turma: Materia): Observable<Materia> {
+  
+      const payload = adaptarMateriaParaRequest(turma);
+      return from(
+        this.supabaseService.getClient()
+          .from(this.tabela)
+          .insert(payload)
+          .select()
+          .single()
+      ).pipe(
+        map(({ data, error }) => {
+          if (error) throw error;
+          return adaptarMateriaParaRequest(data);
+        })
+      );
     }
+  
 
-     getMaterias(): Observable<Materia[]> {
+  getMaterias(): Observable<Materia[]> {
     return from(
       this.supabaseService.getClient()
         .from(this.tabela)
-        .select('id, nome')
+        .select('*')
     ).pipe(
       map(({ data, error }) => {
         if (error) throw error;
-        return data || [];
+        return (data || []).map(
+          (item: any) => adaptarMateriaResponse(item)
+        );
       })
     );
   }
@@ -41,7 +62,24 @@ export class ServiceMateria {
     );
   }
 
-    tratarErro(error: any){
+  tratarErro(error: any) {
     this.supabaseService.handleError(error)
   }
+
+
+    removerTurma(id: number): Observable<Materia> {
+      return from(
+        this.supabaseService.getClient()
+          .from(this.tabela)
+          .delete()
+          .eq('id', id)
+          .select()
+          .single()
+      ).pipe(
+        map(({ data, error }) => {
+          if (error) throw error;
+          return adaptarMateriaResponse(data);
+        })
+      );
+    }
 }

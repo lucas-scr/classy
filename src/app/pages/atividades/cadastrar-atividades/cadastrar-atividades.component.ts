@@ -17,7 +17,7 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileUpload') fileUpload!: any;
 
-  materiaSelecaoPadrao: Materia = { nome: 'Selecione', id: null };
+  materiaSelecaoPadrao: Materia = { nome: 'Selecione', id: null, dataCriacao: null, ativo: null };
   codigo: string;
   descricao: string;
   url: string | null = null;

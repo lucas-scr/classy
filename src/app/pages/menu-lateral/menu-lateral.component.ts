@@ -61,7 +61,12 @@ export class MenuLateralComponent implements OnInit {
             label: 'Cronograma',
             icon: 'pi pi-calendar-clock',
           },
-                {
+           {
+            label: 'Materias',
+            icon: 'pi pi-calendar-clock',
+             route: '/materias',
+          },
+          {
             label: 'Turma',
             icon: 'pi pi-calendar-clock',
              route: '/turmas',

@@ -21,6 +21,8 @@ import { ListaTurmasComponent } from './pages/turma/lista-turmas/lista-turmas/li
 import { CadastroTurmasComponent } from './pages/turma/cadastro-turmas/cadastro-turmas.component';
 import { EditarAlunosComponent } from './pages/alunos/editar-alunos/editar-alunos.component';
 import { HomeComponent } from './pages/home/home/home.component';
+import { ListaMateriasComponent } from './pages/materias/listar-materias/lista-materias.component';
+import { CadastroMateriasComponent } from './pages/materias/cadastrar-materias/cadastro-materias.component';
 
 
 export const routes: Routes = [
@@ -43,8 +45,10 @@ export const routes: Routes = [
             { path: 'editar-pagamento/:id', component: EditarPagamentosComponent, canActivate: [AuthGuard] },
             { path: 'detalhar-pagamento/:id', component: DetalharPagamentosComponent, canActivate: [AuthGuard] },
             { path: 'cadastrar-pagamento', component: CadastrarPagamentosComponent, canActivate: [AuthGuard] },
+            {path: 'materias', component: ListaMateriasComponent, canActivate: [AuthGuard]},
+            {path: 'cadastrar-materias', component: CadastroMateriasComponent, canActivate: [AuthGuard]},
             { path: 'forbidden', component: PaginaProtegidaComponent },
-             { path: 'home', component: HomeComponent }
+            { path: 'home', component: HomeComponent }
 
 
         ]
