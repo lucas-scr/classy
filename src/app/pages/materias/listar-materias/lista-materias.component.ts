@@ -42,8 +42,7 @@ export class ListaMateriasComponent implements OnInit {
           {
             label: 'Editar',
             icon: 'pi pi-pencil',
-            command: () =>
-              this.router.navigate(['/editar-materia', this.itemId]),
+            command: () =>  this.router.navigate(['/editar-materia', this.itemId]),
           },
           {
             label: 'Remover',
@@ -88,20 +87,20 @@ export class ListaMateriasComponent implements OnInit {
     this.itemId = id;
     this.menu.toggle(event);
   }
-
     carregarMaterias() {
     this.serviceMateria.getMaterias().subscribe({
         next: (materias) => {this.listaMaterias = materias;
+          console.log(this.listaMaterias)
         },
         error: (erro) => console.log(erro),
       });
   }
 
-    getSituacao(situacao: string): string {
+    getSituacao(situacao: boolean): string {
     switch (situacao) {
-      case 'true':
+      case true:
         return 'Ativo';
-      case 'false':
+      case false:
         return 'Inativo';
       default:
         return 'Inativo'; // Classe vazia caso não encontre a situação
@@ -109,14 +108,14 @@ export class ListaMateriasComponent implements OnInit {
   }
 
   
-    getSituacaoClass(situacao: string): string {
+    getSituacaoClass(situacao: boolean): string {
     switch (situacao) {
-      case 'true':
+      case true:
         return 'situacao-ativo';
-      case 'false':
-        return 'situacao-ativo';
+      case false:
+        return 'situacao-inativo';
       default:
-        return 'situacao-ativo'; // Classe vazia caso não encontre a situação
+        return 'situacao-inativo'; // Classe vazia caso não encontre a situação
     }
   }
 

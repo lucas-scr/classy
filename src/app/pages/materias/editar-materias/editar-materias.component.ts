@@ -26,6 +26,7 @@ export class EditarMateriasComponent implements OnInit{
   ) { }
 
   ngOnInit() {
+    this.capturarId();
     this.carregarMateria(this.materiaId);
   }
 
@@ -39,8 +40,8 @@ export class EditarMateriasComponent implements OnInit{
     } else {
       let materia: Materia = {
         nome: this.nome,
-        ativo: this.ativo
-    
+        ativo: this.ativo,
+        id: this.materiaId
       };
       
       this.editarMateria(materia);

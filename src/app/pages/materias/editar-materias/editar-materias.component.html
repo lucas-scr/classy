@@ -5,7 +5,7 @@
   <form #formMateria="ngForm" (ngSubmit)="onSubmit()">
     <div class="cadastro_input">
       <p-floatlabel variant="on">
-        <input id="username" pInputText [(ngModel)]="materia.nome" required name="nome">
+        <input id="username" pInputText [(ngModel)]="nome" required name="nome">
         <label for="username">Nome da materia</label>
       </p-floatlabel>
       <div *ngIf="formMateria.controls['nome']?.invalid && formMateria.controls['nome']?.touched">
@@ -16,12 +16,22 @@
       <label class="label_radiogroup" for="situacaoMateria">Situação</label>
       <div id="situacaoMateria" class="radio_button">
         <div class="flex items-center">
-          <p-radiobutton value="true" [(ngModel)]="materia.ativo" inputId="situacao1" required #situacao="ngModel" name="situacao" />
+          <p-radiobutton 
+          [value]="true" 
+          [(ngModel)]="ativo" inputId="situacao1" 
+          required 
+          #situacao="ngModel"
+          name="situacao" />
           <label for="situacao1" class="ml-2">Ativo</label>
         </div>
 
         <div class="radio_button">
-          <p-radiobutton value="false" [(ngModel)]="materia.ativo" inputId="situacao2" required #situacao="ngModel" name="situacao" />
+          <p-radiobutton 
+          [value]="false" 
+          [(ngModel)]="ativo" 
+          inputId="situacao2" 
+          required 
+          name="situacao" />
           <label for="situacao2" class="ml-2">Inativo</label>
         </div>
       </div>

@@ -46,14 +46,11 @@ export const routes: Routes = [
             { path: 'editar-pagamento/:id', component: EditarPagamentosComponent, canActivate: [AuthGuard] },
             { path: 'detalhar-pagamento/:id', component: DetalharPagamentosComponent, canActivate: [AuthGuard] },
             { path: 'cadastrar-pagamento', component: CadastrarPagamentosComponent, canActivate: [AuthGuard] },
-            {path: 'materias', component: ListaMateriasComponent, canActivate: [AuthGuard]},
-            {path: 'cadastrar-materias', component: CadastroMateriasComponent, canActivate: [AuthGuard]},
-            {path: 'editar-materia', component: EditarMateriasComponent, canActivate: [AuthGuard]},
-
+            { path: 'materias', component: ListaMateriasComponent, canActivate: [AuthGuard]},
+            { path: 'cadastrar-materias', component: CadastroMateriasComponent, canActivate: [AuthGuard]},
+            { path: 'editar-materia/:id', component: EditarMateriasComponent, canActivate: [AuthGuard]},
             { path: 'forbidden', component: PaginaProtegidaComponent },
             { path: 'home', component: HomeComponent }
-
-
         ]
     },
     { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
