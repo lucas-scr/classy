@@ -1,6 +1,6 @@
 export interface Materia{
-    id: number;
+    id?: number;
     nome: string;
     ativo: boolean;
-    dataCriacao: Date;
+    dataCriacao?: Date;
 }

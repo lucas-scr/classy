@@ -23,6 +23,7 @@ import { EditarAlunosComponent } from './pages/alunos/editar-alunos/editar-aluno
 import { HomeComponent } from './pages/home/home/home.component';
 import { ListaMateriasComponent } from './pages/materias/listar-materias/lista-materias.component';
 import { CadastroMateriasComponent } from './pages/materias/cadastrar-materias/cadastro-materias.component';
+import { EditarMateriasComponent } from './pages/materias/editar-materias/editar-materias.component';
 
 
 export const routes: Routes = [
@@ -47,6 +48,8 @@ export const routes: Routes = [
             { path: 'cadastrar-pagamento', component: CadastrarPagamentosComponent, canActivate: [AuthGuard] },
             {path: 'materias', component: ListaMateriasComponent, canActivate: [AuthGuard]},
             {path: 'cadastrar-materias', component: CadastroMateriasComponent, canActivate: [AuthGuard]},
+            {path: 'editar-materia', component: EditarMateriasComponent, canActivate: [AuthGuard]},
+
             { path: 'forbidden', component: PaginaProtegidaComponent },
             { path: 'home', component: HomeComponent }
 

@@ -35,7 +35,7 @@ export class ListarAtividadesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.serviceMateria.consultarPorId;
+    this.serviceMateria.getById;
 
     this.loading = false;
 

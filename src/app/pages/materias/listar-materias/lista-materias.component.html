@@ -43,13 +43,13 @@
                     </td>
                     <td>
                         <div>
-                            <span> {{ materia.ativo }} </span>
+                            <span [ngClass]="getSituacaoClass(materia.ativo)"> {{ getSituacao(materia.ativo) }} </span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span> {{ materia.dataCriacao]} </span>
+                            <span>  {{ materia.dataCriacao | date:"dd/mm/yyyy 'às' hh:mm"  }}</span>
                         </div>
                     </td>
                     <td>

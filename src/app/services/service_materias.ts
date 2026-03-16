@@ -14,23 +14,41 @@ export class ServiceMateria {
   constructor(private supabaseService: SupabaseService) {
   }
 
-    cadastrarTurma(turma: Materia): Observable<Materia> {
-  
-      const payload = adaptarMateriaParaRequest(turma);
-      return from(
-        this.supabaseService.getClient()
-          .from(this.tabela)
-          .insert(payload)
-          .select()
-          .single()
-      ).pipe(
-        map(({ data, error }) => {
-          if (error) throw error;
-          return adaptarMateriaParaRequest(data);
-        })
-      );
-    }
-  
+  cadastrarMateria(materia: Materia): Observable<Materia> {
+    const payload = adaptarMateriaParaRequest(materia);
+    return from(
+      this.supabaseService.getClient()
+        .from(this.tabela)
+        .insert(payload)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarMateriaParaRequest(data);
+      })
+    );
+  }
+
+
+  atualizarMateria(materia: Materia): Observable<Materia> {
+    if (!materia.id) throw new Error('ID da materia é obrigatório para atualização');
+    return from(
+      this.supabaseService.getClient()
+        .from(this.tabela)
+        .update(adaptarMateriaParaRequest(materia))
+        .eq('id', materia.id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarMateriaResponse(data);
+      })
+    );
+  }
+
+
 
   getMaterias(): Observable<Materia[]> {
     return from(
@@ -47,7 +65,7 @@ export class ServiceMateria {
     );
   }
 
-  consultarPorId(id: number): Observable<Materia> {
+  getById(id: number): Observable<Materia> {
     return from(
       this.supabaseService.getClient()
         .from(this.tabela)
@@ -67,19 +85,19 @@ export class ServiceMateria {
   }
 
 
-    removerTurma(id: number): Observable<Materia> {
-      return from(
-        this.supabaseService.getClient()
-          .from(this.tabela)
-          .delete()
-          .eq('id', id)
-          .select()
-          .single()
-      ).pipe(
-        map(({ data, error }) => {
-          if (error) throw error;
-          return adaptarMateriaResponse(data);
-        })
-      );
-    }
+  removerMateria(id: number): Observable<Materia> {
+    return from(
+      this.supabaseService.getClient()
+        .from(this.tabela)
+        .delete()
+        .eq('id', id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarMateriaResponse(data);
+      })
+    );
+  }
 }

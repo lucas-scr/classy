@@ -32,6 +32,9 @@ export class ListaMateriasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.carregarMaterias()
+
     this.opcoesDeAcoes = [
       {
         label: 'Opções',
@@ -87,13 +90,34 @@ export class ListaMateriasComponent implements OnInit {
   }
 
     carregarMaterias() {
-    this.serviceMateria
-      .getMaterias()
-      .subscribe({
+    this.serviceMateria.getMaterias().subscribe({
         next: (materias) => {this.listaMaterias = materias;
         },
         error: (erro) => console.log(erro),
       });
+  }
+
+    getSituacao(situacao: string): string {
+    switch (situacao) {
+      case 'true':
+        return 'Ativo';
+      case 'false':
+        return 'Inativo';
+      default:
+        return 'Inativo'; // Classe vazia caso não encontre a situação
+    }
+  }
+
+  
+    getSituacaoClass(situacao: string): string {
+    switch (situacao) {
+      case 'true':
+        return 'situacao-ativo';
+      case 'false':
+        return 'situacao-ativo';
+      default:
+        return 'situacao-ativo'; // Classe vazia caso não encontre a situação
+    }
   }
 
 }

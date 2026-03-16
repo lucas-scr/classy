@@ -1,1 +1,45 @@
-<p>editar-materias works!</p>
+<p-card header="Alterar Materia">
+  <ng-template #title>
+    Alterar Materia
+  </ng-template>
+  <form #formMateria="ngForm" (ngSubmit)="onSubmit()">
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="username" pInputText [(ngModel)]="materia.nome" required name="nome">
+        <label for="username">Nome da materia</label>
+      </p-floatlabel>
+      <div *ngIf="formMateria.controls['nome']?.invalid && formMateria.controls['nome']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+    <div class="cadastro_input">
+      <label class="label_radiogroup" for="situacaoMateria">Situação</label>
+      <div id="situacaoMateria" class="radio_button">
+        <div class="flex items-center">
+          <p-radiobutton value="true" [(ngModel)]="materia.ativo" inputId="situacao1" required #situacao="ngModel" name="situacao" />
+          <label for="situacao1" class="ml-2">Ativo</label>
+        </div>
+
+        <div class="radio_button">
+          <p-radiobutton value="false" [(ngModel)]="materia.ativo" inputId="situacao2" required #situacao="ngModel" name="situacao" />
+          <label for="situacao2" class="ml-2">Inativo</label>
+        </div>
+      </div>
+      <div *ngIf="situacao.invalid && situacao.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+
+    <div class="cadastro_botoes">
+      <p-button label="Cancelar" routerLink="/materias" severity="secondary" class="w-full" [outlined]="true"
+        styleClass="w-full" />
+      <p-button label="Salvar" class="w-full" styleClass="w-full" type="submit" [disabled]="formMateria.invalid" />
+    </div>
+  </form>
+  <ng-template #footer>
+
+  </ng-template>
+</p-card>
+
+<p-toast />
