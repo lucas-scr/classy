@@ -5,8 +5,8 @@
       <div class="input-atividade">
         <p-floatlabel variant="on" class="dropdown-atividade">
           <label for="atividade">Atividade</label>
-          <p-select id="atividade" [options]="grupoAtividades" group="true" [(ngModel)]="atividadeSelecionada"
-            (onChange)="escolherAtividade()" optionLabel="`atividade.codigo`"  [showClear]="true" [filter]="true" (onClear)="limparEscolha()"
+          <p-select id="atividade" [options]="grupoAtividades" [group]="true" [(ngModel)]="atividadeSelecionada"
+            (onChange)="escolherAtividade()" optionLabel="label"  [showClear]="true" [filter]="true" (onClear)="limparEscolha()"
             [style]="{width: '100%'}">
             <ng-template let-group #group>
               <div class="flex items-center">

@@ -34,9 +34,12 @@
         <ng-template pTemplate="filelabel">
           {{ nomeArquivo || 'Nenhum arquivo selecionado' }}
           <p-button *ngIf="arquivoBlob" type="button" label="Limpar" (click)="limparArquivos()" class="w-full" [outlined]="true"/>
+          <p-button *ngIf="arquivoBlob" type="button" label="Adicionar" (click)="adicionarNoEditor(previewImagem)" class="w-full" [outlined]="true"/>
+
         </ng-template>
   
       </p-fileupload>
+      
 
     </div>
 
@@ -49,6 +52,7 @@
         <small>Este campo é obrigatório</small>
       </div>
     </div>
+
 
     <div class="cadastro_input" *ngIf='nomeArquivo == null'>
       <p-floatlabel variant="on">
@@ -63,9 +67,12 @@
       <p-button label="Salvar" class="w-full" styleClass="w-full" type="submit" [disabled]="formAtividade.invalid" />
     </div>
   </form>
+  <div class="imagem_preview_container">
+    <div class="imagem_preview">
+        <app-editor-atividades [(elementos)]="elementos"></app-editor-atividades>
+    </div>
+  </div>
   <ng-template #footer>
-
   </ng-template>
 </p-card>
-
 <p-toast />

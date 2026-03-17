@@ -90,7 +90,6 @@ export class ListaMateriasComponent implements OnInit {
     carregarMaterias() {
     this.serviceMateria.getMaterias().subscribe({
         next: (materias) => {this.listaMaterias = materias;
-          console.log(this.listaMaterias)
         },
         error: (erro) => console.log(erro),
       });

@@ -1,0 +1,21 @@
+.elemento {
+  position: absolute;
+}
+
+.elemento.selecionado {
+  border: 2px solid #3b82f6;
+}
+
+.acoes {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.acoes button {
+  background: white;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}

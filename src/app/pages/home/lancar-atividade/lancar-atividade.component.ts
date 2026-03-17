@@ -33,7 +33,7 @@ export class LancarAtividadeComponent implements OnInit {
   urlArquivo: string = '';
   urlArquivoSelecionado: string;
 
-  isImagem: boolean;
+  isImagem: boolean = false;
 
   imagensSelecionadas = [];
   atividadeSelecionada?: Atividade;
@@ -53,65 +53,32 @@ export class LancarAtividadeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.grupoAtividades = [
-            {
-                label: 'Germany',
-                value: 'de',
-                items: [
-                    { label: 'Berlin', value: 'Berlin' },
-                    { label: 'Frankfurt', value: 'Frankfurt' },
-                    { label: 'Hamburg', value: 'Hamburg' },
-                    { label: 'Munich', value: 'Munich' }
-                ]
-            },
-            {
-                label: 'USA',
-                value: 'us',
-                items: [
-                    { label: 'Chicago', value: 'Chicago' },
-                    { label: 'Los Angeles', value: 'Los Angeles' },
-                    { label: 'New York', value: 'New York' },
-                    { label: 'San Francisco', value: 'San Francisco' }
-                ]
-            },
-            {
-                label: 'Japan',
-                value: 'jp',
-                items: [
-                    { label: 'Kyoto', value: 'Kyoto' },
-                    { label: 'Osaka', value: 'Osaka' },
-                    { label: 'Tokyo', value: 'Tokyo' },
-                    { label: 'Yokohama', value: 'Yokohama' }
-                ]
-            }
-        ];
 
+  this.serviceAtividades.getAtividades().subscribe({
+    next: (data) => {
+      this.atividades = data;
 
+      let gpAtividades = [...new Set(this.atividades.map(a => a.nome_materia))];
 
+      const novosGrupos = gpAtividades.map(element => ({
+        label: element,
+        value: element,
+        items: this.atividades
+          .filter(a => a.nome_materia === element)
+          .map(a => ({
+            label: a.codigo + "-" + a.descricao,
+            value: a.id
+          }))
+      }));
 
+      this.grupoAtividades = [
+        ...novosGrupos
+      ];
 
-    this.isImagem = false
-    this.serviceAtividades.getAtividades().subscribe({
-      next: (data) => {
-        this.atividades = data;
-        let gpAtividadedes = [... new Set(this.atividades.map(a => a.nome_materia))]
-        console.log(gpAtividadedes)
-        gpAtividadedes.forEach(element => {
-          this.grupoAtividades.push({
-            label: element,
-            value: element,
-            items: this.atividades.filter(a => a.nome_materia === element)
-            .map(a => ({
-              label: a.codigo + "-" + a.descricao,
-              value: a
-            }))
-          })
-        });
-        console.log('grupo de atividades', this.grupoAtividades)
-      },
-      error: (err) => console.log("erro", err)
-    })
-  }
+      console.log(this.grupoAtividades);
+    }
+  });
+}
 
 
   fechar() {
