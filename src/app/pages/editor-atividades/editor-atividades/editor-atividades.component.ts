@@ -62,12 +62,15 @@ export class EditorAtividadesComponent implements AfterViewInit {
     item.rotate += 15;
   }
 
-  getStyle(item: Elemento) {
-    return {
-      transform: `translate(${item.x}px, ${item.y}px) rotate(${item.rotate}deg)`,
-      width: item.width + 'px',
-      height: item.height + 'px',
-      position: 'absolute'
-    };
-  }
+ getStyle(item: any) {
+  return {
+    position: 'absolute',
+    top: item.y + 'px',
+    left: item.x + 'px',
+    width: item.width + 'px',
+    height: item.height + 'px',
+    border: '2px solid blue' 
+
+  };
+}
 }

@@ -134,19 +134,19 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
     this.fileUpload.clear();
   }
 
-  adicionarNoEditor(src: string) {
+  // adicionarNoEditor(src: string) {
 
-    const novoElemento = {
-      id: Date.now(),
-      tipo: 'imagem',
-      src: src,
-      x: 50,
-      y: 50,
-      width: 150,
-      height: 150,
-      rotate: 0
-    };
+  //   const novoElemento = {
+  //     id: Date.now(),
+  //     tipo: 'imagem',
+  //     src: src,
+  //     x: 50,
+  //     y: 50,
+  //     width: 150,
+  //     height: 150,
+  //     rotate: 0
+  //   };
 
-    this.elementos.push(novoElemento);
-  }
+  //   this.elementos.push(novoElemento);
+  // }
 }

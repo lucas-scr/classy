@@ -1,5 +1,25 @@
+
+.editor-atividade-container{
+  width: 100%;
+   height: 100%;
+}
+.canvas{
+   position: relative;
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   background-color: rgb(255, 255, 255);
+}
+
 .elemento {
   position: absolute;
+}
+
+.elemento img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .elemento.selecionado {

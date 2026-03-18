@@ -1,7 +1,5 @@
-Ta funcionando
 <div class="editor-atividade-container">
-  <div id="canvas">
-
+  <div class="canvas">
     <div *ngFor="let item of elementos" class="elemento draggable"
       [class.selecionado]="item.id === elementoSelecionadoId" (click)="selecionarElemento(item.id)"
       [attr.data-id]="item.id" [ngStyle]="getStyle(item)">
@@ -13,10 +11,7 @@ Ta funcionando
 
         <button (click)="removerElemento(item.id); $event.stopPropagation()">❌</button>
         <button (click)="rotacionarElemento(item.id); $event.stopPropagation()">🔄</button>
-
       </div>
-
     </div>
-
   </div>
 </div>
