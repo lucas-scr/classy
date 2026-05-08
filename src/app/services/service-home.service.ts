@@ -70,7 +70,7 @@ export class ServiceHome {
 
     data.setHours(9, 0, 0, 0)
 
-    for (let i = 0; i < qtdIntervalos - 25; i++) {
+    for (let i = 0; i < qtdIntervalos - 29; i++) {
       data.setMinutes(data.getMinutes() + intervaloEmMinutos);
       listaIntervalos.push(new Date(data));
     }

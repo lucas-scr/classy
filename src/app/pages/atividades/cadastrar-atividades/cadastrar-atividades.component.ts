@@ -10,7 +10,7 @@ import { EditorAtividadesComponent } from '../../editor-atividades/editor-ativid
 
 @Component({
   selector: 'app-cadastrar-atividades',
-  imports: [PrimengImports, RouterModule, RouterLink, EditorAtividadesComponent],
+  imports: [PrimengImports, RouterModule, RouterLink],
   templateUrl: './cadastrar-atividades.component.html',
   styleUrl: './cadastrar-atividades.component.css',
 })

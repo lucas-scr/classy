@@ -40,17 +40,16 @@
             </ng-template>
             <ng-template #body let-contrato>
                 <tr class="item_list" >
+                                   <td>
+                        <div>
+                            <span> {{ contrato.aluno.nome }} </span>
+                        </div>
+                    </td>
                     <td>
                         <div >
                             <span>{{contrato.nomeResponsavel}}</span>
                         </div>
                     </td>
-                    <td>
-                        <div>
-                            <span> {{ contrato.aluno.nome }} </span>
-                        </div>
-                    </td>
-
                     <td>
                         <div >
                             <span> {{contrato.telefone | telefone}} </span>

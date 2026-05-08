@@ -59,7 +59,6 @@ export class ListaContratosComponent implements OnInit {
             label: 'Editar',
             icon: 'pi pi-pencil',
             command: () => this.router.navigate(['/editar-contrato', this.itemId]),
-
           },
           {
             label: 'Remover',

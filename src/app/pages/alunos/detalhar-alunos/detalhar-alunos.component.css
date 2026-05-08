@@ -92,7 +92,7 @@
   margin-top: 5px;
   height: 25px;
   display: flex;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   flex-direction: row;
 }
 
@@ -209,6 +209,11 @@
 
 .content-title{
   font-weight: 500;
+}
+
+
+.timeline-card{
+  margin: 0px;
 }
 
 @media (max-width: 570px) {

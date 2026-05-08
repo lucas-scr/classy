@@ -85,12 +85,14 @@ export class CadastroContratosComponent implements OnInit {
   cadastrarContrato(novoContrato: Contrato) {
     this.contratoService.cadastrarContrato(novoContrato)
       .subscribe({
-        next: () =>
+        next: () => {
           this.messageService.showMessage(
             'success',
             'Cadastrado!',
             'Cadastro realizado com sucesso.'
-          ),
+          )
+        this.router.navigate(['/contratos'])
+      },
         error: () =>
           this.messageService.showMessage(
             'error',
@@ -98,7 +100,7 @@ export class CadastroContratosComponent implements OnInit {
             'Não foi possível realizar o cadastro.'
           )
       });
-    //this.router.navigate(['/contratos']);
+    this.router.navigate(['/contratos']);
   }
 
   adicionarDiaDaSemana(event: { dia: DiasDaSemana, horario: string }) {

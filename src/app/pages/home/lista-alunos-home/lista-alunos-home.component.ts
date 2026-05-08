@@ -115,7 +115,6 @@ export class ListaAlunosHomeComponent implements OnInit {
 
   avancarDia() {
     this.dataAtual = DateUtils.adjustDate(this.dataAtual, 1, 'days')
-    console.log(this.dataAtual)
     this.carregarAulasDoDia(this.dataAtual
     )
   }

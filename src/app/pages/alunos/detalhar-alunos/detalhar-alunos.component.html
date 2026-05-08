@@ -1,7 +1,5 @@
-<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '40%' }" [closable]="false" 
-draggable="false" resizable="false" 
-[breakpoints]="{'1024px': '70vw', '768px': '90vw', '510px': '100vw'}"
->
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '40%' }" [closable]="false" draggable="false"
+  resizable="false" [breakpoints]="{'1024px': '70vw', '768px': '90vw', '510px': '100vw'}">
   <ng-template #header>
     <div class="container-avatar">
       <p-avatar [label]=aluno?.iniciais styleClass="mr-2"
@@ -15,11 +13,13 @@ draggable="false" resizable="false"
         <span>{{data_aula | date:'dd/MM/yyyy HH:mm'}}</span>
       </div>
       <div class="container-actions">
-        <p-button icon="pi pi-comment" [rounded]="false" [outlined]="true" [text]="true" size="small" label="Comentar"
-          severity="secondary" />
-        <p-button icon="pi pi-times" [rounded]="false" [outlined]="true" [text]="true" severity="danger" (onClick)="cancelarAula()"
-          label="Cancelar" size="small" />
-
+        <p-button icon="pi pi-comment" ariaLabel="teste" [rounded]="true" [outlined]="true" [text]="true" size="small"
+          severity="secondary" pTooltip="Comentar" showDelay="300" tooltipPosition="bottom"/>
+        
+        <p-button icon="pi pi-file-check" [rounded]="true" [text]="true" size="small"
+          severity="secondary" pTooltip="Lançar atividade" showDelay="300" tooltipPosition="bottom" (onClick)="abrirLancarAtividade()"/>
+<p-button icon="pi pi-times" [rounded]="true" [outlined]="true" [text]="true" severity="danger"
+          (onClick)="cancelarAula()"  size="small" pTooltip="Cancelar" showDelay="300" tooltipPosition="bottom"/>
       </div>
     </div>
 
@@ -41,7 +41,7 @@ draggable="false" resizable="false"
     <div class="item-timeline" *ngFor="let item of historicoAtividade">
       <div class="item-line">
         <div class="item-marker">
-         <i class="pi pi-file-check" style="font-size: 1rem"></i>
+          <i class="pi pi-file-check" style="font-size: 1rem"></i>
         </div>
         <div class="item-divider">
         </div>
@@ -51,20 +51,17 @@ draggable="false" resizable="false"
           {{item.data_criacao | date:'dd/MM/yyyy HH:mm'}}
         </div>
         <div class="timeline-content">
-          <p-card >
-            <span class="content-title" >{{item.codigo_atividade}}</span>
+          <p-card class="timeline-card">
+            <span class="content-title">{{item.codigo_atividade}}</span>
             <p class="content-description">{{item.descricao}}</p>
-
-
           </p-card>
         </div>
       </div>
     </div>
   </div>
-      <div class="atividade-options">
-      <p-button icon="pi pi-file-check" [rounded]="false" [text]="true" size="small" label="Lançar atividade"
-        severity="secondary" (onClick)="abrirLancarAtividade()"></p-button>
-    </div>
+  <div class="atividade-options">
+
+  </div>
 
 
   <p-divider />
@@ -77,4 +74,5 @@ draggable="false" resizable="false"
 <p-toast />
 <p-confirmdialog />
 
-<app-lancar-atividade [(visible)]="apresentarLancarAtividade"  [id_aluno]="id_aluno" [id_aula]="id_aula"></app-lancar-atividade>
+<app-lancar-atividade [(visible)]="apresentarLancarAtividade" [id_aluno]="id_aluno" [id_aula]="id_aula">
+</app-lancar-atividade>

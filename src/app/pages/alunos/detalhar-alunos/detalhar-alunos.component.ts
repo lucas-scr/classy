@@ -13,6 +13,8 @@ import { TimelineModule } from 'primeng/timeline';
 import { LancarAtividadeComponent } from "../../home/lancar-atividade/lancar-atividade.component";
 import { ServiceAulas } from '../../../services/service-aulas.service';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { TooltipModule } from 'primeng/tooltip';
+
 
 
 @Component({
@@ -22,7 +24,8 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     TimelineModule,
     LancarAtividadeComponent,
     ToastModule,
-    ConfirmDialog
+    ConfirmDialog,
+    TooltipModule
 ],
 providers: [
 ],
