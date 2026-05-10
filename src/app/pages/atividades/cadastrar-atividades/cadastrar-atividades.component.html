@@ -35,12 +35,8 @@
           {{ nomeArquivo || 'Nenhum arquivo selecionado' }}
           <p-button *ngIf="arquivoBlob" type="button" label="Limpar" (click)="limparArquivos()" class="w-full" [outlined]="true"/>
         </ng-template>
-  
       </p-fileupload>
-      
-
     </div>
-
     <div class="cadastro_input">
       <p-floatlabel variant="on">
         <input id="descricao" pInputText [(ngModel)]="descricao" required name="descricao">

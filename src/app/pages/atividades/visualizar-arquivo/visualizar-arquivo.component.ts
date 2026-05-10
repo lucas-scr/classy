@@ -5,112 +5,139 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { jsPDF } from 'jspdf';
-import { PDFDocument } from 'pdf-lib';
-
+import {
+  DomSanitizer,
+  SafeResourceUrl
+} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-visualizar-arquivo',
-  imports: [CommonModule, ButtonModule, CheckboxModule, DropdownModule, FormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ButtonModule,
+    CheckboxModule,
+    DropdownModule,
+    FormsModule
+  ],
   templateUrl: './visualizar-arquivo.component.html',
   styleUrl: './visualizar-arquivo.component.css'
 })
 export class VisualizarArquivoComponent implements OnChanges {
 
-   @Input() fileUrl!: string; 
-  @Input() imageUrls: string[] = []; 
+  @Input() fileUrl: string = '';
+  @Input() imageUrls: string[] = [];
+  @Input() tipoArquivo: 'pdf' | 'imagem' | null = null;
+
+  safePdfUrl!: SafeResourceUrl;
 
   isPDF = false;
+
   isImage = false;
 
-  pages: number[] = [];
-  selectedPages: number[] = [];
-
-    orientacoes = [
+  orientacoes = [
     { label: 'Retrato', value: 'p' },
     { label: 'Paisagem', value: 'l' }
   ];
 
-orientacaoSelecionada: 'p' | 'l' | 'portrait' | 'landscape' = 'p';
-P: any;
+  orientacaoSelecionada:
+    'p' | 'l' | 'portrait' | 'landscape' = 'p';
 
+  constructor(
+    private sanitizer: DomSanitizer
+  ) { }
 
-    async ngOnChanges(changes: SimpleChanges) {
-    if (changes['fileUrl'] && this.fileUrl) {
-      this.definirTipoArquivo();
-      if (this.isPDF) await this.prepararPdf();
+  async ngOnChanges() : Promise<void> {
+
+    this.definirTipoArquivo();
+    console.log('url acessada:', this.fileUrl)
+
+    if (this.fileUrl) {
+      await this.carregarPdf();
     }
   }
 
+  definirTipoArquivo(): void {
 
-    definirTipoArquivo() {
-    const extension = this.fileUrl.split('.').pop()?.toLowerCase();
-    this.isPDF = extension === 'pdf';
-    this.isImage = ['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(extension || '');
+    this.isPDF = this.tipoArquivo === 'pdf';
+
+    this.isImage = this.tipoArquivo === 'imagem';
   }
 
-    async prepararPdf() {
-    const response = await fetch(this.fileUrl);
-    const arrayBuffer = await response.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(arrayBuffer);
-    this.pages = Array.from({ length: pdfDoc.getPageCount() }, (_, i) => i + 1);
-  }
+  async gerarPdfComImagens(): Promise<void> {
 
-   async gerarPdfComPaginasSelecionadas() {
-    if (this.selectedPages.length === 0) {
-      alert('Selecione ao menos uma página.');
-      return;
-    }
-
-    const response = await fetch(this.fileUrl);
-    const arrayBuffer = await response.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(arrayBuffer);
-    const novoPdf = await PDFDocument.create();
-
-    for (const pageIndex of this.selectedPages) {
-      const [page] = await novoPdf.copyPages(pdfDoc, [pageIndex - 1]);
-      novoPdf.addPage(page);
-    }
-
-    const pdfBytes = await novoPdf.save();
-    this.downloadFile(pdfBytes, 'pdf-filtrado.pdf');
-  }
-
-
-   async gerarPdfComImagens() {
     if (this.imageUrls.length === 0) {
       alert('Nenhuma imagem selecionada.');
       return;
     }
 
-    const doc = new jsPDF({ orientation: this.orientacaoSelecionada });
+    const doc = new jsPDF({
+      orientation: this.orientacaoSelecionada
+    });
+
     for (let i = 0; i < this.imageUrls.length; i++) {
-      const imgData = await this.carregarImagemComoBase64(this.imageUrls[i]);
-      if (i > 0) doc.addPage();
-      doc.addImage(imgData, 'JPEG', 10, 10, 180, 260);
+
+      const imgData =
+        await this.carregarImagemComoBase64(
+          this.imageUrls[i]
+        );
+
+      if (i > 0) {
+        doc.addPage();
+      }
+
+      doc.addImage(
+        imgData,
+        'JPEG',
+        10,
+        10,
+        180,
+        260
+      );
     }
+
     doc.save('imagens.pdf');
   }
 
-  private async carregarImagemComoBase64(url: string): Promise<string> {
+  private async carregarImagemComoBase64(
+    url: string
+  ): Promise<string> {
+
     const response = await fetch(url);
+
     const blob = await response.blob();
+
     return new Promise((resolve, reject) => {
+
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
+
+      reader.onload = () =>
+        resolve(reader.result as string);
+
       reader.onerror = reject;
+
       reader.readAsDataURL(blob);
     });
   }
 
-  private downloadFile(data: Uint8Array, filename: string) {
-    const blob = new Blob([new Uint8Array(data)], { type: 'application/pdf' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
+  async carregarPdf(): Promise<void> {
+
+    try {
+
+      const response = await fetch(this.fileUrl);
+
+      const blob = await response.blob();
+
+      const blobUrl = URL.createObjectURL(blob);
+
+      this.safePdfUrl =
+        this.sanitizer.bypassSecurityTrustResourceUrl(
+          blobUrl
+        );
+
+    } catch (error) {
+
+      console.error('Erro ao carregar PDF', error);
+    }
   }
-
-
 }

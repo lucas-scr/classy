@@ -193,5 +193,21 @@ abrirArquivo(urlArquivo: string): Observable<string> {
     })()
   );
 }
+
+findByMateria(materia_id: number){
+      return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select(
+          `*,
+          materia (nome)`
+        ).eq('materia', materia_id)
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data || []).map(adaptarAtividadeParaResponse);
+      })
+    )
+}
 }
 

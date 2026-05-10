@@ -5,6 +5,7 @@
   flex-direction: row;
 }
 
+
 .bt-download {
   display: flex;
   align-content: center;
@@ -23,18 +24,31 @@
   margin: 14px 5px 14px 0px;
 }
 
-.dropdown-atividade label {
+.dropdown-materia {
+  flex-grow: 1;
+  flex-basis: auto;
+  align-self: stretch;
+  width: 100%;
+  margin: 14px 5px 14px 0px;
+}
+
+.text-area-observacoes{
+  flex-grow: 1;
+  flex-basis: auto;
+  align-self: stretch;
+  width: 100%;
+  margin: 14px 5px 14px 0px;
+}
+
+label {
   z-index: 100;
 }
 
-sa .container-observacoes {
+.container-observacoes {
+  margin: 14px 5px 14px 0px;
   width: 100%;
 }
 
-.container-observacoes textarea {
-  width: 100%;
-  border-color: #cbd5e1;
-}
 
 .container-iframe {
   width: 100%;

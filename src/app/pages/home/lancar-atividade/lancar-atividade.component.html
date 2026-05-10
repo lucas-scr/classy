@@ -2,73 +2,53 @@
   [style]="{ width: ' 800px', heigth: '700px' }" [closable]="false">
   <div class="container">
     <div class="container-form">
-      <div class="input-atividade">
-        <p-floatlabel variant="on" class="dropdown-atividade">
-          <label for="atividade">Atividade</label>
-          <p-select id="atividade" [options]="grupoAtividades" [group]="true" [(ngModel)]="atividadeSelecionada"
-            (onChange)="escolherAtividade()" optionLabel="label"  [showClear]="true" [filter]="true" (onClear)="limparEscolha()"
-            [style]="{width: '100%'}">
-            <ng-template let-group #group>
-              <div class="flex items-center">
-                <span>{{ group.label }}</span>
-              </div>
-            </ng-template>
-            <ng-template let-atividade pTemplate="item">
-              {{atividade.label}}
-            </ng-template>
-              <ng-template let-atividade pTemplate="selectedItem">
-              {{ atividade.label }}
-            </ng-template>
-          </p-select>
-        </p-floatlabel>
+      <form #formLancarAtividade="ngForm" (ngSubmit)="salvar()">
+        <div class="input-atividade">
+          <p-floatlabel variant="on" class="dropdown-materia">
+            <label for="materias">Materia</label>
+            <p-select id="materias" [options]="materias" [(ngModel)]="materiaSelecionada" optionLabel="nome" name="atividade"
+              (onChange)="escolherMateria()" [showClear]="true" [filter]="true" [style]="{width: '100%'}"></p-select>
+          </p-floatlabel>
+        <div *ngIf="formLancarAtividade.controls['atividade']?.invalid && formLancarAtividade.controls['atividade']?.touched">
+        <small>Este campo é obrigatório</small>
       </div>
-      <div class="input-atividade" *ngIf="isImagem">
-        <p-floatlabel variant="on" class="dropdown-atividade">
-          <label for="atividade2">Selecione uma segunda imagem (Opcional)</label>
-          <p-select id="atividade2" [options]="atividades" [(ngModel)]="atividadeSelecionada2"
-            (onChange)="escolherAtividade2()" optionLabel="`atividade.codigo`" [showClear]="true" [filter]="true"
-            (onClear)="limparEscolha()" [style]="{width: '100%'}">
-            <ng-template let-group #group>
-              <div class="flex items-center">
-                <span>{{ group.label }}</span>
-              </div>
-            </ng-template>
-            <ng-template let-atividade pTemplate="item">
-              {{ atividade.nome_materia }} - {{ atividade.codigo }}
-            </ng-template>
-            <ng-template let-atividade pTemplate="selectedItem">
-              {{ atividade.nome_materia }} - {{ atividade.codigo }}
-            </ng-template>
-          </p-select>
-        </p-floatlabel>
+        </div>
+        <div class="input-atividade">
+          <p-floatlabel variant="on" class="dropdown-atividade">
+            <label for="atividade">Atividade</label>
+            <p-select id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada" name="descricao"
+              [disabled]="!enableAtividade" (onChange)="escolherAtividade()" optionLabel="descricao" [showClear]="true"
+              [filter]="true" [style]="{width: '100%'}">
+            </p-select>
+          </p-floatlabel>
+         <div *ngIf="formLancarAtividade.controls['atividade']?.invalid && formLancarAtividade.controls['atividade']?.touched">
+        <small>Este campo é obrigatório</small>
       </div>
-      <div class="container-observacoes" style="margin-bottom: 14px;">
-        <p-floatlabel variant="on">
-          <label for="observacoes">Observações</label>
-          <textarea id="observacoes" [(ngModel)]="observacoes"></textarea>
-        </p-floatlabel>
-      </div>
-      <label>Detalhes do arquivo</label>
-
-     <!-- <div class="container-iframe">
-         <iframe [(src)]="urlArquivo" *ngIf="urlArquivo">
-        </iframe>
-        <div *ngIf="!urlArquivo" class="arquivo-ausente">
-          <label>Selecione a atividade e clique em "Apresentar"</label>
-        </div> 
-
-        <app-visualizar-arquivo *ngIf="atividadeSelecionada?.url" [fileUrl]="urlArquivoSelecionado"
-          [imageUrls]="imagensSelecionadas">
-
-        </app-visualizar-arquivo>
-      </div> -->
+        </div>
+        <div class="container-observacoes">
+          <p-floatlabel variant="in">
+            <label for="observacoes">Observações</label>
+            <textarea pTextarea id="observacoes" [(ngModel)]="observacoes" rows="3" style="resize: none"
+              [style]="{width: '100%'}"></textarea>
+          </p-floatlabel>
+        </div>
+        <div class="detalhar_atividade">
+          <div class="detalhar_atividade_empty">
+            Selecione a atividade
+          </div>
+          <div class="detalhar_atividade_choose">
+            <app-visualizar-arquivo [fileUrl]="urlArquivo" [imageUrls]="imagensSelecionadas" [tipoArquivo]="isImagem ? 'imagem' : 'pdf'">
+            </app-visualizar-arquivo>
+          </div>
+        </div>
+      </form>
     </div>
-
-    <ng-template pTemplate="footer">
-      <div class="container-acoes">
-        <p-button label="Fechar" icon="pi pi-times" severity="secondary" (onClick)="fechar()"></p-button>
-        <p-button label="Salvar" icon="pi pi-save" (onClick)="salvar()" [disabled]="!atividadeSelecionada"></p-button>
-      </div>
-    </ng-template>
   </div>
+        <ng-template pTemplate="footer">
+          <div class="container-acoes">
+            <p-button label="Fechar" icon="pi pi-times" severity="secondary" (onClick)="fechar()"></p-button>
+            <p-button label="Salvar" icon="pi pi-save" type="submit" [disabled]="formLancarAtividade.invalid">
+            </p-button>
+          </div>
+        </ng-template>
 </p-dialog>

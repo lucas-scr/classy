@@ -8,9 +8,11 @@ import { Atividade } from '../../../interfaces/atividades';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
 import { VisualizarArquivoComponent } from "../../atividades/visualizar-arquivo/visualizar-arquivo.component";
-import { endWith } from 'rxjs';
 import { SelectItemGroup } from 'primeng/api';
 import { SelectModule } from 'primeng/select';
+import { Materia } from '../../../interfaces/materias';
+import { ServiceMateria } from '../../../services/service_materias';
+
 
 
 
@@ -37,50 +39,34 @@ export class LancarAtividadeComponent implements OnInit {
 
   imagensSelecionadas = [];
   atividadeSelecionada?: Atividade;
-  atividadeSelecionada2?: Atividade;
 
   observacoes: string = '';
 
   atividades: Atividade[] = [];
-  grupoAtividades: SelectItemGroup[]
+
+  materias: Materia[] = [];
+  materiaSelecionada: Materia | undefined;
+  enableAtividade: boolean = false;
 
   constructor(
     private serviceAluno: ServiceAlunos,
     private serviceAtividades: ServiceAtividades,
-    private serviceMensagem: ServiceMensagemGlobal
+    private serviceMensagem: ServiceMensagemGlobal,
+    private serviceMateria: ServiceMateria
   ) {
-    
+
   }
 
   ngOnInit(): void {
+    this.serviceMateria.getMaterias().subscribe({
+      next: (data) => {
+        this.materias = data
+        console.log(this.materias)
 
-  this.serviceAtividades.getAtividades().subscribe({
-    next: (data) => {
-      this.atividades = data;
-
-      let gpAtividades = [...new Set(this.atividades.map(a => a.nome_materia))];
-
-      const novosGrupos = gpAtividades.map(element => ({
-        label: element,
-        value: element,
-        items: this.atividades
-          .filter(a => a.nome_materia === element)
-          .map(a => ({
-            label: a.codigo + "-" + a.descricao,
-            value: a.id
-          }))
-      }));
-
-      this.grupoAtividades = [
-        ...novosGrupos
-      ];
-
-      console.log(this.grupoAtividades);
-    }
-  });
-}
-
-
+      },
+      error: (erro) => console.log('Erro ao carregar materias', erro)
+    })
+  }
   fechar() {
     this.visible = false;
     this.observacoes = '';
@@ -100,15 +86,13 @@ export class LancarAtividadeComponent implements OnInit {
           this.atividadeSelecionada.url = data
         } else {
           if (this.imagensSelecionadas.length <= 2) {
-            console.log("adicionado imagem em lista")
             this.imagensSelecionadas[index] = this.urlArquivo;
-            console.log(this.imagensSelecionadas.length )
+            console.log(this.imagensSelecionadas.length)
           }
         }
       },
       error: (err) => console.log("Erro", err)
     })
-
   }
 
   salvar() {
@@ -143,36 +127,44 @@ export class LancarAtividadeComponent implements OnInit {
 
   limparEscolha() {
     this.atividadeSelecionada = undefined;
-    this.atividadeSelecionada2 = undefined;
     this.imagensSelecionadas = [];
     this.urlArquivo = ''
     this.urlArquivoSelecionado = ''
   }
 
-  escolherAtividade(){
+  escolherAtividade() {
     this.verificarTipoArquivoAtividade(this.atividadeSelecionada);
     this.urlArquivoSelecionado = this.atividadeSelecionada.url;
     this.apresentarAtividade(this.urlArquivoSelecionado, 0)
   }
 
-  escolherAtividade2(){
-    this.verificarTipoArquivoAtividade(this.atividadeSelecionada2)
-    if(this.isImagem = false){
-      this.atividadeSelecionada2 = undefined;
-    }
-    this.urlArquivoSelecionado = this.atividadeSelecionada2.url;
-    this.apresentarAtividade(this.urlArquivoSelecionado, 1)
-  }
 
-  verificarTipoArquivoAtividade(arquivo: Atividade){
-     if(arquivo.url.endsWith('.pdf')){
+
+  verificarTipoArquivoAtividade(arquivo: Atividade) {
+    if (arquivo.url.endsWith('.pdf')) {
       this.isImagem = false;
       console.log("imagem", this.isImagem)
-    }else{
+    } else {
       this.isImagem = true;
       console.log("imagem", this.isImagem)
 
     }
     console.log("Fim da verificação")
+  }
+  escolherMateria() {
+    if (this.materiaSelecionada) {
+      this.enableAtividade = true;
+      this.carregarAtividades()
+    } else {
+      this.enableAtividade = false;
+      this.atividadeSelecionada = undefined;
+    }
+  }
+
+  carregarAtividades() {
+    this.serviceAtividades.findByMateria(this.materiaSelecionada.id).subscribe({
+      next: (data) => { this.atividades = data; console.log('atividades', this.atividades) },
+      error: (err) => console.log(err)
+    });
   }
 }
