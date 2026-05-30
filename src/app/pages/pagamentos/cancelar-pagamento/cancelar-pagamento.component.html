@@ -1,6 +1,6 @@
 <p-dialog header="Cancelar Pagamento" [modal]="true" [(visible)]="visible" [style]="{ width: '35rem' }">
     <form #formCancelamento="ngForm" (ngSubmit)="cancelarPagamento()">
-        <span class="p-text-secondary block mb-8">Você está cancelando um pagamento de {{pagamento?.valor |
+        <span class="p-text-secondary block mb-8">Você está cancelando um pagamento de {{pagamento?.valor_total |
             moeda}}.</span>
         <div class="cadastro_input">
             <p-floatlabel variant="on">

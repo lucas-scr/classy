@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Menu } from 'primeng/menu';
 import { MoedaPipe } from '../../../shared/mascaras.pipe';
 import { CancelarPagamentoComponent } from '../cancelar-pagamento/cancelar-pagamento.component';
+import { error } from 'pdf-lib';
 
 @Component({
   selector: 'app-listar-pagamentos',
@@ -47,6 +48,7 @@ export class ListarPagamentosComponent implements OnInit {
   }
 
   carregarLista() {
+   this.servicePagamento.getPagamentos().subscribe()
   }
 
   removerPagamento(id: number) {
@@ -105,7 +107,7 @@ export class ListarPagamentosComponent implements OnInit {
             label: 'Cancelar',
             icon: 'pi pi-times',
             command: () => this.abrirModalCancelamento(this.itemId),
-            visible: this.pagamento?.situacao !== 'Cancelado' && this.pagamento?.situacao !==  'Pago'
+            visible: this.pagamento?.situacao !== 1 && this.pagamento?.situacao !== 2
 
           },
           {

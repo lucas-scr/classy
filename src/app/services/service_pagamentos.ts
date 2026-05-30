@@ -9,27 +9,39 @@ import { adaptarPagamentoParaRequest, adaptarPagamentoParaResponse } from '../sh
   providedIn: 'root',
 })
 export class ServicePagamentos {
-    private tabela = 'pagamentos'
+  private tabela = 'pagamento'
 
-    constructor (private supabase: SupabaseService){
-        
-    }
+  constructor(private supabase: SupabaseService) {
+  }
 
 
-    postPagamento(pagamento: Pagamento):Observable<Pagamento>{
-        const payload = adaptarPagamentoParaRequest(pagamento);
-            return from(
-              this.supabase.getClient()
-                .from(this.tabela)
-                .insert(payload)
-                .select()
-                .single()
-            ).pipe(
-              map(({ data, error }) => {
-                if (error) throw error;
-                return adaptarPagamentoParaResponse(data);
-              })
-            );
-    }  
+  postPagamento(pagamento: Pagamento): Observable<Pagamento> {
+    const payload = adaptarPagamentoParaRequest(pagamento);
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .insert(payload)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarPagamentoParaResponse(data);
+      })
+    );
+  }
+
+  getPagamentos(): Observable<Pagamento[]> {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select(`*`)
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data || [])
+      })
+    );
+  }
 
 }
