@@ -1,11 +1,25 @@
-.container_view_images{
-    width: 292px;
-    height: 421px;
-    background-color: rgb(230, 31, 114);
+.container-preview{
+  padding: 12px;
+}
+.preview-image{
+object-fit: contain;
+aspect-ratio: 210/297;
+background-color: rgb(216, 213, 213);
+border: 1px solid #ccc;
+width: 360px;
+height: 509px;
 }
 
-.image{
-object-fit: contain;
-transform: rotate(90deg);
+.preview-file{
+ background-color: rgb(87, 49, 255);
+ aspect-ratio: 210/297;
+width: 360px;
+height: 509px;
+}
 
+.preview-image img {
+  max-width: 357px; 
+  max-height: 503px;
+  object-fit: contain;
+  display: block;
 }

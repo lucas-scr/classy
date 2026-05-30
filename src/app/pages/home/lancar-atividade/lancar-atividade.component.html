@@ -2,21 +2,22 @@
   [style]="{ width: ' 800px', heigth: '700px' }" [closable]="false">
   <div class="container">
     <div class="container-form">
-      <form #formLancarAtividade="ngForm" (ngSubmit)="salvar()">
+      <div class="container-inputs">
+        <form #formLancarAtividade="ngForm" (ngSubmit)="salvar()">
         <div class="input-atividade">
           <p-floatlabel variant="on" class="dropdown-materia">
             <label for="materias">Materia</label>
-            <p-select id="materias" [options]="materias" [(ngModel)]="materiaSelecionada" optionLabel="nome" name="atividade"
+            <p-select id="materias" [options]="materias" [(ngModel)]="materiaSelecionada" optionLabel="nome" name="materias"
               (onChange)="escolherMateria()" [showClear]="true" [filter]="true" [style]="{width: '100%'}"></p-select>
           </p-floatlabel>
-        <div *ngIf="formLancarAtividade.controls['atividade']?.invalid && formLancarAtividade.controls['atividade']?.touched">
+        <div *ngIf="formLancarAtividade.controls['materias']?.invalid && formLancarAtividade.controls['materias']?.touched">
         <small>Este campo é obrigatório</small>
       </div>
         </div>
         <div class="input-atividade">
           <p-floatlabel variant="on" class="dropdown-atividade">
             <label for="atividade">Atividade</label>
-            <p-select id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada" name="descricao"
+            <p-select id="atividade" [options]="atividades" [(ngModel)]="atividadeSelecionada" name="atividade"
               [disabled]="!enableAtividade" (onChange)="escolherAtividade()" optionLabel="descricao" [showClear]="true"
               [filter]="true" [style]="{width: '100%'}">
             </p-select>
@@ -32,16 +33,22 @@
               [style]="{width: '100%'}"></textarea>
           </p-floatlabel>
         </div>
+      </form>
+      </div>
+      <div class="container-preview-file">
         <div class="detalhar_atividade">
-          <div class="detalhar_atividade_empty">
+          <div class="detalhar_atividade_empty" *ngIf="!atividadeSelecionada">
             Selecione a atividade
           </div>
+          <div class="detalhar_atividade_selected" *ngIf="atividadeSelecionada">
+            Pré-visualização
+          </div>
           <div class="detalhar_atividade_choose">
-            <app-visualizar-arquivo [fileUrl]="urlArquivo" [imageUrls]="imagensSelecionadas" [tipoArquivo]="isImagem ? 'imagem' : 'pdf'">
+            <app-visualizar-arquivo [arquivoUrl]="urlArquivo" [nomeArquivo]="nomeArquivo" [tipoArquivo]="isImagem ? 'imagem' : 'pdf'">
             </app-visualizar-arquivo>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
         <ng-template pTemplate="footer">

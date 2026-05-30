@@ -40,4 +40,16 @@ export class DateUtils {
       case 'days':    return diffMs / (1000 * 60 * 60 * 24);
     }
   }
+
+
+  static formatarData(data: Date): string{
+     const dataFormatada =  
+    `${data.getDate().toString().padStart(2, '0')}-` +
+    `${(data.getMonth() + 1).toString().padStart(2, '0')}-` +
+    `${data.getFullYear()}_` +
+    `${data.getHours().toString().padStart(2, '0')}-` +
+    `${data.getMinutes().toString().padStart(2, '0')}`;
+
+    return dataFormatada
+  }
 }

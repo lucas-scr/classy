@@ -66,7 +66,7 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
         descricao: this.descricao,
         url: this.url,
       };
-      if (this.arquivoBlob != null || undefined) {
+      if (this.arquivoBlob != null) {
         atividadeCadastrada.arquivo = this.arquivoBlob
         atividadeCadastrada.arquivo_anexado = true;
       }
@@ -79,28 +79,9 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
       const file = event.files[0];
       this.isImage = file.type.startsWith('image/');
       this.nomeArquivo = file.name
-      if (file.type === 'application/pdf') {
-        this.tipoArquivo = 'application/pdf';
-        const reader = new FileReader();
-        reader.onload = () => {
-          const pdfBytes = new Uint8Array(reader.result as ArrayBuffer);
-          this.arquivoBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-          //gera o preview do arquivo
-          this.previewImagem = URL.createObjectURL(this.arquivoBlob);
-        };
-        reader.readAsArrayBuffer(file);
-      } else {
-        const reader = new FileReader();
-        this.tipoArquivo = file.type;
-        reader.onload = () => {
-          this.arquivoBlob = new Blob([reader.result as ArrayBuffer], {
-            type: file.type,
-          });
-          //gera o preview do arquivo
-          this.previewImagem = reader.result as string;
-        };
-        reader.readAsDataURL(file);
-      }
+      this.tipoArquivo = file.type;
+      this.arquivoBlob = file;
+      this.previewImagem = URL.createObjectURL(file);
     }
   }
 
@@ -133,20 +114,4 @@ export class CadastrarAtividadesComponent implements OnInit, OnDestroy {
     this.isImage = false;
     this.fileUpload.clear();
   }
-
-  // adicionarNoEditor(src: string) {
-
-  //   const novoElemento = {
-  //     id: Date.now(),
-  //     tipo: 'imagem',
-  //     src: src,
-  //     x: 50,
-  //     y: 50,
-  //     width: 150,
-  //     height: 150,
-  //     rotate: 0
-  //   };
-
-  //   this.elementos.push(novoElemento);
-  // }
 }

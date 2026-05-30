@@ -4,6 +4,9 @@ import { Atividade } from '../interfaces/atividades';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { SupabaseService } from '../core/services/serviceSupabase';
 import { adaptarAtividadeParaRequest, adaptarAtividadeParaResponse } from '../shared/adapters/atividade.adapter';
+import jsPDF from 'jspdf';
+import { DateUtils } from '../shared/utils/date-utils';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -74,7 +77,7 @@ export class ServiceAtividades {
     )
   }
 
-  async adicionarTextoRodapePDF(pdfBytes: Uint8Array): Promise<Uint8Array> {
+  async adicionarTextoRodapePDF(pdfBytes: Uint8Array, texto: string): Promise<Uint8Array> {
     const pdfDoc = await PDFDocument.load(pdfBytes);
 
     const pages = pdfDoc.getPages();
@@ -83,7 +86,7 @@ export class ServiceAtividades {
     const { width, height } = firstPage.getSize();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-    firstPage.drawText('Texto do Rodapé', {
+    firstPage.drawText(texto, {
       x: 50,
       y: 20,
       size: 12,
@@ -209,5 +212,133 @@ findByMateria(materia_id: number){
       })
     )
 }
+
+  async gerarPdfComImagem(
+    arquivoUrl: string, 
+    nomeArquivo: string,
+    imageWidth: any,
+    imageHeight: any,
+    containerWidth: any,
+    containerHeight: any
+  
+  )
+    : Promise<void> {
+    if (!arquivoUrl) {
+      alert('Nenhuma imagem selecionada.');
+      return;
+    }
+
+    let orientacaoSelecionada:  'p' | 'l' | 'portrait' | 'landscape' = 'p';
+
+    const doc = new jsPDF({
+      orientation: orientacaoSelecionada,
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    const pageWidth =  doc.internal.pageSize.getWidth();
+    const pageHeight =  doc.internal.pageSize.getHeight();
+    const imgData =  await this.carregarImagemComoBase64(arquivoUrl);
+
+
+  const widthPercent =
+    imageWidth / containerWidth;
+  const heightPercent =
+    imageHeight / containerHeight;
+  /*
+    Tamanho proporcional no PDF
+  */
+  const finalWidth = pageWidth * widthPercent;
+  const finalHeight = pageHeight * heightPercent;
+
+  /*
+    Centraliza no A4
+  */
+  const x = 0;
+  const y = 0;
+
+  const formato =
+    imgData.includes('image/png')
+      ? 'PNG'
+      : 'JPEG';
+
+  doc.addImage(
+    imgData,
+    formato,
+    x,
+    y,
+    finalWidth,
+    finalHeight
+  );
+
+  /*
+    CONVERSÃO PARA PDF-LIB
+  */
+  const pdfArrayBuffer =
+    doc.output('arraybuffer');
+
+  /*
+    AJUSTA O NOME DO ARQUIVO
+  */
+
+  const agora = new Date();
+  const nomeArquivoBaixado = nomeArquivo +  '_' +  DateUtils.formatarData(agora)
+  /*
+    ADICIONA RODAPÉ
+  */
+  const pdfFinal =
+    await this.adicionarTextoRodapePDF(
+      new Uint8Array(pdfArrayBuffer), nomeArquivoBaixado
+    );
+
+  /*
+    DOWNLOAD FINAL
+  */
+  const blob = new Blob(
+    [pdfFinal.slice().buffer],
+    { type: 'application/pdf' }
+  );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const link =
+    document.createElement('a');
+
+
+  link.href = url;
+
+  link.download =  nomeArquivo + '.pdf';
+
+  link.click();
+
+  URL.revokeObjectURL(url);
+
+  }
+    private async carregarImagemComoBase64(url: string): Promise<string> {
+
+    const response =
+      await fetch(url);
+
+    const blob =
+      await response.blob();
+
+    return new Promise(
+      (resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = () =>
+          resolve(reader.result as string);
+
+        reader.onerror = reject;
+
+        reader.readAsDataURL(blob);
+      }
+    );
+  }
+
 }
+
+
 

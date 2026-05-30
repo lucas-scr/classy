@@ -8,7 +8,6 @@ import { Atividade } from '../../../interfaces/atividades';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
 import { HistoricoAtividade } from '../../../interfaces/historico-atividade';
 import { VisualizarArquivoComponent } from "../../atividades/visualizar-arquivo/visualizar-arquivo.component";
-import { SelectItemGroup } from 'primeng/api';
 import { SelectModule } from 'primeng/select';
 import { Materia } from '../../../interfaces/materias';
 import { ServiceMateria } from '../../../services/service_materias';
@@ -34,16 +33,13 @@ export class LancarAtividadeComponent implements OnInit {
 
   urlArquivo: string = '';
   urlArquivoSelecionado: string;
-
   isImagem: boolean = false;
-
-  imagensSelecionadas = [];
+  imagemSelecionada: string;
   atividadeSelecionada?: Atividade;
 
   observacoes: string = '';
-
+  nomeArquivo: string = '';
   atividades: Atividade[] = [];
-
   materias: Materia[] = [];
   materiaSelecionada: Materia | undefined;
   enableAtividade: boolean = false;
@@ -74,20 +70,16 @@ export class LancarAtividadeComponent implements OnInit {
     this.visibleChange.emit(this.visible);
   }
 
-  apresentarAtividade(url: string, index: number) {
+  apresentarAtividade(url: string) {
     this.serviceAtividades.abrirArquivo(url).subscribe({
       next: (data) => {
-        console.log('data', data)
         this.urlArquivo = ''
         this.urlArquivo = data
-        console.log('urlArquivo', this.urlArquivo)
-
         if (this.urlArquivo.endsWith('.pdf')) {
           this.atividadeSelecionada.url = data
         } else {
-          if (this.imagensSelecionadas.length <= 2) {
-            this.imagensSelecionadas[index] = this.urlArquivo;
-            console.log(this.imagensSelecionadas.length)
+          if (this.imagemSelecionada) {
+            this.imagemSelecionada = this.urlArquivo;
           }
         }
       },
@@ -127,15 +119,23 @@ export class LancarAtividadeComponent implements OnInit {
 
   limparEscolha() {
     this.atividadeSelecionada = undefined;
-    this.imagensSelecionadas = [];
-    this.urlArquivo = ''
-    this.urlArquivoSelecionado = ''
+    this.imagemSelecionada = '';
+    this.nomeArquivo = undefined;
+    this.urlArquivo = undefined;
+    this.urlArquivoSelecionado = '';
+    this.isImagem = false;
   }
 
   escolherAtividade() {
-    this.verificarTipoArquivoAtividade(this.atividadeSelecionada);
-    this.urlArquivoSelecionado = this.atividadeSelecionada.url;
-    this.apresentarAtividade(this.urlArquivoSelecionado, 0)
+    if (this.atividadeSelecionada == null) {
+      this.limparEscolha();
+    } else {
+      this.verificarTipoArquivoAtividade(this.atividadeSelecionada);
+      this.urlArquivoSelecionado = this.atividadeSelecionada.url;
+      this.apresentarAtividade(this.urlArquivoSelecionado)
+      this.nomeArquivo = this.materiaSelecionada.nome + '_' 
+      + this.atividadeSelecionada.codigo
+    }
   }
 
 

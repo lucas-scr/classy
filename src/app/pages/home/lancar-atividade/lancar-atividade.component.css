@@ -49,32 +49,10 @@ label {
   width: 100%;
 }
 
-
-.container-iframe {
-  width: 100%;
-  height: 650px;
-  border: 1px solid #cbd5e1;
-
-}
-
-.container-iframe iframe {
-  width: 100%;
-  height: 100%;
-}
-
-
-.container {
-  display: flex;
-  flex-grow: 1;
-  flex-wrap: nowrap;
-  flex-direction: row;
-}
-
 .container-form {
   display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-
+  flex-direction: row;
+  align-items: stretch;
 }
 
 .container-acoes {
@@ -92,4 +70,24 @@ label {
     align-content: center;
     justify-content: center;
     align-items: center;
+}
+.container-inputs{
+  width: 50%;
+}
+
+.container-preview-file{
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+
+.detalhar_atividade_empty{
+  padding: 12px;
+}
+
+.detalhar_atividade_selected{
+    padding: 12px;
 }
