@@ -47,43 +47,12 @@ export class ListarPagamentosComponent implements OnInit {
   }
 
   carregarLista() {
-    this.servicePagamentos.getPagamentos().subscribe({
-      next: (pagamentos) => {
-        this.listaPagamentos = pagamentos;
-      },
-      error: (err) => {
-        console.log(err);
-        this.msgGlobais.showMessage(
-          'error',
-          'Erro',
-          'Não foi possível carregar os pagamentos.'
-        );
-      },
-    });
   }
 
   removerPagamento(id: number) {
-    this.servicePagamentos.deletePagamento(id).subscribe({
-      next: () => {
-        this.carregarLista();
-        this.msgGlobais.showMessage(
-          'success',
-          'Removido',
-          'O pagamento foi removido com sucesso.'
-        );
-      },
-    });
   }
 
   cancelarPagamento(id: number) {
-    this.servicePagamentos.deletePagamento(id).subscribe({
-      next: () =>
-        this.msgGlobais.showMessage(
-          'success',
-          'Cancelado!',
-          'O pagamento foi cancelado com sucesso.'
-        ),
-    });
   }
 
   abrirMenu(event: any, id: number) {

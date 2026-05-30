@@ -69,12 +69,16 @@ export class ServiceContratos {
     );
   }
 
-  cadastrarContrato(contrato: Contrato): Observable<Contrato> {
 
+
+  cadastrarContrato(contrato: Contrato): Observable<Contrato> {
     return from(
       (async () => {
+        let alunoId: number | null = null;
+        let contratoId: number | null = null;
 
         try {
+          // 1. Inserir aluno
           if (contrato.aluno) {
             const { data: alunoData, error: alunoError } = await this.client
               .from(this.tabelaAluno)
@@ -86,51 +90,63 @@ export class ServiceContratos {
               .select()
               .single();
             if (alunoError) throw alunoError;
-            contrato.aluno.id = alunoData.id
+
+            console.log('idGerado', alunoData.id)
+            alunoId = alunoData.id;
+            console.log('idSalvo', alunoId)
+            contrato.aluno.id = alunoData.id;
+            console.log('Cadastrou o aluno')
           }
 
+          // 2. Inserir contrato
           const payloadContrato = adapterContratoParaRequest(contrato);
           payloadContrato.aluno = contrato.aluno.id;
+
+          console.log('contrato', payloadContrato)
 
           const { data: contratoData, error: contratoError } = await this.client
             .from(this.tabela)
             .insert(payloadContrato)
             .select()
             .single();
-
           if (contratoError) throw contratoError;
 
+          contratoId = contratoData.id;
           contrato.id = contratoData.id;
-      
+
+          // 3. Inserir dias das aulas
           if (!contrato.diasAlternados && contrato.diasDasAulas.length > 0) {
             const diasPayload = contrato.diasDasAulas.map((dia: any) => ({
-              contrato: contrato.id,
+              contrato: contratoId,
               horario: dia.horario,
-              dia_semana: dia.diaSemana
+              dia_semana: dia.diaSemana,
             }));
 
-            const {data: diasAulasData, error: diasError } = await this.client
+            const { error: diasError } = await this.client
               .from(this.tabelaDiasAula)
               .insert(diasPayload);
 
-            if (diasError) {
-              console.log("erro dias da semana", diasError)
-              throw diasError;
-            };
-
+            if (diasError) throw diasError;
           }
-       
           return adaptarContratoParaResponse(contratoData);
         } catch (err) {
-          await this.client.from(this.tabela).delete().eq("id", contrato.id);
-          await this.client.from(this.tabelaAluno).delete().eq("id", contrato.aluno.id);
-          await this.client.from(this.tabelaDiasAula).delete().eq("contrato", contrato.id);
+          // Rollback: desfaz apenas o que foi inserido com sucesso
+          if (contratoId) {
+            const { error: errDias } = await this.client.from(this.tabelaDiasAula).delete().eq('contrato', contratoId);
+            console.log('Rollback dias:', errDias ?? 'OK');
+
+            const { error: errContrato } = await this.client.from(this.tabela).delete().eq('id', contratoId);
+            console.log('Rollback contrato:', errContrato ?? 'OK');
+          }
+          if (alunoId) {
+            const { error: errAluno } = await this.client.from(this.tabelaAluno).delete().eq('id', alunoId);
+            console.log('Rollback aluno:', errAluno ?? 'OK');
+          }
           throw err;
         }
       })()
     );
   }
-
 
   atualizarContrato(contrato: Contrato): Observable<Contrato> {
     if (!contrato.id) {
@@ -138,43 +154,43 @@ export class ServiceContratos {
     }
     return from(
       (async () => {
-              const { data: contratoData, error: contratoError} = await  this.client
-        .from(this.tabela)
-        .update(adapterContratoParaRequest(contrato))
-        .eq('id', contrato.id)
-        .select()
-        .single()
+        const { data: contratoData, error: contratoError } = await this.client
+          .from(this.tabela)
+          .update(adapterContratoParaRequest(contrato))
+          .eq('id', contrato.id)
+          .select()
+          .single()
 
-        if(contratoError) throw contratoError
+        if (contratoError) throw contratoError
 
-        const { error: deleteError} = await this.client
-        .from('dias_aulas')
-        .delete()
-        .eq('contrato', contrato.id);
+        const { error: deleteError } = await this.client
+          .from('dias_aulas')
+          .delete()
+          .eq('contrato', contrato.id);
 
-        if(deleteError) throw deleteError
+        if (deleteError) throw deleteError
 
-        if(contrato.diasDasAulas && contrato.diasDasAulas.length > 0){
+        if (contrato.diasDasAulas && contrato.diasDasAulas.length > 0) {
           const payloadDias = contrato.diasDasAulas.map((dia) => ({
-          contrato: contrato.id,
-          dia_semana: dia.diaSemana,
-          horario: dia.horario
-        }));
+            contrato: contrato.id,
+            dia_semana: dia.diaSemana,
+            horario: dia.horario
+          }));
 
-        const { error: insertError} = await this.client
-        .from('dias_aulas')
-        .insert(payloadDias)
+          const { error: insertError } = await this.client
+            .from('dias_aulas')
+            .insert(payloadDias)
 
-        if(insertError) throw insertError
+          if (insertError) throw insertError
         }
 
-        const {data: contratoFinal, error: selectError} = await this.client
-        .from(this.tabela)
-        .select('*, dias_aulas(*)')
-        .eq('id', contrato.id)
-        .single()
+        const { data: contratoFinal, error: selectError } = await this.client
+          .from(this.tabela)
+          .select('*, dias_aulas(*)')
+          .eq('id', contrato.id)
+          .single()
 
-        if(selectError) throw selectError
+        if (selectError) throw selectError
 
         return adaptarContratoParaResponse(contratoFinal)
 
@@ -191,15 +207,15 @@ export class ServiceContratos {
         .select()
         .single()
     ).pipe(
-      map(({ data, error })  => {
+      map(({ data, error }) => {
         if (error) throw error;
         return adaptarContratoParaResponse(data);
       })
     );
   }
 
-    tratarErro(error: any){
+  tratarErro(error: any) {
     this.supabase.handleError(error)
   }
-  
+
 }
