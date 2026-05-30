@@ -37,27 +37,6 @@
   width: 100%;
 }
 
-.situacao-ativo {
-  width: 100%;
-  border-radius: 4px;
-  padding: 3px;
-  padding-right: 4px;
-  padding-left: 4px;
-  border: 1px solid;
-  font-size: 14px;
-  background-color: #b2ddb4;
-}
-
-.situacao-inativo {
-  width: 100%;
-  border-radius: 4px;
-  padding: 3px;
-  padding-right: 4px;
-  padding-left: 4px;
-  border: 1px solid;
-  font-size: 14px;
-  background-color: #f69ebc;
-}
 
 .item_list:hover {
   background-color: #ecfdf5;
@@ -85,10 +64,11 @@ td {
   padding-left: 4px;
   border: 1px solid;
   font-size: 14px;
-  background-color: #ffa42d;
+  color: white;
+  background-color: #ff2d2d;
 }
 
-.situacao-aberto {
+.situacao-pendente {
     width: 100%;
     border-radius: 4px;
     padding: 3px;
@@ -107,5 +87,5 @@ td {
     padding-left: 4px;
     border: 1px solid;
     font-size: 14px;
-    background-color: #eba7a7;
+    background-color: #a8a8a8;
   }

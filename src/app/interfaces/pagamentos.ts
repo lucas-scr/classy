@@ -8,11 +8,12 @@ export interface Pagamento {
     contrato_id: number;
     descricao?: string;
     data_pagamento?: Date;
-    situacao?: number;
+    situacao?: string;
     valor_total?: number;
     desconto?: number;
     motivoCancelamento?: string;
 
-    
-    contrato?: Contrato;
+    responsavel_contrato?: string;
+    aluno?:string
+
 }

@@ -27,39 +27,43 @@
             </ng-template>
             <ng-template #header>
                 <tr class="tr_header">
-                    <th style="width:25%">Valor</th>
-                    <th style="width:25%">Responsável</th>
-                    <th style="width:20%">Data de vencimento</th>
-                    <th style="width:5%">Data de pagamento</th>
-                    <th style="width:5%">Situação</th>
+
+                    <th style="width:20%">Responsável</th>
+                    <th style="width:35%">Aluno</th>
+                    <th style="width:10%">Valor</th>
+                    <th style="width:10%">Vencimento</th>
+                    <th style="width:15%">Situação</th>
                     <th style="width:5%">Ações</th>
                 </tr>
 
             </ng-template>
             <ng-template #body let-pagamento>
                 <tr class="item_list">
+  
                     <td>
                         <div>
-                            <span>{{pagamento.valor | moeda}}</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <span> {{ pagamento.contrato.responsavel.nome }} </span>
+                            <span> {{pagamento.responsavel_contrato}} </span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span> {{pagamento.dataVencimento | date:'dd/MM/yyyy'}} </span>
+                            <span> {{pagamento.aluno}} </span>
                         </div>
                     </td>
+
+                    <td>
+                        <div>
+                            <span>{{pagamento.valor_total | moeda}}</span>
+                        </div>
+                    </td>
+
 
                     <td>
                         <div style="text-align: center;">
-                            <span *ngIf="pagamento.dataPagamento"> {{pagamento.dataPagamento | date:'dd/MM/yyyy'}}
+                            <span *ngIf="pagamento.vencimento"> {{pagamento.vencimento | date:'dd/MM/yyyy'}}
                             </span>
-                            <span *ngIf="!pagamento.dataPagamento"> - </span>
+                            <span *ngIf="!pagamento.vencimento"> - </span>
                         </div>
                     </td>
 

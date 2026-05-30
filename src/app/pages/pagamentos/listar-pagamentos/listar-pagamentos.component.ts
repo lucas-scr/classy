@@ -48,7 +48,10 @@ export class ListarPagamentosComponent implements OnInit {
   }
 
   carregarLista() {
-   this.servicePagamento.getPagamentos().subscribe()
+   this.servicePagamentos.getPagamentos().subscribe({
+    next: (data) => {this.listaPagamentos = data},
+    error: (err) => {console.log(err)}
+   })
   }
 
   removerPagamento(id: number) {
@@ -98,6 +101,12 @@ export class ListarPagamentosComponent implements OnInit {
               this.router.navigate(['/detalhar-pagamento', this.itemId]),
           },
           {
+            label: 'Registrar pag.',
+            icon: 'pi pi-dollar',
+            visible: this.pagamento?.situacao !== 'Pago' && this.pagamento?.situacao !== 'Cancelado',
+            command: () => {}
+          },
+          {
             label: 'Editar',
             icon: 'pi pi-pencil',
             command: () =>
@@ -107,8 +116,7 @@ export class ListarPagamentosComponent implements OnInit {
             label: 'Cancelar',
             icon: 'pi pi-times',
             command: () => this.abrirModalCancelamento(this.itemId),
-            visible: this.pagamento?.situacao !== 1 && this.pagamento?.situacao !== 2
-
+            visible: this.pagamento?.situacao !== 'Cancelado' && this.pagamento?.situacao !== 'Pago'
           },
           {
             label: 'Remover',
@@ -123,15 +131,17 @@ export class ListarPagamentosComponent implements OnInit {
   abrirModalCancelamento(id: number) {
     this.cancelarComponent.abrirModal(id);
   }
+    abrirModalLiquidar(id: number) {
+  }
 
   getSituacaoClass(situacao: String): String {
     switch (situacao) {
-      case 'Pago':
-        return 'situacao-pago';
+      case 'Em aberto':
+        return 'situacao-pendente';
       case 'Vencido':
         return 'situacao-vencido';
-      case 'Em aberto':
-        return 'situacao-aberto';
+      case 'Pago':
+        return 'situacao-pago';
       case 'Cancelado':
         return 'situacao-cancelado';
       default:

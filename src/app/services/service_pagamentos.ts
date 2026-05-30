@@ -35,13 +35,49 @@ export class ServicePagamentos {
     return from(
       this.supabase.getClient()
         .from(this.tabela)
-        .select(`*`)
+        .select(`*, contrato:contrato_id(*, aluno:aluno(*))`)
     ).pipe(
       map(({ data, error }) => {
         if (error) throw error;
-        return (data || [])
+        return (data || []).map(
+           (item: any) => adaptarPagamentoParaResponse(item)
+        )
       })
     );
+  }
+
+    getPagamento(id:number): Observable<Pagamento> {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select(`*, contrato:contrato_id(*, aluno:aluno(*))`)
+        .eq('id', id)
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarPagamentoParaResponse(data)
+      })
+    );
+  }
+
+  cancelarPagamento(id: number, motivo: string){
+        return from(
+          this.supabase.getClient()
+            .from(this.tabela)
+            .update({
+              situacao: 0,
+              motivo_cancelamento: motivo
+            })
+            .eq('id', id)
+            .select()
+            .single()
+        ).pipe(
+          map(({ data, error }) => {
+            if (error) throw error;
+            return (data);
+          })
+        );
   }
 
 }

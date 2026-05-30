@@ -12,3 +12,11 @@ export const SituacoesTurmaPorId: Record<number, string> = {
   2: "Pendente de pag.",
   3: "Pendente de ass."
 };
+
+
+export const enumnSituacoesPagamentos: Record<number, string> = {
+  0: "Cancelado",
+  1: "Em aberto",
+  2: "Vencido",
+  3: "Pago",
+}

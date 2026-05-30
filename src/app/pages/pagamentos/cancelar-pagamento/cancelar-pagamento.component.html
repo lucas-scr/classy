@@ -1,7 +1,7 @@
 <p-dialog header="Cancelar Pagamento" [modal]="true" [(visible)]="visible" [style]="{ width: '35rem' }">
     <form #formCancelamento="ngForm" (ngSubmit)="cancelarPagamento()">
         <span class="p-text-secondary block mb-8">Você está cancelando um pagamento de {{pagamento?.valor_total |
-            moeda}}.</span>
+            moeda}} do aluno {{pagamento?.aluno}}.</span>
         <div class="cadastro_input">
             <p-floatlabel variant="on">
                 <label for="motivo" class="font-semibold w-24">Motivo do
@@ -15,7 +15,7 @@
 
         <div class="cadastro_botoes">
             <p-button label="Fechar" severity="secondary" (click)="visible = false" />
-            <p-button label="Confirmar" type="submit" [disabled]="formCancelamento.invalid" />
+            <p-button label="Confirmar" type="submit" [disabled]="formCancelamento.invalid" (onClick)="cancelarPagamento()" />
         </div>
     </form>
 </p-dialog>
