@@ -15,5 +15,6 @@ export interface Pagamento {
 
     responsavel_contrato?: string;
     aluno?:string
+    valor_pago?: number
 
 }

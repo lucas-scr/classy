@@ -1,1 +1,37 @@
-<p>registrar-liquidacao works!</p>
+<p-dialog header="Liquidar Pagamento" [modal]="true" [(visible)]="visible"
+  [style]="{ width: '45rem', height: '600px' }">
+  <form #formLiquidacao="ngForm" (ngSubmit)="liquidarPagamento()">
+    <span class="p-text-secondary block mb-8">Você está liquidando um pagamento de {{pagamento?.valor_total |
+            moeda}} do aluno {{pagamento?.aluno}}, com data {{pagamento?.vencimento}}</span>
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <p-datepicker id="dataPagamento" [(ngModel)]="dataPagamento" required name="dataPagamento"
+          dateFormat="dd/mm/yy" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
+        <label class="calendar_label" for="dataPagamento">Data do pagamento</label>
+      </p-floatlabel>
+      <div
+        *ngIf="formLiquidacao.controls['dataPagamento']?.invalid && formLiquidacao.controls['dataPagamento']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+
+
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <p-inputnumber [(ngModel)]="valorPago" name="valorPagamento" required inputId="valorContrato" mode="currency"
+          currency="BRL" locale="pt-BR" />
+        <label class="calendar_label" for="valorPagamento">Valor pago</label>
+      </p-floatlabel>
+      <div
+        *ngIf="formLiquidacao.controls['valorPagamento']?.invalid && formLiquidacao.controls['valorPagamento']?.touched">
+        <small>Este campo é obrigatório</small>
+      </div>
+    </div>
+  </form>
+  <ng-template #footer>
+    <div class="cadastro_botoes">
+      <p-button label="Fechar" severity="secondary" (click)="visible = false" />
+      <p-button label="Confirmar" type="submit" [disabled]="formLiquidacao.invalid" (onClick)="liquidarPagamento()" />
+    </div>
+  </ng-template>
+</p-dialog>

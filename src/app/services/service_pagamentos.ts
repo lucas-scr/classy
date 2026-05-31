@@ -80,4 +80,25 @@ export class ServicePagamentos {
         );
   }
 
+
+    liquidarPagamento(id: number, dataPagamento: Date, valorPago: number){
+        return from(
+          this.supabase.getClient()
+            .from(this.tabela)
+            .update({
+              situacao: 3,
+              data_pagamento: dataPagamento,
+              valor_pago: valorPago
+            })
+            .eq('id', id)
+            .select()
+            .single()
+        ).pipe(
+          map(({ data, error }) => {
+            if (error) throw error;
+            return (data);
+          })
+        );
+  }
+
 }

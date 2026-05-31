@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, viewChild, ViewChild } from '@angular/core';
 import { Pagamento } from '../../../interfaces/pagamentos';
 import { ServicePagamentos } from '../../../services/service_pagamentos';
 import { ServiceMensagemGlobal } from '../../../services/mensagens_global';
@@ -9,10 +9,11 @@ import { Menu } from 'primeng/menu';
 import { MoedaPipe } from '../../../shared/mascaras.pipe';
 import { CancelarPagamentoComponent } from '../cancelar-pagamento/cancelar-pagamento.component';
 import { error } from 'pdf-lib';
+import { RegistrarLiquidacaoComponent } from '../registrar-liquidacao/registrar-liquidacao/registrar-liquidacao.component';
 
 @Component({
   selector: 'app-listar-pagamentos',
-  imports: [PrimengImports, MoedaPipe, CancelarPagamentoComponent],
+  imports: [PrimengImports, MoedaPipe, CancelarPagamentoComponent, RegistrarLiquidacaoComponent],
   templateUrl: './listar-pagamentos.component.html',
   styleUrl: './listar-pagamentos.component.css',
   providers: [ConfirmationService],
@@ -26,8 +27,11 @@ export class ListarPagamentosComponent implements OnInit {
   opcoesDeAcoes: MenuItem[] | undefined;
   itemId: number = 0;
   @ViewChild('menu') menu!: Menu;
-  @ViewChild(CancelarPagamentoComponent)
+  @ViewChild(CancelarPagamentoComponent) 
   cancelarComponent: CancelarPagamentoComponent;
+
+  @ViewChild(RegistrarLiquidacaoComponent) 
+  liquidarComponent: RegistrarLiquidacaoComponent;
 
   motivoCancelamento: string;
 
@@ -104,18 +108,18 @@ export class ListarPagamentosComponent implements OnInit {
             label: 'Registrar pag.',
             icon: 'pi pi-dollar',
             visible: this.pagamento?.situacao !== 'Pago' && this.pagamento?.situacao !== 'Cancelado',
-            command: () => {}
+            command: () =>  this.liquidarComponent.abrirModal(this.itemId)
           },
           {
             label: 'Editar',
             icon: 'pi pi-pencil',
-            command: () =>
+            command: () => 
               this.router.navigate(['/editar-pagamento', this.itemId]),
           },
           {
             label: 'Cancelar',
             icon: 'pi pi-times',
-            command: () => this.abrirModalCancelamento(this.itemId),
+            command: () => this.cancelarComponent.abrirModal(this.itemId),
             visible: this.pagamento?.situacao !== 'Cancelado' && this.pagamento?.situacao !== 'Pago'
           },
           {
@@ -128,11 +132,6 @@ export class ListarPagamentosComponent implements OnInit {
     ];
   }
 
-  abrirModalCancelamento(id: number) {
-    this.cancelarComponent.abrirModal(id);
-  }
-    abrirModalLiquidar(id: number) {
-  }
 
   getSituacaoClass(situacao: String): String {
     switch (situacao) {
