@@ -27,19 +27,25 @@
             </ng-template>
             <ng-template #header>
                 <tr class="tr_header">
-
-                    <th style="width:20%">Responsável</th>
-                    <th style="width:35%">Aluno</th>
-                    <th style="width:10%">Valor</th>
-                    <th style="width:10%">Vencimento</th>
-                    <th style="width:15%">Situação</th>
-                    <th style="width:5%">Ações</th>
+                    <th style="width:20%">Responsável        </th>
+                    <th pSortableColumn="aluno" style="width:32%">Aluno
+                        <p-sortIcon field="aluno" />
+                    </th>
+                    <th pSortableColumn="valor_total" style="width:13%">Valor
+                        <p-sortIcon field="valor_total" />
+                    </th>
+                    <th pSortableColumn="vencimento" style="width:18%">Vencimento
+                        <p-sortIcon field="vencimento" />
+                    </th>
+                    <th pSortableColumn="situacao" style="width:12%">Situação
+                        <p-sortIcon field="situacao" />
+                    </th>
+                    <th  style="width:5%">Ações</th>
                 </tr>
 
             </ng-template>
             <ng-template #body let-pagamento>
                 <tr class="item_list">
-  
                     <td>
                         <div>
                             <span> {{pagamento.responsavel_contrato}} </span>
