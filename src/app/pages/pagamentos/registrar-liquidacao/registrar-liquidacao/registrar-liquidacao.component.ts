@@ -38,6 +38,8 @@ export class RegistrarLiquidacaoComponent {
         next: () => {
           this.msgGlobal.showMessage('success', 'Sucesso', 'Pagamento liquidado com sucesso.');
             this.visible = false;
+            this.dataPagamento = null;
+            this.valorPago = null;
             this.atualizarLista.emit()
         },
         error: (err) => this.msgGlobal.showMessage('danger','Erro ao liquidar pagamento', 

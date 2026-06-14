@@ -14,7 +14,8 @@ export interface Pagamento {
     motivoCancelamento?: string;
 
     responsavel_contrato?: string;
-    aluno?:string
-    valor_pago?: number
+    aluno?:string;
+    valor_pago?: number;
+    telefone?: string;
 
 }

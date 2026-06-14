@@ -101,4 +101,21 @@ export class ServicePagamentos {
         );
   }
 
+  editarPagamento(id: number, pagamento: Pagamento): Observable<Pagamento>{
+  const payload = adaptarPagamentoParaRequest(pagamento);
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .update(payload)
+        .eq('id', id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return adaptarPagamentoParaResponse(data);
+      })
+    );
+  }
+
 }

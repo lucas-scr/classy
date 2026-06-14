@@ -19,7 +19,8 @@ export function adaptarPagamentoParaResponse(data: any): Pagamento{
         situacao: enumnSituacoesPagamentos[data.situacao],
         motivoCancelamento: data.motivo_cancelamento,
         responsavel_contrato: data.contrato.nome_responsavel,
-        aluno: data.contrato.aluno.nome        
+        aluno: data.contrato.aluno.nome,
+        telefone: data.contrato.telefone
     }
     return pagamento
 }
