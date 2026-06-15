@@ -39,7 +39,7 @@ export class CancelarPagamentoComponent {
           this.atualizarLista.emit()
       },
       error: (err) => this.msgGlobal.showMessage('danger','Erro ao cancelar pagamento', 
-        'Não foi possível realizaro cancelamento do pagamento. Erro: ' + err)
+        'Não foi possível realizar o cancelamento do pagamento. Erro: ' + err)
     })
 }
 }

@@ -31,8 +31,10 @@ export class EditarPagamentosComponent {
   carregarDadosPagamento(){
         this.pagamentoService.getPagamento(this.id).subscribe({
       next: (data) => {
-        this.pagamento = data
-        this.msgService.showMessage('success', 'Sucesso', 'Os dados do pagamento foram alterados com sucesso.');
+        this.pagamento = data;
+        console.log('carregar', this.pagamento)
+        this.pagamento.data_pagamento = new Date(data.data_pagamento),
+        this.pagamento.vencimento = new Date(data.vencimento)
 
       },
       error: (err) => {
@@ -54,7 +56,8 @@ export class EditarPagamentosComponent {
 
   onSubmit(){
     this.pagamentoService.editarPagamento(this.id, this.pagamento).subscribe({
-      next: () => {this.msgService.showMessage('succes', 'Sucesso', 'Os ')},
+      next: () => {
+        this.msgService.showMessage('success', 'Sucesso', 'Os dados do pagamento foram alterados com sucesso.')},
       error: (err) => {}
     })
   }

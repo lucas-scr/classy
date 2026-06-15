@@ -2,7 +2,18 @@ import { Pagamento } from "../../interfaces/pagamentos";
 import { enumnSituacoesPagamentos } from "../Enums/enumSituacoes";
 
 export function adaptarPagamentoParaRequest(data: Pagamento): any{
- return data
+ const pagamento = {
+        valor_original: data.valor_original,
+        vencimento: data.vencimento.toISOString().split('T')[0],
+        descricao: data.descricao,
+        desconto: data.desconto,
+        valor_total: data.valor_total,
+        data_pagamento: data.data_pagamento.toISOString().split('T')[0],
+        situacao: enumnSituacoesPagamentos[data.situacao],
+        motivoCancelamento: data.motivoCancelamento,
+        valor_pago: data.valor_pago
+    }
+ return pagamento
 }
 
 export function adaptarPagamentoParaResponse(data: any): Pagamento{
@@ -20,7 +31,12 @@ export function adaptarPagamentoParaResponse(data: any): Pagamento{
         motivoCancelamento: data.motivo_cancelamento,
         responsavel_contrato: data.contrato.nome_responsavel,
         aluno: data.contrato.aluno.nome,
-        telefone: data.contrato.telefone
+        telefone: data.contrato.telefone,
+        valor_pago: data.valor_pago
     }
     return pagamento
+}
+
+function DataFormatada(): Date {
+    throw new Error("Function not implemented.");
 }

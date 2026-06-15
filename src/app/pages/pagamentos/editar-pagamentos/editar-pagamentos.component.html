@@ -1,99 +1,97 @@
-
 <p-card header="Detalhes do pagamento">
   <ng-template #title>
     Detalhes do pagamento
   </ng-template>
-<form #formEditar="ngForm" (ngSubmit)="onSubmit()">
-  <div class="cadastro_input ">
-    <p-floatlabel variant="on">
-      <input id="responsavel"  disabled readonly pInputText [(ngModel)]="pagamento.responsavel_contrato" required
-        name="responsavel">
-      <label for="responsavel">Responsável</label>
-    </p-floatlabel>
+  <form #formEditar="ngForm" (ngSubmit)="onSubmit()">
+    <div class="cadastro_input ">
+      <p-floatlabel variant="on">
+        <input id="responsavel" disabled readonly pInputText [(ngModel)]="pagamento.responsavel_contrato" required
+          name="responsavel">
+        <label for="responsavel">Responsável</label>
+      </p-floatlabel>
 
-  </div>
-  <div class="cadastro_input ">
-    <p-floatlabel variant="on">
-      <input id="aluno" readonly disabled pInputText [(ngModel)]="pagamento.aluno" required name="aluno">
-      <label for="aluno">Aluno</label>
-    </p-floatlabel>
-  </div>
-  <div class="cadastro_input ">
-    <p-floatlabel variant="on">
-      <input id="telefone" readonly disabled pInputText [(ngModel)]="pagamento.telefone" required name="telefone">
-      <label for="telefone">Telefone </label>
-    </p-floatlabel>
-  </div>
-  <div class="cadastro_input ">
-    <p-floatlabel variant="on">
-      <input id="descricao" pInputText [(ngModel)]="pagamento.descricao" required name="descricao">
-      <label for="descricao">Descrição</label>
-    </p-floatlabel>
-    <div *ngIf="formEditar.controls['descricao']?.invalid && formEditar.controls['descricao']?.touched">
+    </div>
+    <div class="cadastro_input ">
+      <p-floatlabel variant="on">
+        <input id="aluno" readonly disabled pInputText [(ngModel)]="pagamento.aluno" required name="aluno">
+        <label for="aluno">Aluno</label>
+      </p-floatlabel>
+    </div>
+    <div class="cadastro_input ">
+      <p-floatlabel variant="on">
+        <input id="telefone" readonly disabled pInputText [(ngModel)]="pagamento.telefone" required name="telefone">
+        <label for="telefone">Telefone </label>
+      </p-floatlabel>
+    </div>
+    <div class="cadastro_input ">
+      <p-floatlabel variant="on">
+        <input id="descricao" pInputText [(ngModel)]="pagamento.descricao" required name="descricao">
+        <label for="descricao">Descrição</label>
+      </p-floatlabel>
+      <div *ngIf="formEditar.controls['descricao']?.invalid && formEditar.controls['descricao']?.touched">
         <small>Este campo é obrigatório</small>
       </div>
-  </div>
+    </div>
 
-  <div class="cadastro_input">
-    <p-floatlabel variant="on">
-      <input id="situacao" disabled readonly pInputText required [(ngModel)]="pagamento.situacao" name="situacao">
-      <label for="situacao">Situação</label>
-    </p-floatlabel>
-  </div>
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="situacao" disabled readonly pInputText required [(ngModel)]="pagamento.situacao" name="situacao">
+        <label for="situacao">Situação</label>
+      </p-floatlabel>
+    </div>
 
-  <div class="cadastro_input">
-    <p-floatlabel variant="on">
-      <input id="valor" pInputText [(ngModel)]="pagamento.valor_total" required name="valor">
-      <label for="valor">Valor total</label>
-    </p-floatlabel>
-        <div *ngIf="formEditar.controls['valor']?.invalid && formEditar.controls['valor']?.touched">
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="valor" pInputText [(ngModel)]="pagamento.valor_total" required name="valor">
+        <label for="valor">Valor total</label>
+      </p-floatlabel>
+      <div *ngIf="formEditar.controls['valor']?.invalid && formEditar.controls['valor']?.touched">
         <small>Este campo é obrigatório</small>
       </div>
-  </div>
+    </div>
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <p-datepicker id="data_vencimento" [minDate]="dataMinima" [(ngModel)]="pagamento.vencimento" required
+          name="data_vencimento" dateFormat="dd/mm/yy">
 
-  <div class="cadastro_input">
-    <p-floatlabel variant="on">
-      <p-datepicker id="data_vencimento" [minDate]="dataMinima"  pInputText [(ngModel)]="pagamento.vencimento" required
-        name="data_vencimento" dateFormat="dd/mm/yy">
-      <label for="data_vencimento">Data de vencimento</label>
-      </p-datepicker>
-    </p-floatlabel>
-            <div *ngIf="formEditar.controls['data_vencimento']?.invalid && formEditar.controls['data_vencimento']?.touched">
+        </p-datepicker>
+        <label for="data_vencimento">Data de vencimento</label>
+      </p-floatlabel>
+      <div *ngIf="formEditar.controls['data_vencimento']?.invalid && formEditar.controls['data_vencimento']?.touched">
         <small>Este campo é obrigatório</small>
       </div>
-  </div>
+    </div>
 
-  <div class="cadastro_input">
-    <p-floatlabel variant="on">
-      <input id="desconto"  pInputText  [(ngModel)]="pagamento.desconto" name="desconto">
-      <label for="desconto">Desconto aplicado</label>
-    </p-floatlabel>
-  </div>
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="desconto" pInputText [(ngModel)]="pagamento.desconto" name="desconto">
+        <label for="desconto">Desconto aplicado</label>
+      </p-floatlabel>
+    </div>
 
 
-  <div class="cadastro_input">
-    <p-floatlabel variant="on">
-      <input id="valor_pago"  pInputText [(ngModel)]="pagamento.valor_pago"  name="valor_pago">
-      <label for="valor_pago">Valor pago</label>
-    </p-floatlabel>
-    
-  </div>
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <input id="valor_pago" pInputText [(ngModel)]="pagamento.valor_pago" name="valor_pago">
+        <label for="valor_pago">Valor pago</label>
+      </p-floatlabel>
 
-  <div class="cadastro_input">
-    <p-floatlabel variant="on">
-      <p-datepicker id="data_pagamento" pInputText [(ngModel)]="pagamento.data_pagamento " 
-        name="data_pagamento" dateFormat="dd/mm/yy">
-      <label for="data_pagamento">Data do pagamento</label>
-      </p-datepicker>
-    </p-floatlabel>
-  </div>
+    </div>
+
+    <div class="cadastro_input">
+      <p-floatlabel variant="on">
+        <p-datepicker id="data_pagamento"  [(ngModel)]="pagamento.data_pagamento " name="data_pagamento"
+          dateFormat="dd/mm/yy">
+        </p-datepicker>
+        <label for="data_pagamento">Data do pagamento</label>
+      </p-floatlabel>
+    </div>
 
 
     <div class="cadastro_botoes">
-      <p-button label="Cancelar" routerLink="/pagamentos" severity="secondary"
-      class="w-full" [outlined]="true"   styleClass="w-full" />
-      <p-button label="Salvar" class="w-full" styleClass="w-full" type="submit" 
-      [disabled]="formEditar.invalid" />
+      <p-button label="Cancelar" routerLink="/pagamentos" severity="secondary" class="w-full" [outlined]="true"
+        styleClass="w-full" />
+      <p-button label="Salvar" class="w-full" styleClass="w-full" type="submit" [disabled]="formEditar.invalid" />
     </div>
-</form>
+  </form>
 </p-card>

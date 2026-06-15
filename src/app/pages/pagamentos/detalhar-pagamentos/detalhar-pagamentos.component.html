@@ -38,14 +38,14 @@
 
   <div class="cadastro_input">
     <p-floatlabel variant="on">
-      <input id="valor" readonly pInputText [(ngModel)]="pagamento.valor_total" required name="valor">
+      <input id="valor" readonly pInputText [value]="pagamento.valor_total | moeda" required name="valor">
       <label for="valor">Valor total</label>
     </p-floatlabel>
   </div>
 
   <div class="cadastro_input">
     <p-floatlabel variant="on">
-      <input id="data_vencimento" readonly pInputText [(ngModel)]="pagamento.vencimento" required
+      <input id="data_vencimento" readonly pInputText [value]="pagamento.vencimento | date:'dd/MM/yyyy'"
         name="data_vencimento">
       <label for="data_vencimento">Data de vencimento</label>
     </p-floatlabel>
@@ -64,14 +64,14 @@
 
   <div class="cadastro_input">
     <p-floatlabel variant="on">
-      <input id="valor_pago" readonly pInputText [(ngModel)]="pagamento.valor_pago" required name="valor_pago">
+      <input id="valor_pago" readonly pInputText [value]="pagamento.valor_pago | moeda" required name="valor_pago">
       <label for="valor_pago">Valor pago</label>
     </p-floatlabel>
   </div>
 
   <div class="cadastro_input">
     <p-floatlabel variant="on">
-      <input id="data_pagamento" readonly pInputText [(ngModel)]="pagamento.data_pagamento" required
+      <input id="data_pagamento" readonly pInputText [value]="pagamento.data_pagamento | date:'dd/MM/yyyy'" required
         name="data_pagamento">
       <label for="data_pagamento">Data do pagamento</label>
     </p-floatlabel>

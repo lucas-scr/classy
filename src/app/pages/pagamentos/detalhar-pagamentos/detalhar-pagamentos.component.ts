@@ -7,10 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { DateUtils } from '../../../shared/utils/date-utils';
 import { CardModule } from 'primeng/card';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { MoedaPipe } from "../../../shared/mascaras.pipe";
 
 @Component({
   selector: 'app-detalhar-pagamentos',
-  imports: [PrimengImports, FormsModule, CardModule],
+  imports: [PrimengImports, FormsModule, CardModule, MoedaPipe],
   templateUrl: './detalhar-pagamentos.component.html',
   styleUrl: './detalhar-pagamentos.component.css'
 })
@@ -35,7 +36,8 @@ export class DetalharPagamentosComponent implements OnInit{
   carregarDadosPagamento(){
         this.pagamentoService.getPagamento(this.id).subscribe({
       next: (data) => {
-        this.pagamento = data
+        this.pagamento = data;
+        console.log(this.pagamento)
       },
       error: (err) => {
         this.msgService.showMessage('danger', 'Erro', 'Não foi possível recuperar os dados do pagamentos');
