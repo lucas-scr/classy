@@ -1,15 +1,33 @@
 <div class="tela_sistema">
-<app-menu-lateral class="menu_lateral" [class.open]="menuLateral" *ngIf="menuLateral"></app-menu-lateral>
+
+    <app-menu-lateral
+        *ngIf="menuLateral"
+        class="menu_lateral">
+    </app-menu-lateral>
+
     <div class="container">
+
         <div class="menu_bar">
             <nav>
-                <p-button icon="pi pi-bars" (click)="menuToggle()"></p-button>
+                <p-button
+                    icon="pi pi-bars"
+                    (click)="menuToggle()">
+                </p-button>
+
+                <p-button
+                    class="btn-sair"
+                    icon="pi pi-sign-out"
+                    label="Sair"
+                    (click)="logout()">
+                </p-button>
             </nav>
-            <p-button icon="pi pi-close" (click)="logout()"></p-button>
         </div>
+
         <div class="container_conteudo">
             <p-toast></p-toast>
             <router-outlet></router-outlet>
         </div>
+
     </div>
+
 </div>

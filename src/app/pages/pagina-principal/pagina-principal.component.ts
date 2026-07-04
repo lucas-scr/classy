@@ -18,7 +18,7 @@ export class PaginaPrincipalComponent {
 
   }
 
-  menuLateral: Boolean = true;
+  menuLateral: boolean = false;
 
   menuToggle(){
     this.menuLateral = !this.menuLateral;

@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ServicePagamentos } from '../../../services/service_pagamentos';
 import { Pagamento } from '../../../interfaces/pagamentos';
 import { PrimengImports } from '../../../shared/primengImports.module';
+import { enumnSituacoesPagamentos } from '../../../shared/Enums/enumSituacoes';
+import { MoedaPipe } from "../../../shared/mascaras.pipe";
+
 
 @Component({
   selector: 'app-editar-pagamentos',
@@ -32,7 +35,6 @@ export class EditarPagamentosComponent {
         this.pagamentoService.getPagamento(this.id).subscribe({
       next: (data) => {
         this.pagamento = data;
-        console.log('carregar', this.pagamento)
         this.pagamento.data_pagamento = new Date(data.data_pagamento),
         this.pagamento.vencimento = new Date(data.vencimento)
 
@@ -58,7 +60,10 @@ export class EditarPagamentosComponent {
     this.pagamentoService.editarPagamento(this.id, this.pagamento).subscribe({
       next: () => {
         this.msgService.showMessage('success', 'Sucesso', 'Os dados do pagamento foram alterados com sucesso.')},
-      error: (err) => {}
+      error: (err) => {
+        this.msgService.showMessage('danger', 'Erro', 'Algo deu errado ao salvar os dados do pagamento.')
+      console.log(err)
+      }
     })
   }
 

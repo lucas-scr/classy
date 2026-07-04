@@ -103,13 +103,12 @@ export class ServicePagamentos {
 
   editarPagamento(id: number, pagamento: Pagamento): Observable<Pagamento>{
   const payload = adaptarPagamentoParaRequest(pagamento);
-  console.log('service', payload)
     return from(
       this.supabase.getClient()
         .from(this.tabela)
         .update(payload)
         .eq('id', id)
-        .select()
+        .select(`*, contrato:contrato_id(*, aluno:aluno(*))`)
         .single()
     ).pipe(
       map(({ data, error }) => {

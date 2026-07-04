@@ -1,6 +1,6 @@
-<p-card header="Detalhes do pagamento">
+<p-card header="Alterar pagamento">
   <ng-template #title>
-    Detalhes do pagamento
+    Alterar dados do pagamento
   </ng-template>
   <form #formEditar="ngForm" (ngSubmit)="onSubmit()">
     <div class="cadastro_input ">
@@ -42,7 +42,8 @@
 
     <div class="cadastro_input">
       <p-floatlabel variant="on">
-        <input id="valor" pInputText [(ngModel)]="pagamento.valor_total" required name="valor">
+        <p-inputnumber id="valor" mode="currency" currency="BRL" locale="pt-BR"  
+        [(ngModel)]="pagamento.valor_total" required name="valor"/>
         <label for="valor">Valor total</label>
       </p-floatlabel>
       <div *ngIf="formEditar.controls['valor']?.invalid && formEditar.controls['valor']?.touched">
@@ -64,7 +65,7 @@
 
     <div class="cadastro_input">
       <p-floatlabel variant="on">
-        <input id="desconto" pInputText [(ngModel)]="pagamento.desconto" name="desconto">
+        <p-inputnumber id="desconto" [(ngModel)]="pagamento.desconto" name="desconto"/>
         <label for="desconto">Desconto aplicado</label>
       </p-floatlabel>
     </div>
@@ -72,7 +73,7 @@
 
     <div class="cadastro_input">
       <p-floatlabel variant="on">
-        <input id="valor_pago" pInputText [(ngModel)]="pagamento.valor_pago" name="valor_pago">
+        <p-inputnumber id="valor_pago"  mode="currency" currency="BRL" locale="pt-BR" [(ngModel)]="pagamento.valor_pago" name="valor_pago"/>
         <label for="valor_pago">Valor pago</label>
       </p-floatlabel>
 

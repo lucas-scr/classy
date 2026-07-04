@@ -9,10 +9,11 @@ export function adaptarPagamentoParaRequest(data: Pagamento): any{
         desconto: data.desconto,
         valor_total: data.valor_total,
         data_pagamento: data.data_pagamento.toISOString().split('T')[0],
-        situacao: enumnSituacoesPagamentos[data.situacao],
-        motivoCancelamento: data.motivoCancelamento,
-        valor_pago: data.valor_pago
-    }
+        situacao: data.situacao_id,  
+        motivo_cancelamento: data.motivoCancelamento,
+        valor_pago: data.valor_pago,
+        contrato_id: data.contrato_id
+        }
  return pagamento
 }
 
@@ -32,11 +33,10 @@ export function adaptarPagamentoParaResponse(data: any): Pagamento{
         responsavel_contrato: data.contrato.nome_responsavel,
         aluno: data.contrato.aluno.nome,
         telefone: data.contrato.telefone,
-        valor_pago: data.valor_pago
+        valor_pago: data.valor_pago,
+        situacao_id: data.situacao,
+        user_id: data.user_id
     }
     return pagamento
 }
 
-function DataFormatada(): Date {
-    throw new Error("Function not implemented.");
-}
