@@ -1,19 +1,30 @@
 <p-card>
     <div class="container">
-        <p-table [value]="pagamentos" [tableStyle]="{ 'min-width': '50rem' }" size="small">
+          <div class="title_card">
+    <div class="header-card">
+      <div class="title-container">
+        <h3 class="titulo">Pagamentos do mês</h3>
+      </div>
+    </div>
+  </div>
+        <p-table [value]="pagamentos" [tableStyle]="{ 'min-width': '50rem' }" size="small" stripedRows selectionMode="single" >
             <ng-template #header>
                 <tr>
-                    <th>Vencimento</th>
+                    <th pSortableColumn="vencimento">Vencimento
+                           <p-sortIcon field="vencimento" />
+                    </th>
                     <th>Aluno</th>
                     <th>Contato</th>
-                    <th>Situação</th>
+                    <th pSortableColumn="situacao">Situação
+                          <p-sortIcon field="Situação" />
+                    </th>
                     <th>Valor</th>
                 </tr>
             </ng-template>
-            <ng-template #body let-pagamento>
-                <tr>
+            <ng-template #body let-pagamento >
+                <tr (click)="apresentarLiquidarPagamento(pagamento.id)">
                     <td>
-                        <span class="font-medium">{{ pagamento.vencimento }}</span>
+                        <span class="font-medium" >{{ pagamento.vencimento | dataBr}}</span>
                     </td>
                     <td>
                         <div class="flex items-center gap-2">
@@ -25,14 +36,15 @@
                             <span class="text-sm">{{ pagamento.responsavel_contrato }}</span>
                         </div>
                     </td>
-                    <td>
+                    <td style="display: flex; justify-content: center;">
                         <p-tag [value]="pagamento.situacao" [severity]="getSeverity(pagamento.situacao)" />
                     </td>
                     <td>
-                        <span class="font-semibold">{{ 'R$ ' + pagamento.valor.toLocaleString() }}</span>
+                        <span class="font-semibold"> R$ {{pagamento.valor_original  | moeda }}</span>
                     </td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
 </p-card>
+<app-registrar-liquidacao (atualizarLista)="carregarLista()"></app-registrar-liquidacao>

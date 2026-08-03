@@ -66,3 +66,19 @@ export class HoraMinutoPipe implements PipeTransform {
     return `${hh}:${mm}`;
   }
 }
+
+
+@Pipe({
+  name: 'dataBr',
+  standalone: true
+})
+export class DataBrPipe implements PipeTransform {
+
+  transform(value: string | null | undefined): string {
+    if (!value) return '';
+
+    const [ano, mes, dia] = value.substring(0, 10).split('-');
+
+    return `${dia}/${mes}/${ano}`;
+  }
+}

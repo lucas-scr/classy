@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PrimengImports } from '../../../shared/primengImports.module';
 import { ServiceHome } from '../../../services/service-home.service';
 import { Aula, AulasPorIntervalo } from '../../../interfaces/aula';
-import { error } from 'pdf-lib';
 import { CarouselModule } from 'primeng/carousel';
 import { DetalharAlunosComponent } from "../../alunos/detalhar-alunos/detalhar-alunos.component";
 import { DateUtils } from '../../../shared/utils/date-utils';

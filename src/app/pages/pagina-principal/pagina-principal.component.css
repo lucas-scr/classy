@@ -37,5 +37,7 @@
 .container_conteudo{
     margin-top: 76px;
     padding-top: 16px;
-    padding: 16px;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
 }

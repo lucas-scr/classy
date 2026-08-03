@@ -118,4 +118,45 @@ export class ServicePagamentos {
     );
   }
 
+
+  
+getPagamentosPorMes(): Observable<Pagamento[]> {
+  const hoje = new Date();
+
+  const inicioMes = new Date(
+    hoje.getFullYear(),
+    hoje.getMonth(),
+    1
+  );
+
+  const inicioProximoMes = new Date(
+    hoje.getFullYear(),
+    hoje.getMonth() + 1,
+    1
+  );
+
+  return from(
+    this.supabase.getClient()
+      .from(this.tabela)
+      .select(`
+        *,
+        contrato:contrato_id(
+          *,
+          aluno:aluno(*)
+        )
+      `)
+      .gte('vencimento', inicioMes.toISOString())
+      .lt('vencimento', inicioProximoMes.toISOString())
+      .order('vencimento')
+  ).pipe(
+    map(({ data, error }) => {
+      if (error) throw error;
+
+      return (data || []).map(
+        (item: any) => adaptarPagamentoParaResponse(item)
+      );
+    })
+  );
+}
+
 }

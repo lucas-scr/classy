@@ -1,3 +1,7 @@
+.home-alunos{
+    max-width: 900px;
+}
+
 .list_item_row{
     display: flex;
     align-items: center;
