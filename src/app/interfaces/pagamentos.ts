@@ -13,7 +13,6 @@ export interface Pagamento {
     valor_total?: number;
     desconto?: number;
     motivoCancelamento?: string;
-
     responsavel_contrato?: string;
     aluno?:string;
     valor_pago?: number;

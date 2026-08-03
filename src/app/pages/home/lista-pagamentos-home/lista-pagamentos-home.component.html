@@ -1,0 +1,38 @@
+<p-card>
+    <div class="container">
+        <p-table [value]="pagamentos" [tableStyle]="{ 'min-width': '50rem' }" size="small">
+            <ng-template #header>
+                <tr>
+                    <th>Vencimento</th>
+                    <th>Aluno</th>
+                    <th>Contato</th>
+                    <th>Situação</th>
+                    <th>Valor</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-pagamento>
+                <tr>
+                    <td>
+                        <span class="font-medium">{{ pagamento.vencimento }}</span>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <span>{{ pagamento.aluno }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">{{ pagamento.responsavel_contrato }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <p-tag [value]="pagamento.situacao" [severity]="getSeverity(pagamento.situacao)" />
+                    </td>
+                    <td>
+                        <span class="font-semibold">{{ 'R$ ' + pagamento.valor.toLocaleString() }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</p-card>

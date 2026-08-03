@@ -29,9 +29,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FieldsetModule } from 'primeng/fieldset';
-import { provideAnimations } from '@angular/platform-browser/animations';
-
-
+import {TagModule} from 'primeng/tag'
 
 
 
@@ -67,8 +65,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     InputMaskModule,
     DialogModule,
     FileUploadModule,
-    FieldsetModule
-
+    FieldsetModule,
+    TagModule
   ],
   exports: [
     CommonModule,
@@ -100,7 +98,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     DialogModule,
     FileUploadModule,
     FieldsetModule,
-    
+    TagModule
     
   ]
 })
