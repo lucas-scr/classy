@@ -90,16 +90,24 @@ export class CadastroContratosComponent implements OnInit {
             'success',
             'Cadastrado!',
             'Cadastro realizado com sucesso.'
-          )
+          ),
+          console.log(novoContrato),
+        this.contratoService.cadastrarAulas(novoContrato.id).subscribe({
+          next: (data) => {console.log(data)},
+          error: (err) => {console.log(err)}
+        }),
+
         this.router.navigate(['/contratos'])
       },
-        error: () =>
+        error: (err) => {
           this.messageService.showMessage(
             'error',
             'Algo deu errado!',
             'Não foi possível realizar o cadastro.'
-          )
-      });
+          ), 
+          console.log(err)
+        }
+      })
     this.router.navigate(['/contratos']);
   }
 

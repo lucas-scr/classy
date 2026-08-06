@@ -74,6 +74,8 @@ export class ListaAlunosHomeComponent implements OnInit {
           next: (lista) => {
             this.listaAulasPorIntervalo = lista
             this.paginaInicial = this.encontrarIndiceDoHorario() - 1;
+            console.log('Antes ',lista)
+            console.log('Depois',this.listaAulasDoDia)
           },
           error: (err) => console.log(err)
         })

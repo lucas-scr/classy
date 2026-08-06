@@ -8,6 +8,7 @@ export function adaptarContratoParaResponse(d: any): Contrato {
 
   return {
     id: d.id,
+    
     nomeResponsavel: d.nome_responsavel,
     documentoResponsavel: d.documento_responsavel,
     telefone: d.telefone,

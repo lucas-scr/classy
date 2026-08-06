@@ -60,6 +60,11 @@ export class ListaContratosComponent implements OnInit {
             icon: 'pi pi-pencil',
             command: () => this.router.navigate(['/editar-contrato', this.itemId]),
           },
+                    {
+            label: 'Gerar Aulas',
+            icon: 'pi pi-file',
+            command: () => this.cadastrarAulasParaContrato(this.itemId),
+          },
           {
             label: 'Remover',
             icon: 'pi pi-trash',
@@ -132,5 +137,14 @@ export class ListaContratosComponent implements OnInit {
       default:
         return 'situacao-inativo'; // Classe vazia caso não encontre a situação
     }
+  }
+
+  cadastrarAulasParaContrato(id: number){
+    this.contratosService.cadastrarAulas(id).subscribe({
+      next: (data) => {
+        this.messageService.showMessage('Sucess','Sucesso!','As aulas até o final do ano foram geradas')
+        console.log(data)},
+      error: (err) => {console.log(err)}
+    })
   }
 }

@@ -39,5 +39,8 @@
     padding-top: 16px;
     padding: 24px;
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, map, Observable } from 'rxjs';
+import { from, map, Observable, switchMap } from 'rxjs';
 import { Contrato } from '../interfaces/contrato';
 import { adaptarContratoParaResponse, adapterContratoParaRequest } from '../shared/adapters/contrato.adapter';
 import { SupabaseService } from '../core/services/serviceSupabase';
@@ -216,6 +216,24 @@ export class ServiceContratos {
 
   tratarErro(error: any) {
     this.supabase.handleError(error)
+  }
+
+  cadastrarAulas(id: number): Observable<number> {
+    return from(this.supabase.getUserId()).pipe(
+      switchMap(userId =>
+        from(
+          this.supabase.getClient()
+            .rpc('gerar_aulas_contratov3', {
+              p_contrato_id: id,
+              p_user_id: userId
+            })
+        )
+      ),
+      map(({ data, error }) => {
+        if (error) throw error;
+        return data ?? 0;
+      })
+    );
   }
 
 }

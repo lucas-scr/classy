@@ -1,4 +1,50 @@
+.pagamentos-panel{
+  width: 100%;
+  max-width: 1000px;
+}
+
 .title-container{
     display: flex;
     justify-content: center;
+}
+
+.title_card h3{
+    margin: 0px 10px 0px 10px
+}
+.card-content{
+  width: 100%;
+}
+.header-card {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+  height: 40px; 
+}
+
+/* Centraliza o título */
+.title-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.titulo {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Joga o botão para o canto direito */
+.opcoes-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.menu-acoes {
+  position: absolute;
+  right: 0;
+  top: 0;
 }

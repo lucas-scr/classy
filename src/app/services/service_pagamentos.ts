@@ -40,13 +40,13 @@ export class ServicePagamentos {
       map(({ data, error }) => {
         if (error) throw error;
         return (data || []).map(
-           (item: any) => adaptarPagamentoParaResponse(item)
+          (item: any) => adaptarPagamentoParaResponse(item)
         )
       })
     );
   }
 
-    getPagamento(id:number): Observable<Pagamento> {
+  getPagamento(id: number): Observable<Pagamento> {
     return from(
       this.supabase.getClient()
         .from(this.tabela)
@@ -61,48 +61,48 @@ export class ServicePagamentos {
     );
   }
 
-  cancelarPagamento(id: number, motivo: string){
-        return from(
-          this.supabase.getClient()
-            .from(this.tabela)
-            .update({
-              situacao: 0,
-              motivo_cancelamento: motivo
-            })
-            .eq('id', id)
-            .select()
-            .single()
-        ).pipe(
-          map(({ data, error }) => {
-            if (error) throw error;
-            return (data);
-          })
-        );
+  cancelarPagamento(id: number, motivo: string) {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .update({
+          situacao: 0,
+          motivo_cancelamento: motivo
+        })
+        .eq('id', id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data);
+      })
+    );
   }
 
 
-    liquidarPagamento(id: number, dataPagamento: Date, valorPago: number){
-        return from(
-          this.supabase.getClient()
-            .from(this.tabela)
-            .update({
-              situacao: 3,
-              data_pagamento: dataPagamento,
-              valor_pago: valorPago
-            })
-            .eq('id', id)
-            .select()
-            .single()
-        ).pipe(
-          map(({ data, error }) => {
-            if (error) throw error;
-            return (data);
-          })
-        );
+  liquidarPagamento(id: number, dataPagamento: Date, valorPago: number) {
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .update({
+          situacao: 3,
+          data_pagamento: dataPagamento,
+          valor_pago: valorPago
+        })
+        .eq('id', id)
+        .select()
+        .single()
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data);
+      })
+    );
   }
 
-  editarPagamento(id: number, pagamento: Pagamento): Observable<Pagamento>{
-  const payload = adaptarPagamentoParaRequest(pagamento);
+  editarPagamento(id: number, pagamento: Pagamento): Observable<Pagamento> {
+    const payload = adaptarPagamentoParaRequest(pagamento);
     return from(
       this.supabase.getClient()
         .from(this.tabela)
@@ -119,44 +119,57 @@ export class ServicePagamentos {
   }
 
 
-  
-getPagamentosPorMes(): Observable<Pagamento[]> {
-  const hoje = new Date();
 
-  const inicioMes = new Date(
-    hoje.getFullYear(),
-    hoje.getMonth(),
-    1
-  );
+  getPagamentosPorMes(): Observable<Pagamento[]> {
+    const hoje = new Date();
 
-  const inicioProximoMes = new Date(
-    hoje.getFullYear(),
-    hoje.getMonth() + 1,
-    1
-  );
+    const inicioMes = new Date(
+      hoje.getFullYear(),
+      hoje.getMonth(),
+      1
+    );
 
-  return from(
-    this.supabase.getClient()
-      .from(this.tabela)
-      .select(`
+    const inicioProximoMes = new Date(
+      hoje.getFullYear(),
+      hoje.getMonth() + 1,
+      1
+    );
+
+    return from(
+      this.supabase.getClient()
+        .from(this.tabela)
+        .select(`
         *,
         contrato:contrato_id(
           *,
           aluno:aluno(*)
         )
       `)
-      .gte('vencimento', inicioMes.toISOString())
-      .lt('vencimento', inicioProximoMes.toISOString())
-      .order('vencimento')
+        .gte('vencimento', inicioMes.toISOString())
+        .lt('vencimento', inicioProximoMes.toISOString())
+        .order('vencimento')
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+
+        return (data || []).map(
+          (item: any) => adaptarPagamentoParaResponse(item)
+        );
+      })
+    );
+  }
+
+  gerarNovosPagamentosDeTodosContratos():Observable<number>{
+   return from(
+    this.supabase.getClient()
+      .rpc('gerar_pagamentos_contratos_ativos', {
+        p_user_id: this.supabase.getUserId
+      })
   ).pipe(
     map(({ data, error }) => {
       if (error) throw error;
-
-      return (data || []).map(
-        (item: any) => adaptarPagamentoParaResponse(item)
-      );
+      return data ?? 0;
     })
   );
-}
-
+  }
 }
